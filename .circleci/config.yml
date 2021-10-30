@@ -1,0 +1,55 @@
+version: 2.1
+jobs:
+  eslint-job:
+    docker:
+      - image: node:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run eslint
+  test-job:
+    docker:
+      - image: node:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
+  build-job:
+    docker:
+      - image: node:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build
+  deploy-job:
+    docker:
+      - image: node:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run deploy
+
+workflows:
+  version: 2
+  deploy-workflow:
+    jobs:
+      - eslint-job
+      - test-job:
+          requires:
+            - eslint-job
+      - build-job:
+          requires:
+            - eslint-job
+            - test-job
+      - deploy-job:
+          requires:
+            - eslint-job
+            - test-job
+            - build-job
+          filters:
+            branches:
+              only: main
