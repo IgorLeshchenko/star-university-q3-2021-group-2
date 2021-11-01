@@ -31,6 +31,11 @@ jobs:
     steps:
       - checkout
       - run: npm install
+      - run:
+          name: "GIT config"
+          command: |
+            git config user.email "${CIRCLE_USERNAME}@users.noreply.github.com"
+            git config user.name "${CIRCLE_USERNAME}"
       - run: npm run deploy
 
 workflows:
