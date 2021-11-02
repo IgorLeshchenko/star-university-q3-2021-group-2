@@ -1,9 +1,10 @@
 import React from 'react'
-import './App.css'
+import './App.scss'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import Login from './pages/login/Login'
 import NotFound from './pages/not-found/NotFound'
+import { PATHS } from './pages/paths'
 import Posts from './pages/posts/Posts'
 import Profile from './pages/profile/Profile'
 import SignUp from './pages/sign-up/SignUp'
@@ -13,11 +14,11 @@ function App() {
   return (
     <HashRouter>
       <Switch>
-        <Route exact={true} path={'/'} component={Posts} />
-        <Route path={'/sign-up'} component={SignUp} />
-        <Route path={'/login'} component={Login} />
-        <Route path={'/post/:id'} component={SinglePost} />
-        <Route path={'/profile'} component={Profile} />
+        <Route exact={true} path={PATHS.POSTS} component={Posts} />
+        <Route path={PATHS.SIGN_UP} component={SignUp} />
+        <Route path={PATHS.LOGIN} component={Login} />
+        <Route path={PATHS.SINGLE_POST} component={SinglePost} />
+        <Route path={PATHS.PROFILE} component={Profile} />
         <Route component={NotFound} />
       </Switch>
     </HashRouter>
