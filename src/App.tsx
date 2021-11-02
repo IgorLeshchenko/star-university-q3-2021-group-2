@@ -4,21 +4,21 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import Login from './pages/login/Login'
 import NotFound from './pages/not-found/NotFound'
-import { PATHS } from './pages/paths'
 import Posts from './pages/posts/Posts'
 import Profile from './pages/profile/Profile'
 import SignUp from './pages/sign-up/SignUp'
 import SinglePost from './pages/single-post/SinglePost'
+import { Routes } from './shared/constants/routes'
 
 function App() {
   return (
     <HashRouter>
       <Switch>
-        <Route exact={true} path={PATHS.POSTS} component={Posts} />
-        <Route path={PATHS.SIGN_UP} component={SignUp} />
-        <Route path={PATHS.LOGIN} component={Login} />
-        <Route path={PATHS.SINGLE_POST} component={SinglePost} />
-        <Route path={PATHS.PROFILE} component={Profile} />
+        <Route exact={true} path={Routes.POSTS} component={Posts} />
+        <Route path={Routes.SIGN_UP} component={SignUp} />
+        <Route path={Routes.LOGIN} component={Login} />
+        <Route path={Routes.SINGLE_POST} component={SinglePost} />
+        <Route path={Routes.PROFILE} component={Profile} />
         <Route component={NotFound} />
       </Switch>
     </HashRouter>

@@ -1,4 +1,4 @@
-export const PATHS = {
+export const Routes = {
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
   POSTS: '/',
