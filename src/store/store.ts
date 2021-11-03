@@ -1,7 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+
+const userSlice = createSlice({
+  name: 'users',
+  initialState: ['test'],
+  reducers: {},
+})
 
 const store = configureStore({
-  reducer: {},
+  reducer: { users: userSlice.reducer },
 })
 
 export type RootState = ReturnType<typeof store.getState>
