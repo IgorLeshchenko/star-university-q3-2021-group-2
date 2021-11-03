@@ -1,0 +1,9 @@
+.appContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__data {
+    flex-grow: 1;
+  }
+}
