@@ -8,7 +8,7 @@ const Posts = () => {
   return (
     <React.Fragment>
       <Header />
-      <div className={styles.Profile}>Profile page</div>
+      <div className={styles.Profile}>Forum page</div>
     </React.Fragment>
   )
 }
