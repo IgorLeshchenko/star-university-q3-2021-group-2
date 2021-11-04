@@ -7,7 +7,7 @@ import { TextField } from '../../../components/TextField'
 import { Typography } from '../../../components/Typography'
 import { sendPostRequest } from '../../../utils/api'
 import { ROUTES } from '../../../utils/constants'
-import { TEXT_VARIANTS } from '../../../utils/enums'
+import { BUTTON_TYPE, INPUT_TYPE, TEXT_VARIANTS } from '../../../utils/enums'
 import { ICreateUserValues } from '../interfaces'
 import { signUpValidationSchema } from '../schema'
 
@@ -52,7 +52,7 @@ export const SignUpForm: React.FC = () => {
             id="username"
             name="username"
             label="Username"
-            type="text"
+            type={INPUT_TYPE.TEXT}
             value={formik.values.username}
             onChange={handleFieldChange}
             error={formik.touched.username && Boolean(formik.errors.username)}
@@ -63,7 +63,7 @@ export const SignUpForm: React.FC = () => {
             id="password"
             name="password"
             label="Password"
-            type="password"
+            type={INPUT_TYPE.PASSWORD}
             value={formik.values.password}
             onChange={handleFieldChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
@@ -76,7 +76,7 @@ export const SignUpForm: React.FC = () => {
           )}
           <Button
             className={classes.signUpForm__submit}
-            type="submit"
+            type={BUTTON_TYPE.SUBMIT}
             disabled={!(formik.values.username && formik.values.password)}
             primary={!!(formik.values.username && formik.values.password)}
           >

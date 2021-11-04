@@ -1,6 +1,8 @@
 import classNames from 'classnames'
 import React from 'react'
 
+import { INPUT_TYPE } from '../../utils/enums'
+
 import classes from './TextField.module.scss'
 
 interface ITextField {
@@ -8,7 +10,7 @@ interface ITextField {
   id: string
   name: string
   label: string
-  type: string
+  type: INPUT_TYPE
   value: string
   onChange: React.ChangeEventHandler<HTMLInputElement>
   error?: boolean

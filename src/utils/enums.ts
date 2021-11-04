@@ -7,3 +7,14 @@ export enum TEXT_VARIANTS {
   H5 = 'h5',
   H6 = 'h6',
 }
+
+export enum INPUT_TYPE {
+  PASSWORD = 'password',
+  TEXT = 'text',
+}
+
+export enum BUTTON_TYPE {
+  BUTTON = 'button',
+  SUBMIT = 'submit',
+  RESET = 'reset',
+}
