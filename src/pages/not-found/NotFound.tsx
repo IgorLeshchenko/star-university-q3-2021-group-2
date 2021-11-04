@@ -1,8 +1,14 @@
 import React from 'react'
 
-import styles from './NotFound.module.scss'
-const NotFound = () => {
-  return <div className={styles.NotFound}>Not Found page</div>
-}
+import { Header } from '../../components/Header'
 
-export default NotFound
+import styles from './NotFound.module.scss'
+
+export const NotFound = () => {
+  return (
+    <React.Fragment>
+      <Header />
+      <div className={styles.NotFound}>Not Found page</div>
+    </React.Fragment>
+  )
+}

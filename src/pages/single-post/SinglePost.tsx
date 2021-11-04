@@ -1,8 +1,14 @@
 import React from 'react'
 
-import styles from './SinglePost.module.scss'
-const SinglePost = () => {
-  return <div className={styles.SinglePost}>Single post page</div>
-}
+import { Header } from '../../components/Header'
 
-export default SinglePost
+import styles from './SinglePost.module.scss'
+
+export const SinglePost = () => {
+  return (
+    <React.Fragment>
+      <Header isSignupPage={true} />
+      <div className={styles.SinglePost}>Single post page</div>
+    </React.Fragment>
+  )
+}
