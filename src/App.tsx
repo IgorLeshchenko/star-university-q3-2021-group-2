@@ -2,20 +2,18 @@ import React from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import classes from './App.module.scss'
-import Header from './components/Header'
-import Login from './pages/login/Login'
-import NotFound from './pages/not-found/NotFound'
-import Posts from './pages/posts/Posts'
-import Profile from './pages/profile/Profile'
+import { Login } from './pages/login/Login'
+import { NotFound } from './pages/not-found/NotFound'
+import { Posts } from './pages/posts/Posts'
+import { Profile } from './pages/profile/Profile'
 import { SignUp } from './pages/sign-up/SignUp'
-import SinglePost from './pages/single-post/SinglePost'
+import { SinglePost } from './pages/single-post/SinglePost'
 import { ROUTES } from './utils/constants'
 
 const App = () => {
   return (
     <HashRouter>
       <div className={classes.appContainer}>
-        <Header />
         <div className={classes.appContainer__data}>
           <Switch>
             <Route exact path={ROUTES.POSTS} component={Posts} />

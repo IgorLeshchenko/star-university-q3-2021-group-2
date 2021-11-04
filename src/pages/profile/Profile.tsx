@@ -1,8 +1,14 @@
 import React from 'react'
 
-import styles from './Profile.module.scss'
-const Profile = () => {
-  return <div className={styles.Profile}>Profile page</div>
-}
+import { Header } from '../../components/Header'
 
-export default Profile
+import styles from './Profile.module.scss'
+
+export const Profile = () => {
+  return (
+    <React.Fragment>
+      <Header />
+      <div className={styles.Profile}>Profile page</div>
+    </React.Fragment>
+  )
+}

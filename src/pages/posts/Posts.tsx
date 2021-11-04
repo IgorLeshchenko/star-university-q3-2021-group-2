@@ -1,13 +1,14 @@
 import React from 'react'
 
+import { Header } from '../../components/Header'
+
 import styles from './Posts.module.scss'
 
-const Posts = () => {
+export const Posts = () => {
   return (
     <React.Fragment>
-      <div className={styles.Profile}>Forum page</div>
+      <Header />
+      <div className={styles.Posts}>Forum page</div>
     </React.Fragment>
   )
 }
-
-export default Posts
