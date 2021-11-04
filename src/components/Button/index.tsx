@@ -5,7 +5,7 @@ import classes from './Button.module.scss'
 
 interface IButton {
   className?: string
-  type?: 'button' | 'submit' | 'reset' | undefined
+  type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   primary?: boolean
 }
