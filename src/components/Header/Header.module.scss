@@ -2,8 +2,13 @@
 @import '../../assets/styles/mixins/breakpoints.scss';
 
 .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: $primary;
   padding: 9px 0;
+  z-index: 10;
   @include medium {
     padding: 20px 0;
   }
@@ -21,7 +26,7 @@
     align-items: center;
     height: 100vh;
     width: 100vw;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     background-color: $primary;
@@ -41,16 +46,44 @@
     }
   }
 
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include medium {
+      flex-direction: row;
+    }
+  }
+
   &__link {
     color: $light-text;
     font-size: 18px;
     line-height: 1.5;
+    transition: all 0.3s;
     &:not(:last-child) {
       margin: 0 0 10px 0;
     }
     @include medium {
       &:not(:last-child) {
-        margin: 0 10px 0 0;
+        margin: 0 20px 0 0;
+      }
+      &--light {
+        border-radius: 40px;
+        padding: 15px 60px;
+        border: solid 1px $light-background;
+        background-color: transparent;
+        &:hover {
+          background-color: $secondary;
+          border: solid 1px $secondary;
+        }
+      }
+    }
+    @include large {
+      &:not(:last-child) {
+        margin: 0 53px 0 0;
+      }
+      &:nth-child(2) {
+        margin-right: 30px;
       }
     }
   }

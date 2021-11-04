@@ -12,9 +12,17 @@ html {
 
 body {
   background-color: $light-background;
+  overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
   cursor: pointer;
+}
+
+button {
+  font-family: $base-font;
+  background: transparent;
+  outline: none;
+  border: none;
 }
