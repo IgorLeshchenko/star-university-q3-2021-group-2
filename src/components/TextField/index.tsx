@@ -10,12 +10,22 @@ interface ITextField {
   label: string
   type: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  error?: boolean | undefined | string
-  helperText?: string | undefined | boolean
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+  error?: boolean
+  helperText?: string
 }
 
-const TextField = ({ className, id, name, label, type, value, onChange, error, helperText }: ITextField) => {
+export const TextField: React.FC<ITextField> = ({
+  className,
+  id,
+  name,
+  label,
+  type,
+  value,
+  onChange,
+  error,
+  helperText,
+}) => {
   return (
     <div className={classes.textField}>
       <input
@@ -33,5 +43,3 @@ const TextField = ({ className, id, name, label, type, value, onChange, error, h
     </div>
   )
 }
-
-export default TextField

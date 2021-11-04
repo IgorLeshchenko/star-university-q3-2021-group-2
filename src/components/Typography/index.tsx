@@ -1,17 +1,18 @@
 import React from 'react'
 
-import { TEXT_VARIANTS } from './consts'
+import { TEXT_VARIANTS } from '../../utils/enums'
 
 interface ITypography {
   className?: string
   variant?: TEXT_VARIANTS
-  children: React.ReactNode
 }
 
-const Typography = ({ className, variant = TEXT_VARIANTS.BODY, children }: ITypography) => {
+export const Typography: React.FC<React.PropsWithChildren<ITypography>> = ({
+  className,
+  variant = TEXT_VARIANTS.BODY,
+  children,
+}) => {
   const VariantComponent = variant
 
   return <VariantComponent className={className}>{children}</VariantComponent>
 }
-
-export default Typography

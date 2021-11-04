@@ -1,4 +1,4 @@
-import { API_URL } from '../consts'
+import { API_URL } from './constants'
 
 export const sendPostRequest = (url: string, bodyData: unknown) => {
   return fetch(`${API_URL}${url}`, {

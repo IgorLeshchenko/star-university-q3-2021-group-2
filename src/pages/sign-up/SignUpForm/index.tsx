@@ -2,18 +2,18 @@ import { useFormik } from 'formik'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import Button from '../../../components/Button'
-import TextField from '../../../components/TextField'
-import { TEXT_VARIANTS } from '../../../components/Typography/consts'
-import Typography from '../../../components/Typography/index'
-import { Routes } from '../../../constants/routes'
+import { Button } from '../../../components/Button'
+import { TextField } from '../../../components/TextField'
+import { Typography } from '../../../components/Typography'
 import { sendPostRequest } from '../../../utils/api'
+import { ROUTES } from '../../../utils/constants'
+import { TEXT_VARIANTS } from '../../../utils/enums'
 import { ICreateUserValues } from '../interfaces'
 import { signUpValidationSchema } from '../schema'
 
 import classes from './SignUpForm.module.scss'
 
-const SignUpForm = () => {
+export const SignUpForm: React.FC = () => {
   const history = useHistory()
 
   const handleSubmit = async (user: ICreateUserValues) => {
@@ -22,7 +22,7 @@ const SignUpForm = () => {
     if (result.statusCode >= 400) {
       formik.setStatus(result.validation.body.message)
     } else {
-      history.push(Routes.LOGIN)
+      history.push(ROUTES.LOGIN)
     }
   }
 
@@ -56,7 +56,7 @@ const SignUpForm = () => {
             value={formik.values.username}
             onChange={handleFieldChange}
             error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username}
+            helperText={formik.errors.username}
           />
           <TextField
             className={classes.textField}
@@ -67,7 +67,7 @@ const SignUpForm = () => {
             value={formik.values.password}
             onChange={handleFieldChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            helperText={formik.errors.password}
           />
           {formik.status && (
             <Typography variant={TEXT_VARIANTS.BODY} className={classes.signUpForm__apiError}>
@@ -87,5 +87,3 @@ const SignUpForm = () => {
     </div>
   )
 }
-
-export default SignUpForm

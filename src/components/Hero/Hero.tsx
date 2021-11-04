@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Typography from '../Typography'
-import { TEXT_VARIANTS } from '../Typography/consts'
+import { TEXT_VARIANTS } from '../../utils/enums'
+import { Typography } from '../Typography'
 
 import classes from './Hero.module.scss'
 
-const Hero = () => {
+export const Hero = () => {
   return (
     <div className={classes.hero}>
       <Typography className={classes.hero__title} variant={TEXT_VARIANTS.H1}>
@@ -14,5 +14,3 @@ const Hero = () => {
     </div>
   )
 }
-
-export default Hero

@@ -7,11 +7,16 @@ interface IButton {
   className?: string
   type?: 'button' | 'submit' | 'reset' | undefined
   disabled?: boolean
-  children: React.ReactNode
   primary?: boolean
 }
 
-const Button = ({ className, type = 'button', disabled, children, primary = false }: IButton) => {
+export const Button: React.FC<React.PropsWithChildren<IButton>> = ({
+  className,
+  type = 'button',
+  disabled,
+  children,
+  primary = false,
+}) => {
   return (
     <button
       className={classNames(classes.button, className, {
@@ -25,5 +30,3 @@ const Button = ({ className, type = 'button', disabled, children, primary = fals
     </button>
   )
 }
-
-export default Button
