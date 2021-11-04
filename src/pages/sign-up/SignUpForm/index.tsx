@@ -56,7 +56,7 @@ export const SignUpForm: React.FC = () => {
             value={formik.values.username}
             onChange={handleFieldChange}
             error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.errors.username}
+            helperText={formik.touched.username ? formik.errors.username : ''}
           />
           <TextField
             className={classes.textField}
@@ -67,7 +67,7 @@ export const SignUpForm: React.FC = () => {
             value={formik.values.password}
             onChange={handleFieldChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.errors.password}
+            helperText={formik.touched.password ? formik.errors.password : ''}
           />
           {formik.status && (
             <Typography variant={TEXT_VARIANTS.BODY} className={classes.signUpForm__apiError}>
