@@ -1,26 +1,32 @@
 import React from 'react'
-import './App.scss'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
-import { Routes } from './constants/routes'
+import classes from './App.module.scss'
+import Header from './components/Header'
 import Login from './pages/login/Login'
 import NotFound from './pages/not-found/NotFound'
 import Posts from './pages/posts/Posts'
 import Profile from './pages/profile/Profile'
-import SignUp from './pages/sign-up/SignUp'
+import { SignUp } from './pages/sign-up/SignUp'
 import SinglePost from './pages/single-post/SinglePost'
+import { ROUTES } from './utils/constants'
 
-function App() {
+const App = () => {
   return (
     <HashRouter>
-      <Switch>
-        <Route exact={true} path={Routes.POSTS} component={Posts} />
-        <Route path={Routes.SIGN_UP} component={SignUp} />
-        <Route path={Routes.LOGIN} component={Login} />
-        <Route path={Routes.SINGLE_POST} component={SinglePost} />
-        <Route path={Routes.PROFILE} component={Profile} />
-        <Route component={NotFound} />
-      </Switch>
+      <div className={classes.appContainer}>
+        <Header />
+        <div className={classes.appContainer__data}>
+          <Switch>
+            <Route exact path={ROUTES.POSTS} component={Posts} />
+            <Route path={ROUTES.SIGN_UP} component={SignUp} />
+            <Route path={ROUTES.LOGIN} component={Login} />
+            <Route path={ROUTES.SINGLE_POST} component={SinglePost} />
+            <Route path={ROUTES.PROFILE} component={Profile} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </div>
     </HashRouter>
   )
 }

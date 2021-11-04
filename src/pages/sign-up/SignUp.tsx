@@ -1,8 +1,15 @@
 import React from 'react'
 
-import styles from './SignUp.module.scss'
-const SignUp = () => {
-  return <div className={styles.SignUp}>Sign Up page</div>
-}
+import { Hero } from '../../components/Hero/Hero'
 
-export default SignUp
+import classes from './SignUp.module.scss'
+import { SignUpForm } from './SignUpForm'
+
+export const SignUp = () => {
+  return (
+    <div className={classes.signUp}>
+      <SignUpForm />
+      <Hero />
+    </div>
+  )
+}

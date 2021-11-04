@@ -1,0 +1,27 @@
+@import '../../assets/styles/variables.scss';
+
+.button {
+  border-radius: 40px;
+  padding: 15px 60px;
+  font-size: 18px;
+  border: solid 1px $dark-text;
+  background-color: transparent;
+  color: $dark-text;
+  cursor: pointer;
+  transition: background-color 0.5s;
+
+  &__primary {
+    background-color: $primary;
+    border: solid 1px $primary;
+    color: $light-text;
+  }
+
+  &__disabled {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  &:hover {
+    background-color: $secondary;
+  }
+}

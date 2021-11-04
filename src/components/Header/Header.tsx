@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import logo from '../../assets/images/logo.png'
-import { Routes } from '../../constants/routes'
 import Container from '../../shared/Container'
+import { ROUTES } from '../../utils/constants'
 import { Logo } from '../Logo'
 import ProfileDropdown from '../ProfileDropdown'
 
@@ -19,13 +19,13 @@ const Header = () => {
         <React.Fragment>
           <Logo img={logo} />
           <div className={`${styles['header__content']} ${isOpen ? styles.active : ''}`}>
-            <Link to={Routes.POSTS} className={styles['header__link']}>
+            <Link to={ROUTES.POSTS} className={styles['header__link']}>
               Posts
             </Link>
-            <Link to={Routes.LOGIN} className={styles['header__link']}>
+            <Link to={ROUTES.LOGIN} className={styles['header__link']}>
               Log in
             </Link>
-            <Link to={Routes.SIGN_UP} className={styles['header__link']}>
+            <Link to={ROUTES.SIGN_UP} className={styles['header__link']}>
               Sign up
             </Link>
             <ProfileDropdown name="test" img={logo} />

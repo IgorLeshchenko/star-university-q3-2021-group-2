@@ -4,10 +4,13 @@
 
 //Fonts
 $base-font: 'Montserrat', sans-serif;
+$error-font-size: 12px;
 
 // Context colors
 $primary: #617fe1 !default;
 $secondary: #2a336e !default;
+$light-grey: #c4c4c4 !default;
+$error: red !default;
 
 // Background colors
 $light-background: #fff !default;

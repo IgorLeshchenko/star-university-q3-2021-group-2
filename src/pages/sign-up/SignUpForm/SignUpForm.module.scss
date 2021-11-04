@@ -1,0 +1,28 @@
+@import '../../../assets/styles/variables.scss';
+
+.signUpForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 50%;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__submit {
+    margin-top: 30px;
+  }
+
+  &__apiError {
+    margin-top: 10px;
+    font-size: $error-font-size;
+    color: $error;
+  }
+}
+
+.textField {
+  margin-top: 40px;
+}
