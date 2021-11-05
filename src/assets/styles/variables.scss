@@ -1,0 +1,29 @@
+//----------------------------------------------------/
+// Variables
+//----------------------------------------------------/
+
+//Fonts
+$base-font: 'Montserrat', sans-serif;
+$error-font-size: 12px;
+
+// Context colors
+$primary: #617fe1 !default;
+$secondary: #2a336e !default;
+$third: #e0e5fa !default;
+$light-grey: #c4c4c4 !default;
+$error: red !default;
+
+// Background colors
+$light-background: #fff !default;
+$gradient-background: linear-gradient(
+  143.98deg,
+  rgba(230, 232, 255, 0.8) 8.64%,
+  rgba(255, 239, 230, 0.8) 30.11%,
+  rgba(255, 248, 228, 0.8) 49.81%,
+  rgba(228, 231, 255, 0.8) 84.34%
+) !default;
+$dark-background: #000 !default;
+
+// Text colors
+$light-text: #fff !default;
+$dark-text: #000 !default;

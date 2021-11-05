@@ -1,0 +1,15 @@
+@import '../src/assets/styles/mixins/breakpoints.scss';
+
+.appContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__data {
+    flex-grow: 1;
+    padding-top: 47px;
+    @include medium {
+      padding-top: 99px;
+    }
+  }
+}

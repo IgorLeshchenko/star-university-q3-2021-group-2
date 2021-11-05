@@ -1,0 +1,17 @@
+@import '../../../assets/styles/mixins/breakpoints.scss';
+
+.logo {
+  display: inline-flex;
+  width: 65px;
+  height: auto;
+  z-index: 1;
+  @include medium {
+    width: 104px;
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
