@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios'
 
 import { ICreateUserRequest } from '../models/CreateUserRequest'
+import { CONTENT_TYPE } from '../utils/enums'
 
 import { api } from './index'
 
@@ -12,7 +13,7 @@ export class AuthService {
         { username, password },
         {
           headers: {
-            'Content-type': 'application/json',
+            'Content-type': CONTENT_TYPE.APPLICATION_JSON,
           },
         },
       )
@@ -27,7 +28,7 @@ export class AuthService {
         { username, password },
         {
           headers: {
-            'Content-type': 'application/json',
+            'Content-type': CONTENT_TYPE.APPLICATION_JSON,
           },
         },
       )

@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios'
 
 import { IUser } from '../models/User'
+import { CONTENT_TYPE } from '../utils/enums'
 
 import { api } from './index'
 
@@ -9,7 +10,7 @@ export class PublicRequestsService {
     return api
       .get<IUser>(`users/${username}`, {
         headers: {
-          'Content-type': 'application/json',
+          'Content-type': CONTENT_TYPE.APPLICATION_JSON,
         },
       })
       .then((response) => response)

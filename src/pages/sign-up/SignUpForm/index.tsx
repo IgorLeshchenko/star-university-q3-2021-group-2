@@ -2,11 +2,11 @@ import { useFormik } from 'formik'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
+import { AuthService } from '../../../API/AuthService'
 import { Button } from '../../../components/Button'
 import { TextField } from '../../../components/TextField'
 import { Typography } from '../../../components/Typography'
 import { ICreateUserRequest } from '../../../models/CreateUserRequest'
-import { sendPostRequest } from '../../../utils/api'
 import { ROUTES } from '../../../utils/constants'
 import { BUTTON_TYPE, INPUT_TYPE, TEXT_VARIANTS } from '../../../utils/enums'
 import { signUpValidationSchema } from '../schema'
@@ -21,10 +21,10 @@ export const SignUpForm: React.FC = () => {
   const history = useHistory()
 
   const handleSubmit = async (user: ICreateUserRequest) => {
-    const result = await sendPostRequest('/users', user)
+    const result = await AuthService.signUp(user)
 
-    if (!result.ok) {
-      const errorMessage = result.body.validation.body.message
+    if (result.status >= 400) {
+      const errorMessage = result.data.validation.body.message
       formik.setStatus(errorMessage === USERNAME_ALREADY_EXISTS ? USERNAME_ALREADY_EXISTS_ERROR_MESSAGE : errorMessage)
     } else {
       history.push(ROUTES.LOGIN)
