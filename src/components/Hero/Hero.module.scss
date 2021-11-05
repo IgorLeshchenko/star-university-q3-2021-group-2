@@ -1,13 +1,18 @@
 @import '../../assets/styles/variables.scss';
+@import '../../assets/styles/mixins/breakpoints.scss';
 
 .hero {
-  display: flex;
   align-items: center;
   justify-content: center;
-  background: $light-grey;
+  background: $gradient-background;
   width: 50%;
   height: 100%;
   left: 50%;
+  display: none;
+
+  @include medium {
+    display: flex;
+  }
 
   &__title {
     font-weight: 600;

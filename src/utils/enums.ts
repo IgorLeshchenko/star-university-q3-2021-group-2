@@ -18,3 +18,7 @@ export enum BUTTON_TYPE {
   SUBMIT = 'submit',
   RESET = 'reset',
 }
+
+export enum CONTENT_TYPE {
+  APPLICATION_JSON = 'application/json',
+}
