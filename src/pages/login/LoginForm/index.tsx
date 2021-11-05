@@ -1,33 +1,43 @@
 import { useFormik } from 'formik'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { Button } from '../../../components/Button'
 import { TextField } from '../../../components/TextField'
 import { Typography } from '../../../components/Typography'
 import { ICreateUserRequest } from '../../../models/CreateUserRequest'
+import { login } from '../../../store/userSlice'
 import { sendPostRequest } from '../../../utils/api'
 import { ROUTES } from '../../../utils/constants'
 import { BUTTON_TYPE, INPUT_TYPE, TEXT_VARIANTS } from '../../../utils/enums'
-import { signUpValidationSchema } from '../schema'
+import { setUserToLocalStorage } from '../../../utils/local-storage'
+import { loginValidationSchema } from '../schema'
 
-import classes from './SignUpForm.module.scss'
+import classes from './LoginForm.module.scss'
 
-const USERNAME_ALREADY_EXISTS = 'username already exists'
-const USERNAME_ALREADY_EXISTS_ERROR_MESSAGE =
-  'User with this name has been already registered: try another username or login'
+const NOT_VALID_USER_ERROR_MESSAGE = 'Check your name/password'
 
-export const SignUpForm: React.FC = () => {
+export const LoginForm: React.FC = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
 
   const handleSubmit = async (user: ICreateUserRequest) => {
-    const result = await sendPostRequest('/users', user)
-
+    const result = await sendPostRequest('/login', user)
     if (!result.ok) {
-      const errorMessage = result.body.validation.body.message
-      formik.setStatus(errorMessage === USERNAME_ALREADY_EXISTS ? USERNAME_ALREADY_EXISTS_ERROR_MESSAGE : errorMessage)
+      formik.setStatus(NOT_VALID_USER_ERROR_MESSAGE)
     } else {
-      history.push(ROUTES.LOGIN)
+      setUserToLocalStorage({
+        username: user.username,
+        loggedIn: true,
+      })
+      dispatch(
+        login({
+          username: user.username,
+          loggedIn: true,
+        }),
+      )
+      history.push(ROUTES.POSTS)
     }
   }
 
@@ -41,15 +51,15 @@ export const SignUpForm: React.FC = () => {
       username: '',
       password: '',
     },
-    validationSchema: signUpValidationSchema,
+    validationSchema: loginValidationSchema,
     onSubmit: handleSubmit,
   })
 
   return (
-    <div className={classes.signUpForm}>
-      <div className={classes.signUpForm__content}>
-        <Typography variant={TEXT_VARIANTS.H1} className={classes.signUpForm__content__title}>
-          Sign Up
+    <div className={classes.loginForm}>
+      <div className={classes.loginForm__content}>
+        <Typography variant={TEXT_VARIANTS.H1} className={classes.loginForm__content__title}>
+          Log in
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -80,12 +90,12 @@ export const SignUpForm: React.FC = () => {
             </Typography>
           )}
           <Button
-            className={classes.signUpForm__submit}
+            className={classes.loginForm__submit}
             type={BUTTON_TYPE.SUBMIT}
             disabled={!(formik.values.username && formik.values.password)}
             primary={!!(formik.values.username && formik.values.password)}
           >
-            Sign up
+            Log in
           </Button>
         </form>
       </div>
