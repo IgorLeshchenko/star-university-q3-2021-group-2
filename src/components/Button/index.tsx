@@ -10,6 +10,7 @@ interface IButton {
   type?: BUTTON_TYPE
   disabled?: boolean
   primary?: boolean
+  onClick?: React.MouseEventHandler
 }
 
 export const Button: React.FC<React.PropsWithChildren<IButton>> = ({
@@ -18,6 +19,7 @@ export const Button: React.FC<React.PropsWithChildren<IButton>> = ({
   disabled,
   children,
   primary = false,
+  onClick,
 }) => {
   return (
     <button
@@ -27,6 +29,7 @@ export const Button: React.FC<React.PropsWithChildren<IButton>> = ({
       })}
       disabled={disabled}
       type={type}
+      onClick={onClick}
     >
       {children}
     </button>
