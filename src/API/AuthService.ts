@@ -2,9 +2,9 @@ import { AxiosResponse } from 'axios'
 
 import { ICreateUserRequest } from '../models/CreateUserRequest'
 
-import api from './index'
+import { api } from './index'
 
-export default class AuthService {
+export class AuthService {
   static async signUp({ username, password }: ICreateUserRequest): Promise<AxiosResponse> {
     return api
       .post(
