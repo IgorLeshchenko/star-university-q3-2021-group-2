@@ -6,12 +6,12 @@ import { useHistory } from 'react-router-dom'
 import { Button } from '../../../components/Button'
 import { TextField } from '../../../components/TextField'
 import { Typography } from '../../../components/Typography'
+import { ICreateUserRequest } from '../../../models/CreateUserRequest'
 import { login } from '../../../store/userSlice'
 import { sendPostRequest } from '../../../utils/api'
 import { ROUTES } from '../../../utils/constants'
 import { BUTTON_TYPE, INPUT_TYPE, TEXT_VARIANTS } from '../../../utils/enums'
 import { setUserToLocalStorage } from '../../../utils/local-storage'
-import { IUserValues } from '../interfaces'
 import { loginValidationSchema } from '../schema'
 
 import classes from './LoginForm.module.scss'
@@ -22,7 +22,7 @@ export const LoginForm: React.FC = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const handleSubmit = async (user: IUserValues) => {
+  const handleSubmit = async (user: ICreateUserRequest) => {
     const result = await sendPostRequest('/login', user)
     if (!result.ok) {
       formik.setStatus(NOT_VALID_USER_ERROR_MESSAGE)
