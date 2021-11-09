@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { resolveProfileImagePath } from '../../API/helpers'
-import { PublicRequestsService } from '../../API/PublicRequestsService'
+import { UsersService } from '../../API/UsersService'
 import { Avatar } from '../../components/Avatar'
 import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
@@ -27,7 +27,8 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
   const getUser = async (username: string) => {
     try {
       setLoading(true)
-      const response = await PublicRequestsService.getUserPublicData({ username })
+      const response = await UsersService.getUserPublicData(username)
+      console.log(response.data)
       setUser(response.data)
       setLoading(false)
     } catch (error) {
