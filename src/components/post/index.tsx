@@ -24,7 +24,7 @@ interface IPost {
 export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, body, title, upvotes, comments }) => {
   const [isActiveUp, setActiveUp] = useState(false)
   const [isActiveDown, setActiveDown] = useState(false)
-
+  const postDate = new Date(date).toLocaleDateString('en-US')
   const VoteOnClickUp = () => {
     setActiveUp(!isActiveUp)
   }
@@ -40,9 +40,9 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
           <div>
             <img src="API_URL/username/icon" alt="User Avatar" />
             <span>Post by</span>
-            <Link to={ROUTES.PROFILE}> {author}</Link>
+            <Link to={ROUTES.PROFILE}>{author}</Link>
           </div>
-          <span>{date}</span>
+          <span>{postDate}</span>
         </div>
         <div className={styles.post__info}>
           <Typography variant={TEXT_VARIANTS.H2}>
