@@ -29,7 +29,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
       setLoading(true)
       const response = await PublicRequestsService.getUserPublicData({ username })
       setUser(response.data)
-      setLoading(true)
+      setLoading(false)
     } catch (error) {
       setLoading(false)
       setNotFound(true)
