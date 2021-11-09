@@ -21,14 +21,16 @@ export const SignUpForm: React.FC = () => {
   const history = useHistory()
 
   const handleSubmit = async (user: ICreateUserRequest) => {
-    const result = await AuthService.signUp(user)
-
-    if (result.status >= 400) {
-      const errorMessage = result.data.validation.body.message
-      formik.setStatus(errorMessage === USERNAME_ALREADY_EXISTS ? USERNAME_ALREADY_EXISTS_ERROR_MESSAGE : errorMessage)
-    } else {
-      history.push(ROUTES.LOGIN)
-    }
+    AuthService.signUp(user)
+      .then(() => history.push(ROUTES.LOGIN))
+      .catch((error) => {
+        if (error.response.status >= 400) {
+          const errorMessage = error.response.data.validation.body.message
+          formik.setStatus(
+            errorMessage === USERNAME_ALREADY_EXISTS ? USERNAME_ALREADY_EXISTS_ERROR_MESSAGE : errorMessage,
+          )
+        }
+      })
   }
 
   const handleFieldChange = (event: React.ChangeEvent<HTMLElement>) => {
