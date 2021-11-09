@@ -8,7 +8,7 @@ import { TEXT_VARIANTS } from '../../utils/enums'
 
 import styles from './NotFound.module.scss'
 
-export const NotFound = () => {
+export const NotFound: React.FC = () => {
   return (
     <React.Fragment>
       <Header />
