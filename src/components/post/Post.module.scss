@@ -6,13 +6,34 @@
   margin: 10px 0;
   box-shadow: 0px 8px 16px 0px rgba(34, 60, 80, 0.2);
   @include medium {
-    max-width: 450px;
+    min-width: 450px;
     margin: 20px 0;
   }
   @include large {
-    max-width: 757px;
+    min-width: 757px;
     margin: 20px 0;
   }
+}
+
+.active-upvote {
+  fill: #0fa443;
+}
+
+.nonactive-upvote {
+  fill: #2a336e;
+}
+
+.active-downvote {
+  fill: #ff7e40;
+}
+
+.nonactive-downvote {
+  fill: #2a336e;
+}
+
+.button {
+  width: 30px;
+  cursor: pointer;
 }
 
 .post {
@@ -67,7 +88,7 @@
   &__bottom-comments {
     display: flex;
     align-items: center;
-    padding-left: 25px;
+    margin-left: 25px;
     &--padding {
       padding-left: 15px;
     }
