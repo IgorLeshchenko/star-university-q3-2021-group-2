@@ -21,4 +21,5 @@ export enum BUTTON_TYPE {
 
 export enum CONTENT_TYPE {
   APPLICATION_JSON = 'application/json',
+  FORM_DATA = 'multipart/form-data',
 }
