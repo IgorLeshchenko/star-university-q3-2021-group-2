@@ -1,2 +1,26 @@
-.NotFound {
+@import '../../assets/styles/variables.scss';
+
+.notFound {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+
+    &__subtitle {
+      margin: 20px 0;
+      font-weight: 500;
+    }
+
+    &__link:hover {
+      text-decoration: underline;
+    }
+  }
 }
