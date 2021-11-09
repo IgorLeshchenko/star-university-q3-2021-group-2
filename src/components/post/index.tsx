@@ -13,7 +13,7 @@ import styles from './Post.module.scss'
 
 interface IPost {
   author: string
-  date: number
+  date: string
   body: string
   title: string
   upvotes: number
@@ -38,10 +38,9 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
       <article className={styles.post}>
         <div className={styles.post__flex}>
           <div>
-            <img src="#" alt="u" />
-            <Link to={ROUTES.PROFILE}>
-              Post by <br /> {author}
-            </Link>
+            <img src="API_URL/username/icon" alt="User Avatar" />
+            <span>Post by</span>
+            <Link to={ROUTES.PROFILE}> {author}</Link>
           </div>
           <span>{date}</span>
         </div>
