@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import { resolveProfileImagePath } from '../../API/helpers'
 import { UsersService } from '../../API/UsersService'
@@ -11,12 +12,17 @@ import { IUser } from '../../models/User'
 import styles from './Profile.module.scss'
 import { Upload } from './Upload'
 
+interface IUserInfo {
+  user: { username: string; loggedIn: boolean }
+}
+
 interface IProfile {
   match: {
     params: {
       username: string
     }
   }
+  authorizedUser: IUserInfo
 }
 export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) => {
   const [user, setUser] = useState<IUser | null>(null)
@@ -26,9 +32,9 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
 
   const getUser = async (username: string) => {
     try {
+      setNotFound(false)
       setLoading(true)
       const response = await UsersService.getUserPublicData(username)
-      console.log(response.data)
       setUser(response.data)
       setLoading(false)
     } catch (error) {
@@ -41,12 +47,12 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
     getUser(username)
   }, [username])
 
-  /* isAuthorized, authorizedLogin should be taken from Redux state, 
-  right now it's created here for testing purposes */
-  const isAuthorized = true
-  const authorizedLogin = 'testertest'
+  const authorizedUser = useSelector((state: { user: IUserInfo }) => state.user.user)
+
+  const { loggedIn, username: authorizedLogin } = authorizedUser
 
   const isPageOwner = username === authorizedLogin
+
   return (
     <React.Fragment>
       <Header />
@@ -62,7 +68,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
               <div className={styles.profile_content}>
                 <div className={styles.profile_media}>
                   <Avatar imageUrl={resolveProfileImagePath(username)} customClass={styles.profile_avatar} />
-                  {isAuthorized && isPageOwner && <Upload value="Change photo" />}
+                  {loggedIn && isPageOwner && <Upload value="Change photo" />}
                 </div>
                 <div className={styles.profile_info}>
                   <p className={styles.username}>{username}</p>
