@@ -1,9 +1,8 @@
 import axios from 'axios'
 
 import { API_URL } from '../utils/constants'
-
-import { getUserFromLocalStorage, removeUserFromLocalStorage } from '../utils/local-storage'
 import { CONTENT_TYPE } from '../utils/enums'
+import { getUserFromLocalStorage, removeUserFromLocalStorage } from '../utils/local-storage'
 
 const baseURL = API_URL
 
