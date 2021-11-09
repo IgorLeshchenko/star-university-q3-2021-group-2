@@ -28,7 +28,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
 
   useEffect(() => {
     getUser(username)
-  }, [])
+  }, [username])
 
   /* isAuthorized, authorizedLogin should be taken from Redux state, 
   right now it's created here for testing purposes */
