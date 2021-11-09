@@ -25,7 +25,7 @@ interface IProfile {
   authorizedUser: IUserInfo
 }
 export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) => {
-  const [user, setUser] = useState<IUser | null>(null)
+  const [user, setUser] = useState<IUser>({})
   const [loading, setLoading] = useState(true)
   const [isNotFound, setNotFound] = useState(false)
   const { username } = match.params
@@ -53,6 +53,8 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
 
   const isPageOwner = username === authorizedLogin
 
+  const { numberOfPosts, reputation } = user
+
   return (
     <React.Fragment>
       <Header />
@@ -72,8 +74,8 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
                 </div>
                 <div className={styles.profile_info}>
                   <p className={styles.username}>{username}</p>
-                  <p className={styles.post_count}>Posts: {user?.numberOfPosts}</p>
-                  <p className={styles.reputation}>Reputation: {user?.reputation}</p>
+                  <p className={styles.post_count}>Posts: {numberOfPosts}</p>
+                  <p className={styles.reputation}>Reputation: {reputation}</p>
                 </div>
               </div>
             )}
