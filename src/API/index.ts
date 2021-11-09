@@ -8,8 +8,6 @@ export const api = axios.create({
   withCredentials: true,
 })
 
-api.interceptors.request.use((req) => req)
-
 api.interceptors.response.use(
   (config) => config,
   async (error) => {
