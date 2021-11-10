@@ -39,7 +39,7 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
         <div className={styles.post__flex}>
           <div>
             <img src="API_URL/username/icon" alt="User Avatar" />
-            <span>Post by</span>
+            <span>Post by </span>
             <Link to={ROUTES.PROFILE}>{author}</Link>
           </div>
           <span>{postDate}</span>
@@ -55,15 +55,15 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
             see more
           </Link>
         </div>
-        <div className={cn(styles['post__bottom--flex'])}>
-          <div className={cn(styles['post__bottom--center'])}>
+        <div className={styles['post__bottom--flex']}>
+          <div className={styles['post__bottom--center']}>
             <button className={styles.button}>
               <Upvote
                 className={cn(styles[isActiveUp ? 'active-upvote' : 'nonactive-upvote'])}
                 onClick={VoteOnClickUp}
               />
             </button>
-            <span className={cn(styles['post__bottom-upvotes--padding'])}>{upvotes}</span>
+            <span className={styles['post__bottom-upvotes--padding']}>{upvotes}</span>
             <button className={styles.button}>
               <Downvote
                 className={cn(styles[isActiveDown ? 'active-downvote' : 'nonactive-downvote'])}
@@ -71,9 +71,9 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
               />
             </button>
           </div>
-          <Link to={ROUTES.SINGLE_POST} className={cn(styles['post__bottom-comments'])}>
+          <Link to={ROUTES.SINGLE_POST} className={styles['post__bottom-comments']}>
             <Comments />
-            <span className={cn(styles['post__bottom-comments--padding'])}>{comments}</span>
+            <span className={styles['post__bottom-comments--padding']}>{comments}</span>
           </Link>
         </div>
       </article>
