@@ -43,12 +43,12 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
             <div>
               <Avatar imageUrl={resolveProfileImagePath(author)} isSmall={true} />
             </div>
-            <div className={styles['author-wrap']}>
-              <span>Post by </span>
+            <div className={styles['post__author-wrap-color']}>
+              <span>posted by </span>
               <Link to={ROUTES.PROFILE}> {author}</Link>
             </div>
           </div>
-          <span>{postDate}</span>
+          <span className={styles['post__flex-date']}>{postDate}</span>
         </div>
         <div className={styles.post__info}>
           <Typography variant={TEXT_VARIANTS.H2}>
