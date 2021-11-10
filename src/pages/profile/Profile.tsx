@@ -8,13 +8,10 @@ import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
 import { Spinner } from '../../components/Spinner'
 import { IUser } from '../../models/User'
+import { selectUser } from '../../store/userSlice'
 
 import styles from './Profile.module.scss'
 import { Upload } from './Upload'
-
-interface IUserInfo {
-  user: { username: string; loggedIn: boolean }
-}
 
 interface IProfile {
   match: {
@@ -22,8 +19,8 @@ interface IProfile {
       username: string
     }
   }
-  authorizedUser: IUserInfo
 }
+
 export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) => {
   const [user, setUser] = useState<IUser>({})
   const [loading, setLoading] = useState(true)
@@ -47,7 +44,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
     getUser(username)
   }, [username])
 
-  const authorizedUser = useSelector((state: { user: IUserInfo }) => state.user.user)
+  const authorizedUser = useSelector(selectUser)
 
   const { loggedIn, username: authorizedLogin } = authorizedUser
 
