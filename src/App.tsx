@@ -10,19 +10,23 @@ import { SignUp } from './pages/sign-up/SignUp'
 import { SinglePost } from './pages/single-post/SinglePost'
 import { ROUTES } from './utils/constants'
 
+export const AppRouting = () => (
+  <Switch>
+    <Route exact path={ROUTES.POSTS} component={Posts} />
+    <Route path={ROUTES.SIGN_UP} component={SignUp} />
+    <Route path={ROUTES.LOGIN} component={Login} />
+    <Route path={ROUTES.SINGLE_POST} component={SinglePost} />
+    <Route path={ROUTES.PROFILE} component={Profile} />
+    <Route component={NotFound} />
+  </Switch>
+)
+
 const App = () => {
   return (
     <HashRouter>
       <div className={classes.appContainer}>
         <div className={classes.appContainer__data}>
-          <Switch>
-            <Route exact path={ROUTES.POSTS} component={Posts} />
-            <Route path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route path={ROUTES.LOGIN} component={Login} />
-            <Route path={ROUTES.SINGLE_POST} component={SinglePost} />
-            <Route path={ROUTES.PROFILE} component={Profile} />
-            <Route component={NotFound} />
-          </Switch>
+          <AppRouting />
         </div>
       </div>
     </HashRouter>
