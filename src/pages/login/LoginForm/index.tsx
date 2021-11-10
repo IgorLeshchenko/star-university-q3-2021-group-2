@@ -23,22 +23,25 @@ export const LoginForm: React.FC = () => {
   const history = useHistory()
 
   const handleSubmit = async (user: ICreateUserRequest) => {
-    const result = await AuthService.login(user)
-    if (result.status >= 400) {
-      formik.setStatus(NOT_VALID_USER_ERROR_MESSAGE)
-    } else {
-      setUserToLocalStorage({
-        username: user.username,
-        loggedIn: true,
-      })
-      dispatch(
-        login({
+    AuthService.login(user)
+      .then(() => {
+        setUserToLocalStorage({
           username: user.username,
           loggedIn: true,
-        }),
-      )
-      history.push(ROUTES.POSTS)
-    }
+        })
+        dispatch(
+          login({
+            username: user.username,
+            loggedIn: true,
+          }),
+        )
+        history.push(ROUTES.POSTS)
+      })
+      .catch((error) => {
+        if (error.response.status >= 400) {
+          formik.setStatus(NOT_VALID_USER_ERROR_MESSAGE)
+        }
+      })
   }
 
   const handleFieldChange = (event: React.ChangeEvent<HTMLElement>) => {

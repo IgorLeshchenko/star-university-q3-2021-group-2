@@ -1,0 +1,23 @@
+@import '../../../assets/styles/variables.scss';
+@import '../../../assets/styles/mixins/breakpoints.scss';
+
+.upload_button {
+  display: block;
+  width: 135px;
+  padding: 7px 0;
+  border: 1px solid $secondary;
+  border-radius: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: $secondary;
+  cursor: pointer;
+  @include medium {
+    width: 195px;
+    padding: 9px 0;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  input[type='file'] {
+    display: none;
+  }
+}

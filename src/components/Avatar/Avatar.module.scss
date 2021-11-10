@@ -1,0 +1,23 @@
+@import '../../assets/styles/mixins/breakpoints.scss';
+
+.avatar {
+  width: 130px;
+  height: 150px;
+  object-fit: cover;
+  background: rgba(196, 196, 196, 0.5);
+  border-radius: 15px;
+  @include medium {
+    width: 195px;
+    height: 220px;
+  }
+
+  &_small {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    @include medium {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}

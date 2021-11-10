@@ -8,3 +8,12 @@ export interface ISinglePostResult {
   _id: number
   parent?: string
 }
+
+export interface IPostsParams {
+  page?: number
+  number?: number
+  sort?: 'recent' | 'most-upvotes' | 'oldest'
+  parent?: string
+  returnWithComments?: boolean
+  search?: string
+}
