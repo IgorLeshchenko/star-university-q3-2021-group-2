@@ -1,2 +1,75 @@
-.Profile {
+@import '../../assets/styles/variables.scss';
+@import '../../assets/styles/mixins/breakpoints.scss';
+
+.profile {
+  padding-top: 24px;
+  @include medium {
+    margin: 0 auto;
+    padding-top: 80px;
+    width: 645px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &_content {
+    @include medium {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  &_title {
+    margin-bottom: 24px;
+    font-weight: 500;
+    font-size: 18px;
+    color: $secondary;
+    @include medium {
+      margin-bottom: 48px;
+      font-weight: 500;
+      font-size: 40px;
+    }
+  }
+
+  &_media {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include medium {
+      margin-right: 30px;
+    }
+  }
+
+  &_avatar {
+    margin-bottom: 16px;
+    @include medium {
+      margin-bottom: 32px;
+    }
+  }
+
+  &_info {
+    font-weight: 500;
+    font-size: 16px;
+    @include medium {
+      font-size: 18px;
+    }
+
+    .username {
+      margin-bottom: 24px;
+      font-weight: 600;
+      color: $secondary;
+      @include medium {
+        margin-bottom: 120px;
+        font-size: 24px;
+      }
+    }
+
+    .post_count {
+      margin-bottom: 16px;
+      @include medium {
+        margin-bottom: 24px;
+      }
+    }
+  }
 }
