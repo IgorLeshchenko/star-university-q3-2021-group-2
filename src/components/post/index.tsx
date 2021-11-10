@@ -2,11 +2,13 @@ import cn from 'classnames'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { resolveProfileImagePath } from '../../API/helpers'
 import { ReactComponent as Comments } from '../../assets/images/Comments.svg'
 import { ReactComponent as Downvote } from '../../assets/images/Downvote.svg'
 import { ReactComponent as Upvote } from '../../assets/images/Upvote.svg'
 import { ROUTES } from '../../utils/constants'
 import { TEXT_VARIANTS } from '../../utils/enums'
+import { Avatar } from '../Avatar'
 import { Typography } from '../Typography'
 
 import styles from './Post.module.scss'
@@ -37,10 +39,14 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
     <div className={styles.container}>
       <article className={styles.post}>
         <div className={styles.post__flex}>
-          <div>
-            <img src="API_URL/username/icon" alt="User Avatar" />
-            <span>Post by </span>
-            <Link to={ROUTES.PROFILE}>{author}</Link>
+          <div className={styles['post__author-center']}>
+            <div>
+              <Avatar imageUrl={resolveProfileImagePath(author)} isSmall={true} />
+            </div>
+            <div className={styles['author-wrap']}>
+              <span>Post by </span>
+              <Link to={ROUTES.PROFILE}> {author}</Link>
+            </div>
           </div>
           <span>{postDate}</span>
         </div>
@@ -57,14 +63,14 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({ author, date, b
         </div>
         <div className={styles['post__bottom--flex']}>
           <div className={styles['post__bottom--center']}>
-            <button className={styles.button}>
+            <button className={styles.button__upvotes}>
               <Upvote
                 className={cn(styles[isActiveUp ? 'active-upvote' : 'nonactive-upvote'])}
                 onClick={VoteOnClickUp}
               />
             </button>
             <span className={styles['post__bottom-upvotes--padding']}>{upvotes}</span>
-            <button className={styles.button}>
+            <button className={styles.button__upvotes}>
               <Downvote
                 className={cn(styles[isActiveDown ? 'active-downvote' : 'nonactive-downvote'])}
                 onClick={VoteOnClickDown}
