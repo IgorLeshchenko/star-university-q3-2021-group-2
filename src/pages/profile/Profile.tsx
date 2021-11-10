@@ -33,10 +33,10 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
       setLoading(true)
       const response = await UsersService.getUserPublicData(username)
       setUser(response.data)
-      setLoading(false)
     } catch (error) {
-      setLoading(false)
       setNotFound(true)
+    } finally {
+      setLoading(false)
     }
   }
 
