@@ -10,18 +10,22 @@ interface IAvatar {
   customClass?: string
 }
 
-export const Avatar: React.FC<React.PropsWithChildren<IAvatar>> = ({ imageUrl, customClass = '', isSmall }) => {
-  const classList = isSmall ? `${styles.avatar} ${styles.avatar_small}` : `${styles.avatar} ` + customClass
+export const Avatar: React.FC<React.PropsWithChildren<IAvatar>> = React.memo(
+  ({ imageUrl, customClass = '', isSmall }) => {
+    const classList = isSmall ? `${styles.avatar} ${styles.avatar_small}` : `${styles.avatar} ` + customClass
 
-  return (
-    <img
-      src={imageUrl}
-      alt="avatar"
-      className={classList}
-      onError={(event) => {
-        const targetImg = event.target as HTMLImageElement
-        targetImg.src = spinner
-      }}
-    />
-  )
-}
+    return (
+      <img
+        src={imageUrl}
+        alt="avatar"
+        className={classList}
+        onError={(event) => {
+          const targetImg = event.target as HTMLImageElement
+          targetImg.src = spinner
+        }}
+      />
+    )
+  },
+)
+
+Avatar.displayName = 'Avatar'
