@@ -7,3 +7,5 @@ export const ROUTES = {
   SINGLE_POST: '/posts/:id',
   PROFILE: '/profile/:username',
 }
+
+export const DEFAULT_TOAST_DURATION = 3000 // 3 seconds
