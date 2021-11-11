@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import _ from 'lodash'
+import React, { useEffect, useState } from 'react'
 
 import arrowUp from '../../assets/images/arrow-up.svg'
 import { Button } from '../Button'
 
 import styles from './ScrollToTop.module.scss'
 
-export const ScrollToTop: React.FC = React.memo(() => {
+const Index: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const toggleVisibility = () => {
     if (window.scrollY > 500) {
@@ -15,7 +16,9 @@ export const ScrollToTop: React.FC = React.memo(() => {
     }
   }
 
-  window.addEventListener('scroll', toggleVisibility)
+  const delay = 1000
+  const delayedEvent = _.debounce(toggleVisibility, delay)
+  window.addEventListener('scroll', delayedEvent)
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -23,6 +26,12 @@ export const ScrollToTop: React.FC = React.memo(() => {
       behavior: 'smooth',
     })
   }
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('scroll', delayedEvent)
+    }
+  }, [])
 
   return (
     <div className={styles.scroll_container}>
@@ -33,6 +42,6 @@ export const ScrollToTop: React.FC = React.memo(() => {
       )}
     </div>
   )
-})
+}
 
-ScrollToTop.displayName = 'ScrollToTop'
+export const ScrollToTop = React.memo(Index)
