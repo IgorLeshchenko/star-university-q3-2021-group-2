@@ -4,38 +4,49 @@
 .searchAndSortBar {
   background: rgba(97, 127, 225, 0.1);
   border-radius: 15px;
-  padding: 48px 24px;
   width: 100%;
-  max-height: 320px;
+  padding: 8px 16px;
+  min-width: 180px;
 
-  @include xsm {
-    max-width: 800px;
+  @include medium {
+    padding: 20px 24px;
+  }
+
+  @include large {
+    min-width: 250px;
+    padding: 24px 48px;
   }
 
   &__sortTypes {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 
-    @include medium {
-      flex-direction: column;
+    &__label {
+      display: flex;
+      align-items: center;
+      margin-right: 0;
+
+      @include medium {
+        width: 100%;
+
+        &:not(:last-child) {
+          margin-bottom: 24px;
+        }
+      }
     }
 
     &__active {
       font-weight: bold;
     }
 
-    &__label {
-      margin-left: 5px;
-      display: flex;
-      margin-right: 100px;
-
-      @include medium {
-        margin-top: 20px;
-      }
-    }
-
     &__title {
       margin-left: 5px;
+      background: none;
+
+      @include large {
+        font-size: 18px;
+      }
     }
   }
 }
