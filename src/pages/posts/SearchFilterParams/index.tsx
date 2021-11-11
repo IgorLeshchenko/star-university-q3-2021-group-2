@@ -2,7 +2,9 @@ import classNames from 'classnames'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { selectSortType, setSortType } from '../../../store/postsSlice'
+import { ISortParams } from '../../../models/SinglePostResult'
+import { setSortType } from '../../../store/postsSlice'
+import { selectSortType } from '../../../store/selectors/posts'
 
 import classes from './SearchBar.module.scss'
 
@@ -21,12 +23,10 @@ const SORT_TYPES = [
   },
 ]
 
-export const SearchBar = () => {
+export const SearchBar: React.FC = () => {
   const dispatch = useDispatch()
   const handleSortTypeClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    dispatch(setSortType(event.target.value))
+    dispatch(setSortType(event.target.value as ISortParams))
   }
 
   const selectedSortType = useSelector(selectSortType)

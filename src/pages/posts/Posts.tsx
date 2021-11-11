@@ -5,17 +5,17 @@ import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { Post } from '../../components/post'
 import { Spinner } from '../../components/Spinner'
+import { Typography } from '../../components/Typography'
+import { loadPagesNumber, loadPostsList, setCurrentPage } from '../../store/postsSlice'
 import {
+  selectCurrentPage,
+  selectIsLoading,
   selectPagesAmount,
   selectPosts,
   selectSortType,
-  selectCurrentPage,
-  setCurrentPage,
-  loadPostsList,
-  selectIsLoading,
-  loadPagesNumber,
-} from '../../store/postsSlice'
+} from '../../store/selectors/posts'
 import { POSTS_PER_PAGE } from '../../utils/constants'
+import { TEXT_VARIANTS } from '../../utils/enums'
 
 import classes from './Posts.module.scss'
 import { SearchBar } from './SearchFilterParams'
@@ -47,6 +47,11 @@ export const Posts = () => {
           <SearchBar />
         </div>
         <div className={classes.forum__posts}>
+          {!postsList.length && !isLoading && (
+            <Typography variant={TEXT_VARIANTS.H1} className={classes.forum__posts__noPostsMessage}>
+              No posts yet
+            </Typography>
+          )}
           {postsList.map((post) => (
             <Post
               key={post._id}

@@ -4,7 +4,7 @@ import { PostsService } from '../API/PostsService'
 import { IPostsParams, ISinglePostResult, ISortParams } from '../models/SinglePostResult'
 import { POSTS_PER_PAGE } from '../utils/constants'
 
-import { RootState, AppDispatch } from './store'
+import { AppDispatch } from './store'
 
 interface IPostsState {
   data: ISinglePostResult[]
@@ -48,22 +48,16 @@ export const postsSlice = createSlice({
 
 export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading } = postsSlice.actions
 
-export const selectPosts = (state: RootState): ISinglePostResult[] => state.posts.data
-
-export const selectPagesAmount = (state: RootState): number => state.posts.pagesAmount
-
-export const selectSortType = (state: RootState): ISortParams => state.posts.sort
-
-export const selectCurrentPage = (state: RootState): number => state.posts.currentPage
-
-export const selectIsLoading = (state: RootState): boolean => state.posts.isLoading
-
 export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) => {
   dispatch(setIsLoading(true))
-  return PostsService.getPosts(params).then((res) => {
-    dispatch(addPosts(res.data))
-    dispatch(setIsLoading(false))
-  })
+  return PostsService.getPosts(params)
+    .then((res) => {
+      dispatch(addPosts(res.data))
+      dispatch(setIsLoading(false))
+    })
+    .catch(() => {
+      dispatch(setIsLoading(false))
+    })
 }
 
 export const loadPagesNumber = () => (dispatch: AppDispatch) => {
