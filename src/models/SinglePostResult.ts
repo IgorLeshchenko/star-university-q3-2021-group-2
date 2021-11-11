@@ -1,3 +1,5 @@
+export type ISortParams = 'recent' | 'most-upvotes' | 'oldest' | 'default'
+
 export interface ISinglePostResult {
   title: string
   body: string
@@ -12,7 +14,7 @@ export interface ISinglePostResult {
 export interface IPostsParams {
   page?: number
   number?: number
-  sort?: 'recent' | 'most-upvotes' | 'oldest'
+  sort?: ISortParams
   parent?: string
   returnWithComments?: boolean
   search?: string

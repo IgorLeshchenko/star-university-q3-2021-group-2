@@ -13,7 +13,7 @@ test('renders forum page', () => {
       <App />
     </Provider>,
   )
-  const linkElement = screen.getByText(/forum page/i)
+  const linkElement = screen.getByText(/posts/i)
   expect(linkElement).toBeInTheDocument()
 })
 
@@ -28,7 +28,6 @@ describe('given Routing', () => {
         </Router>
       </Provider>,
     )
-
     expect(getByTestId('not-found-page')).toBeInTheDocument()
   })
 })
