@@ -8,3 +8,5 @@ export const ROUTES = {
   USER_PROFILE: '/profile/:username',
   PROFILE: '/profile',
 }
+
+export const DEFAULT_TOAST_DURATION = 3000 // 3 seconds
