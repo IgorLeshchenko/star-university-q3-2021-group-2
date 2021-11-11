@@ -18,7 +18,7 @@ export class ToastService {
     const body = document.getElementById('root') as HTMLDivElement
     const toastContainer = document.createElement('div') as HTMLDivElement
     toastContainer.id = 'toast-container-main'
-    body.insertAdjacentElement('beforebegin', toastContainer)
+    body?.insertAdjacentElement('beforebegin', toastContainer)
     this.containerRef = toastContainer
   }
 

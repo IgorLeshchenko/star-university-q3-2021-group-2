@@ -9,7 +9,9 @@
   padding: 10px;
   @include small {
     top: 12px;
-    right: 12px;
+    bottom: unset;
+    right: 0;
+    transform: translateX(100%);
     width: 365px;
     margin: 0;
   }
@@ -31,7 +33,7 @@
   opacity: 1;
   @include medium {
     opacity: 0.9;
-    animation: toast-in-right 0.7s;
+    animation: toast-in-right 0.7s forwards;
   }
   &:hover {
     box-shadow: 0 0 12px #fff;
@@ -46,10 +48,10 @@
 
 @keyframes toast-in-right {
   from {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   to {
-    transform: translateX(0);
+    transform: translateX(calc(-100% - 30px));
   }
 }
 

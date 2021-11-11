@@ -22,9 +22,11 @@ describe('given Routing', () => {
     const history = createMemoryHistory()
     history.push('/some/bad/route')
     const { getByTestId } = render(
-      <Router history={history}>
-        <AppRouting />
-      </Router>,
+      <Provider store={store}>
+        <Router history={history}>
+          <AppRouting />
+        </Router>
+      </Provider>,
     )
 
     expect(getByTestId('not-found-page')).toBeInTheDocument()
