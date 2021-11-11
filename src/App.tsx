@@ -16,7 +16,7 @@ export const AppRouting = () => (
     <Route path={ROUTES.SIGN_UP} component={SignUp} />
     <Route path={ROUTES.LOGIN} component={Login} />
     <Route path={ROUTES.SINGLE_POST} component={SinglePost} />
-    <Route path={ROUTES.PROFILE} component={Profile} />
+    <Route path={ROUTES.USER_PROFILE} component={Profile} />
     <Route component={NotFound} />
   </Switch>
 )

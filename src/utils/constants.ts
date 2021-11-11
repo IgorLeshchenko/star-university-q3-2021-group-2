@@ -5,5 +5,6 @@ export const ROUTES = {
   SIGN_UP: '/sign-up',
   POSTS: '/',
   SINGLE_POST: '/posts/:id',
-  PROFILE: '/profile/:username',
+  USER_PROFILE: '/profile/:username',
+  PROFILE: '/profile',
 }
