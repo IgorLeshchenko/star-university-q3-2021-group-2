@@ -10,12 +10,13 @@ import signOut from '../../../assets/images/sign-out.svg'
 import { logout } from '../../../store/userSlice'
 import { ROUTES } from '../../../utils/constants'
 import { Avatar } from '../../Avatar'
+import { toasterService } from '../../Toast/ToastService'
 
 import styles from './ProfileDropdown.module.scss'
 
 export const ProfileDropdown: React.FC<{ name: string }> = React.memo(({ name }) => {
   const [isOpen, setIsOpen] = useState(false)
-  // const errorMessage = 'Something went wrong, try later.'
+  const errorMessage = 'Something went wrong, try later.'
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -27,9 +28,10 @@ export const ProfileDropdown: React.FC<{ name: string }> = React.memo(({ name })
       .then(() => dispatch(logout()))
       .then(() => history.push(ROUTES.POSTS))
       .catch((error) => {
-        if (error.response.status >= 400) {
-          // to add toaster message after it approving with errorMessage title
-        }
+        toasterService.error({
+          title: 'Error',
+          content: error?.response?.data || errorMessage,
+        })
       })
   }
 
