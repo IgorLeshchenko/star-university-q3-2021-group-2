@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import logoImg from '../../assets/images/logo.png'
-import { selectUser } from '../../store/userSlice'
+import { selectUser } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { Container } from '../Container'
 
