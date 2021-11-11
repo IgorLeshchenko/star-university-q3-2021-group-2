@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Button } from '../../components/Button'
 import { ErrorModal } from '../../components/ErrorModal'
 import { Header } from '../../components/Header'
+import { ScrollToTop } from '../../components/ScrollToTop'
 
 import styles from './Posts.module.scss'
 
@@ -23,6 +24,7 @@ export const Posts = () => {
         </Button>
       </div>
       {isOpen && <ErrorModal onCrossBtnHandler={modalHandler} />}
+      <ScrollToTop />
     </React.Fragment>
   )
 }
