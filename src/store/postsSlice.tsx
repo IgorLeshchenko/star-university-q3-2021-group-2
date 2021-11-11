@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PostsService } from '../API/PostsService'
 import { toasterService } from '../components/Toast/ToastService'
 import { IPostsParams, ISinglePostResult, ISortParams } from '../models/SinglePostResult'
-import { POSTS_PER_PAGE } from '../utils/constants'
+import { DEFAULT_ERROR_MESSAGE, POSTS_PER_PAGE } from '../utils/constants'
 
 import { AppDispatch } from './store'
 
@@ -60,7 +60,7 @@ export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) =
       dispatch(setIsLoading(false))
       toasterService.error({
         title: 'Posts list',
-        content: 'Something went wrong',
+        content: DEFAULT_ERROR_MESSAGE,
       })
     })
 }
