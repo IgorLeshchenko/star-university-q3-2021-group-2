@@ -9,4 +9,6 @@ export const ROUTES = {
   PROFILE: '/profile',
 }
 
+export const POSTS_PER_PAGE = 2
+
 export const DEFAULT_TOAST_DURATION = 3000 // 3 seconds

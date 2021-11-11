@@ -1,7 +1,57 @@
-.Posts {
-  height: 100%;
+@import '../../assets/styles/variables.scss';
+@import '../../assets/styles/mixins/breakpoints';
+
+.forum {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  padding: 16px 20px;
+
+  @include xsm {
+    flex-direction: column;
+
+    &__buttonForCreatingPost {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      order: 1;
+    }
+
+    &__posts {
+      justify-content: center;
+      flex-direction: column;
+      order: 2;
+
+      &__loadingSpinner {
+        display: flex;
+        justify-content: center;
+        margin-top: -20px;
+      }
+
+      &__seeMoreButton {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  @include medium {
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__buttonForCreatingPost {
+      display: inline-block;
+      margin: 0;
+      order: 2;
+
+      &__button {
+        padding: 15px 10px;
+        min-width: 200px;
+      }
+    }
+
+    &__posts {
+      margin: 0 20px;
+      order: 1;
+    }
+  }
 }
