@@ -20,7 +20,7 @@ export interface ToastProps {
   backgroundColor?: '#5cb85c' | '#d9534f' | '#5bc0de' | '#f0ad4e'
 }
 
-export const Toast: React.FC<ToastProps> = (props) => {
+export const Toast: React.FC<ToastProps> = React.memo((props) => {
   const { destroy, title, content, duration = DEFAULT_TOAST_DURATION, status, backgroundColor } = props
   useEffect(() => {
     if (!duration) return
@@ -46,4 +46,6 @@ export const Toast: React.FC<ToastProps> = (props) => {
       </div>
     </div>
   )
-}
+})
+
+Toast.displayName = 'Toast'
