@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { Post } from '../../components/post'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import { Spinner } from '../../components/Spinner'
 import { Typography } from '../../components/Typography'
 import { loadPagesNumber, loadPostsList, setCurrentPage } from '../../store/postsSlice'
@@ -81,6 +82,7 @@ export const Posts = () => {
           </Button>
         </div>
       </div>
+      <ScrollToTop />
     </React.Fragment>
   )
 }
