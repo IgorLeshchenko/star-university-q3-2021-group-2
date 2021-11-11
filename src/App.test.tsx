@@ -13,7 +13,7 @@ test('renders forum page', () => {
       <App />
     </Provider>,
   )
-  const linkElement = screen.getByText(/forum page/i)
+  const linkElement = screen.getByText(/posts/i)
   expect(linkElement).toBeInTheDocument()
 })
 
@@ -22,11 +22,12 @@ describe('given Routing', () => {
     const history = createMemoryHistory()
     history.push('/some/bad/route')
     const { getByTestId } = render(
-      <Router history={history}>
-        <AppRouting />
-      </Router>,
+      <Provider store={store}>
+        <Router history={history}>
+          <AppRouting />
+        </Router>
+      </Provider>,
     )
-
     expect(getByTestId('not-found-page')).toBeInTheDocument()
   })
 })

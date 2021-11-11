@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { getUserFromLocalStorage } from '../utils/local-storage'
-
-import { RootState } from './store'
+import { getUserFromLocalStorage, removeUserFromLocalStorage } from '../utils/local-storage'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -13,9 +11,11 @@ export const userSlice = createSlice({
     login: (state, action) => {
       state.user = action.payload
     },
+    logout: (state) => {
+      removeUserFromLocalStorage()
+      state.user = {}
+    },
   },
 })
 
-export const { login } = userSlice.actions
-
-export const selectUser = (state: RootState) => state.user.user
+export const { login, logout } = userSlice.actions

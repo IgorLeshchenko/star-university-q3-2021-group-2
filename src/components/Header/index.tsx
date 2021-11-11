@@ -1,8 +1,10 @@
 import cn from 'classnames'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import logoImg from '../../assets/images/logo.png'
+import { selectUser } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { Container } from '../Container'
 
@@ -17,8 +19,8 @@ interface Props {
 
 export const Header: React.FC<Props> = React.memo(({ isLoginPage = false, isSignupPage = false }) => {
   const [isOpen, setIsOpen] = useState(false)
-  // to change on useSelector after store creation
-  const isLoggedIn = false
+  const user = useSelector(selectUser)
+  const { loggedIn, username } = user
   const mobileMenuHandler = () => setIsOpen((prevState) => !prevState)
 
   return (
@@ -26,26 +28,26 @@ export const Header: React.FC<Props> = React.memo(({ isLoginPage = false, isSign
       <Container customClass={styles['header__container']}>
         <React.Fragment>
           <Logo img={logoImg} />
-          <div className={`${styles['header__content']} ${isOpen ? styles.active : ''}`}>
+          <div className={cn(styles['header__content'], { [styles.active]: isOpen })}>
             <nav className={styles['header__nav']}>
               <Link to={ROUTES.POSTS} className={styles['header__link']}>
                 Posts
               </Link>
-              {!isLoginPage && (
+              {!isLoginPage && !loggedIn && (
                 <Link to={ROUTES.LOGIN} className={cn(styles['header__link'], styles['header__link--light'])}>
                   Log in
                 </Link>
               )}
-              {!isSignupPage && (
+              {!isSignupPage && !loggedIn && (
                 <Link to={ROUTES.SIGN_UP} className={cn(styles['header__link'], styles['header__link--light'])}>
                   Sign up
                 </Link>
               )}
             </nav>
-            {isLoggedIn && <ProfileDropdown name="John Doe" />}
+            {loggedIn && <ProfileDropdown name={username} />}
           </div>
           <div
-            className={`${styles['header__cross-btn']} ${isOpen ? styles.active : ''}`}
+            className={cn(styles['header__cross-btn'], { [styles.active]: isOpen })}
             onClick={mobileMenuHandler}
           ></div>
         </React.Fragment>

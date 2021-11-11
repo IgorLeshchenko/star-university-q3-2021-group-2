@@ -8,7 +8,7 @@ import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
 import { Spinner } from '../../components/Spinner'
 import { IUser } from '../../models/User'
-import { selectUser } from '../../store/userSlice'
+import { selectUser } from '../../store/selectors/users'
 
 import styles from './Profile.module.scss'
 import { Upload } from './Upload'

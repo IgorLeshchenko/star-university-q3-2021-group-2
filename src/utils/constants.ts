@@ -5,5 +5,12 @@ export const ROUTES = {
   SIGN_UP: '/sign-up',
   POSTS: '/',
   SINGLE_POST: '/posts/:id',
-  PROFILE: '/profile/:username',
+  USER_PROFILE: '/profile/:username',
+  PROFILE: '/profile',
 }
+
+export const DEFAULT_ERROR_MESSAGE = 'Something went wrong'
+
+export const POSTS_PER_PAGE = 10
+
+export const DEFAULT_TOAST_DURATION = 3000 // 3 seconds
