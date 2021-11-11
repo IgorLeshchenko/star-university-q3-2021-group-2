@@ -62,20 +62,17 @@ export const Posts = () => {
               upvotes={post.upvotes}
             />
           ))}
-          {isLoading ? (
+          {isLoading && (
             <div className={classes.forum__posts__loadingSpinner}>
               <Spinner />
             </div>
-          ) : (
-            <>
-              {currentPage < pagesAmount && (
-                <div className={classes.forum__posts__seeMoreButton}>
-                  <Button primary onClick={handleLoadingPosts} className={classes.forum__loadingButton}>
-                    See more
-                  </Button>
-                </div>
-              )}
-            </>
+          )}
+          {!isLoading && currentPage < pagesAmount && (
+            <div className={classes.forum__posts__seeMoreButton}>
+              <Button primary onClick={handleLoadingPosts} className={classes.forum__loadingButton}>
+                See more
+              </Button>
+            </div>
           )}
         </div>
         <div className={classes.forum__buttonForCreatingPost}>

@@ -54,14 +54,15 @@ export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) =
   return PostsService.getPosts(params)
     .then((res) => {
       dispatch(addPosts(res.data))
-      dispatch(setIsLoading(false))
     })
     .catch(() => {
-      dispatch(setIsLoading(false))
       toasterService.error({
         title: 'Posts list',
         content: DEFAULT_ERROR_MESSAGE,
       })
+    })
+    .finally(() => {
+      dispatch(setIsLoading(false))
     })
 }
 
