@@ -18,7 +18,7 @@ interface IPostsState {
 const initialState = {
   data: [],
   pagesAmount: 0,
-  sort: 'default',
+  sort: 'recent',
   currentPage: 1,
   isLoading: false,
 } as IPostsState
