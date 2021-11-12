@@ -47,6 +47,7 @@ export const SearchBar: React.FC = () => {
               value={sortType.value}
               onChange={handleSortTypeClick}
               className={classes.radioInput}
+              checked={sortType.value === selectedSortType}
             />
             <span className={classes.searchAndSortBar__sortTypes__title}>{sortType.label}</span>
           </label>
