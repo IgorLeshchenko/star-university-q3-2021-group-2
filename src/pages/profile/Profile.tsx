@@ -7,6 +7,7 @@ import { Avatar } from '../../components/Avatar'
 import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
 import { Spinner } from '../../components/Spinner'
+import { toasterService } from '../../components/Toast/ToastService'
 import { IUser } from '../../models/User'
 import { selectUser } from '../../store/selectors/users'
 
@@ -24,8 +25,11 @@ interface IProfile {
 export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) => {
   const [user, setUser] = useState<IUser>({})
   const [loading, setLoading] = useState(true)
+  const [avatarToggle, setAvatarToggle] = useState(true)
   const [isNotFound, setNotFound] = useState(false)
   const { username } = match.params
+
+  const authorizedUser = useSelector(selectUser)
 
   const getUser = async (username: string) => {
     try {
@@ -40,11 +44,19 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
     }
   }
 
+  const uploadUserAvatar = async (avatar: File): Promise<void> => {
+    try {
+      await UsersService.setUserIcon(username, avatar)
+      setAvatarToggle(!avatarToggle)
+      toasterService.success({ title: 'Change photo', content: 'Photo uploaded successfully' })
+    } catch (error) {
+      toasterService.error({ title: 'Change Photo', content: 'Failed to upload photo' })
+    }
+  }
+
   useEffect(() => {
     getUser(username)
-  }, [username])
-
-  const authorizedUser = useSelector(selectUser)
+  }, [username, avatarToggle])
 
   const { loggedIn, username: authorizedLogin } = authorizedUser
 
@@ -67,7 +79,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
               <div className={styles.profile_content}>
                 <div className={styles.profile_media}>
                   <Avatar imageUrl={resolveProfileImagePath(username)} customClass={styles.profile_avatar} />
-                  {loggedIn && isPageOwner && <Upload value="Change photo" />}
+                  {loggedIn && isPageOwner && <Upload value="Change photo" handleUpload={uploadUserAvatar} />}
                 </div>
                 <div className={styles.profile_info}>
                   <p className={styles.username}>{username}</p>
