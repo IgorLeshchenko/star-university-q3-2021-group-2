@@ -18,7 +18,6 @@ export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHa
         toasterService.success({
           title: 'Success',
           content: 'Post uploaded:)',
-          duration: 3000,
         }),
       )
 
@@ -28,7 +27,6 @@ export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHa
             toasterService.error({
               title: 'Error',
               content: 'Something went wrong:(',
-              duration: 3000,
             }),
           )
         }
@@ -92,5 +90,3 @@ export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHa
     </React.Fragment>
   )
 }
-
-export default PostCreationModal
