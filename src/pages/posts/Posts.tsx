@@ -5,6 +5,7 @@ import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { Post } from '../../components/post'
 import { PostCreationModal } from '../../components/PostCreation'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import { Spinner } from '../../components/Spinner'
 import { Typography } from '../../components/Typography'
 import { clearPostsData, loadPagesNumber, loadPostsList, setCurrentPage } from '../../store/postsSlice'
@@ -94,6 +95,7 @@ export const Posts = () => {
         </div>
         {isOpen && <PostCreationModal onCrossBtnHandler={modalHandler} />}
       </div>
+      <ScrollToTop />
     </React.Fragment>
   )
 }
