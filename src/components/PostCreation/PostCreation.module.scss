@@ -17,7 +17,6 @@ input[type='text'] {
   flex-direction: column;
 
   &__titlePost--margin {
-    font-style: normal;
     font-weight: 500;
     font-size: 18px;
     line-height: 101%;
@@ -30,10 +29,7 @@ input[type='text'] {
       font-weight: 500;
       font-size: 40px;
     }
-    @include large {
-      font-weight: 500;
-      font-size: 40px;
-    }
+
   }
 
   &__textField-title {
@@ -67,6 +63,8 @@ input[type='text'] {
 
   &__require--padding {
     padding-top: 5px;
+    font-size: $error-font-size;
+    color: $error;
   }
 
   &__button--justify {
@@ -76,9 +74,7 @@ input[type='text'] {
     @include medium {
       justify-content: start;
     }
-    @include large {
-      justify-content: start;
-    }
+
   }
 
   &__button {
@@ -86,3 +82,4 @@ input[type='text'] {
     padding: 10px 35px;
   }
 }
+
