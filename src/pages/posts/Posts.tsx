@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { Post } from '../../components/post'
+import { PostCreationModal } from '../../components/PostCreation'
 import { Spinner } from '../../components/Spinner'
 import { Typography } from '../../components/Typography'
 import { loadPagesNumber, loadPostsList, setCurrentPage } from '../../store/postsSlice'
@@ -22,6 +23,7 @@ import { SearchBar } from './SearchFilterParams'
 
 export const Posts = () => {
   const dispatch = useDispatch()
+  const [isOpen, setIsOpen] = useState(false)
 
   const postsList = useSelector(selectPosts)
   const pagesAmount = useSelector(selectPagesAmount)
@@ -36,6 +38,10 @@ export const Posts = () => {
   useEffect(() => {
     dispatch(loadPagesNumber())
   }, [])
+
+  const modalHandler = () => {
+    setIsOpen(!isOpen)
+  }
 
   const handleLoadingPosts = () => dispatch(setCurrentPage(currentPage + 1))
 
@@ -76,10 +82,11 @@ export const Posts = () => {
           )}
         </div>
         <div className={classes.forum__buttonForCreatingPost}>
-          <Button primary className={classes.forum__buttonForCreatingPost__button}>
+          <Button primary className={classes.forum__buttonForCreatingPost__button} onClick={modalHandler}>
             + Create post
           </Button>
         </div>
+        {isOpen && <PostCreationModal onCrossBtnHandler={modalHandler} />}
       </div>
     </React.Fragment>
   )
