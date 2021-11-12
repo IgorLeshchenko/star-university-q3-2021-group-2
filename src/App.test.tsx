@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { Router } from 'react-router'
 
-import App from './App'
+import App, { AppRouting } from './App'
 import { store } from './store/store'
 
 test('renders forum page', () => {
@@ -11,6 +13,21 @@ test('renders forum page', () => {
       <App />
     </Provider>,
   )
-  const linkElement = screen.getByText(/forum page/i)
+  const linkElement = screen.getByText(/posts/i)
   expect(linkElement).toBeInTheDocument()
+})
+
+describe('given Routing', () => {
+  it('should render Not Found component for invalid URL', () => {
+    const history = createMemoryHistory()
+    history.push('/some/bad/route')
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Router history={history}>
+          <AppRouting />
+        </Router>
+      </Provider>,
+    )
+    expect(getByTestId('not-found-page')).toBeInTheDocument()
+  })
 })

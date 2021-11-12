@@ -1,0 +1,53 @@
+@import '../../../assets/styles/mixins/breakpoints.scss';
+@import '../../../assets/styles/variables.scss';
+
+.searchAndSortBar {
+  background: rgba(97, 127, 225, 0.1);
+  border-radius: 15px;
+  width: 100%;
+  padding: 8px 16px;
+  min-width: 180px;
+  box-shadow: 0px 4px 10px rgba(42, 51, 110, 0.3);
+
+  @include medium {
+    padding: 20px 24px;
+  }
+
+  @include large {
+    min-width: 250px;
+    padding: 48px 24px;
+  }
+
+  &__sortTypes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    &__label {
+      display: flex;
+      align-items: center;
+      margin-right: 0;
+
+      @include medium {
+        width: 100%;
+
+        &:not(:last-child) {
+          margin-bottom: 24px;
+        }
+      }
+    }
+
+    &__active {
+      font-weight: bold;
+    }
+
+    &__title {
+      margin-left: 5px;
+      background: none;
+
+      @include large {
+        font-size: 18px;
+      }
+    }
+  }
+}
