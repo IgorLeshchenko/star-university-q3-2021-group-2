@@ -63,6 +63,9 @@ export const Posts = () => {
               body={post.body}
               date={post.date}
               upvotes={post.upvotes}
+              countChildren={post.children?.length || 0}
+              _id={post._id}
+              __v={post.__v}
             />
           ))}
           {isLoading && (
