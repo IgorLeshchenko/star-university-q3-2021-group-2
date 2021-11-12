@@ -4,12 +4,13 @@ export const ROUTES = {
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
   POSTS: '/',
+  ALL_POST: '/posts',
   SINGLE_POST: '/posts/:id',
   USER_PROFILE: '/profile/:username',
   PROFILE: '/profile',
 }
 
-export const DEFAULT_ERROR_MESSAGE = 'Something went wrong'
+export const DEFAULT_ERROR_MESSAGE = 'Something went wrong. Please, try later.'
 
 export const POSTS_PER_PAGE = 10
 
