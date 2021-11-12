@@ -6,7 +6,7 @@ import { Header } from '../../components/Header'
 import { Post } from '../../components/post'
 import { Spinner } from '../../components/Spinner'
 import { Typography } from '../../components/Typography'
-import { loadPagesNumber, loadPostsList, setCurrentPage } from '../../store/postsSlice'
+import { clearPostsData, loadPagesNumber, loadPostsList, setCurrentPage } from '../../store/postsSlice'
 import {
   selectCurrentPage,
   selectIsLoading,
@@ -35,6 +35,9 @@ export const Posts = () => {
 
   useEffect(() => {
     dispatch(loadPagesNumber())
+    return () => {
+      dispatch(clearPostsData())
+    }
   }, [])
 
   const handleLoadingPosts = () => dispatch(setCurrentPage(currentPage + 1))
