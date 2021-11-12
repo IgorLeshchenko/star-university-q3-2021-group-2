@@ -8,7 +8,7 @@ import { resolveProfileImagePath } from '../../../API/helpers'
 import selfie from '../../../assets/images/selfie.svg'
 import signOut from '../../../assets/images/sign-out.svg'
 import { logout } from '../../../store/userSlice'
-import { ROUTES } from '../../../utils/constants'
+import { DEFAULT_ERROR_MESSAGE, ROUTES } from '../../../utils/constants'
 import { Avatar } from '../../Avatar'
 import { toasterService } from '../../Toast/ToastService'
 
@@ -16,7 +16,6 @@ import styles from './ProfileDropdown.module.scss'
 
 export const ProfileDropdown: React.FC<{ name: string }> = React.memo(({ name }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const errorMessage = 'Something went wrong, try later.'
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -30,7 +29,7 @@ export const ProfileDropdown: React.FC<{ name: string }> = React.memo(({ name })
       .catch((error) => {
         toasterService.error({
           title: 'Error',
-          content: error?.response?.data || errorMessage,
+          content: error?.response?.data || DEFAULT_ERROR_MESSAGE,
         })
       })
   }

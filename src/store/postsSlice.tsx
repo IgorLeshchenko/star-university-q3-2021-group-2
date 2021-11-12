@@ -18,7 +18,7 @@ interface IPostsState {
 const initialState = {
   data: [],
   pagesAmount: 0,
-  sort: 'default',
+  sort: 'recent',
   currentPage: 1,
   isLoading: false,
 } as IPostsState
@@ -44,10 +44,12 @@ export const postsSlice = createSlice({
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload
     },
+    clearPostsData: () => initialState,
   },
 })
 
-export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading } = postsSlice.actions
+export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading, clearPostsData } =
+  postsSlice.actions
 
 export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) => {
   dispatch(setIsLoading(true))
