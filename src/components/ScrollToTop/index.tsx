@@ -16,7 +16,7 @@ const Index: React.FC = () => {
     }
   }
 
-  const delay = 1000
+  const delay = 300
   const delayedEvent = _.debounce(toggleVisibility, delay)
   window.addEventListener('scroll', delayedEvent)
 
