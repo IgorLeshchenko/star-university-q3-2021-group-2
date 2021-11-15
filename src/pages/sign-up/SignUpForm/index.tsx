@@ -48,7 +48,7 @@ export const SignUpForm: React.FC = () => {
   })
 
   return (
-    <div className={classes.signUpForm}>
+    <div className={classes.signUpForm} data-testid="sign-up-page">
       <div className={classes.signUpForm__content}>
         <Typography variant={TEXT_VARIANTS.H1} className={classes.signUpForm__content__title}>
           Sign Up

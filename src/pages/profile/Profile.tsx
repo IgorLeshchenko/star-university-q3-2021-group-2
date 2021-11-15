@@ -67,7 +67,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
   return (
     <React.Fragment>
       <Header />
-      <Container>
+      <Container data-testid="profile-page">
         {loading ? (
           <Spinner />
         ) : (

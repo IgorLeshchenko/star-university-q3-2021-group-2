@@ -17,17 +17,41 @@ test('renders forum page', () => {
   expect(linkElement).toBeInTheDocument()
 })
 
-describe('given Routing', () => {
-  it('should render Not Found component for invalid URL', () => {
-    const history = createMemoryHistory()
-    history.push('/some/bad/route')
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <Router history={history}>
-          <AppRouting />
-        </Router>
-      </Provider>,
-    )
-    expect(getByTestId('not-found-page')).toBeInTheDocument()
-  })
+test('Not Found page', () => {
+  const history = createMemoryHistory()
+  const { getByTestId } = render(
+    <Provider store={store}>
+      <Router history={history}>
+        <AppRouting />
+      </Router>
+    </Provider>,
+  )
+  history.push('/some/bad/route')
+  expect(getByTestId('not-found-page')).toBeInTheDocument()
+})
+
+test('Sign-up page', () => {
+  const history = createMemoryHistory()
+  const { getByTestId } = render(
+    <Provider store={store}>
+      <Router history={history}>
+        <AppRouting />
+      </Router>
+    </Provider>,
+  )
+  history.push('/sign-up')
+  expect(getByTestId('sign-up-page')).toBeInTheDocument()
+})
+
+test('Login page', () => {
+  const history = createMemoryHistory()
+  const { getByTestId } = render(
+    <Provider store={store}>
+      <Router history={history}>
+        <AppRouting />
+      </Router>
+    </Provider>,
+  )
+  history.push('/login')
+  expect(getByTestId('login-page')).toBeInTheDocument()
 })
