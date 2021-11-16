@@ -10,3 +10,5 @@ export const selectSortType = ({ posts }: RootState): ISortParams => posts.sort
 export const selectCurrentPage = ({ posts }: RootState): number => posts.currentPage
 
 export const selectIsLoading = ({ posts }: RootState): boolean => posts.isLoading
+
+export const selectSearchValue = ({ posts }: RootState): string => posts.search

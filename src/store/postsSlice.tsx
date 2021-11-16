@@ -13,6 +13,7 @@ interface IPostsState {
   sort: ISortParams
   currentPage: number
   isLoading: boolean
+  search: string
 }
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   sort: 'recent',
   currentPage: 1,
   isLoading: false,
+  search: '',
 } as IPostsState
 
 export const postsSlice = createSlice({
@@ -44,11 +46,16 @@ export const postsSlice = createSlice({
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload
     },
+    setSearchValue: (state, action: PayloadAction<string>) => {
+      state.data = []
+      state.currentPage = 1
+      state.search = action.payload
+    },
     clearPostsData: () => initialState,
   },
 })
 
-export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading, clearPostsData } =
+export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading, clearPostsData, setSearchValue } =
   postsSlice.actions
 
 export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) => {
