@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios'
+import Cookies from 'js-cookie'
 
 import { ICreatePostRequest } from '../models/CreatePostRequest'
 import { IPostsParams, ISinglePostResult } from '../models/SinglePostResult'
@@ -9,7 +10,12 @@ const url = `/posts`
 
 export class PostsService {
   static async addPost(post: ICreatePostRequest): Promise<AxiosResponse<number>> {
-    return api.post(url, post)
+    return api.post(url, post, {
+      headers: {
+        accesstoken: `${Cookies.get('accessToken')}`,
+        refreshtoken: `${Cookies.get('refreshToken')}`,
+      },
+    })
   }
 
   static async getSinglePost(id: string): Promise<AxiosResponse<ISinglePostResult>> {
@@ -21,22 +27,49 @@ export class PostsService {
   }
 
   static async upvotePost(id: string): Promise<AxiosResponse<boolean>> {
-    return api.post(`${url}/${id}/upvote`)
+    return api.post(
+      `${url}/${id}/upvote`,
+      {},
+      {
+        headers: {
+          accesstoken: `${Cookies.get('accessToken')}`,
+          refreshtoken: `${Cookies.get('refreshToken')}`,
+        },
+      },
+    )
   }
 
   static async downvotePost(id: string): Promise<AxiosResponse<boolean>> {
-    return api.post(`${url}/${id}/downvote`)
+    return api.post(
+      `${url}/${id}/downvote`,
+      {},
+      {
+        headers: {
+          accesstoken: `${Cookies.get('accessToken')}`,
+          refreshtoken: `${Cookies.get('refreshToken')}`,
+        },
+      },
+    )
   }
 
   static async removeReaction(id: string): Promise<AxiosResponse> {
-    return api.post(`${url}/${id}/remove-reactions`)
+    return api.post(
+      `${url}/${id}/remove-reactions`,
+      {},
+      {
+        headers: {
+          accesstoken: `${Cookies.get('accessToken')}`,
+          refreshtoken: `${Cookies.get('refreshToken')}`,
+        },
+      },
+    )
   }
 
   static async getPosts(params: IPostsParams): Promise<AxiosResponse<ISinglePostResult[]>> {
     const parameters = JSON.parse(JSON.stringify(params))
     // checking for possible undefined values
     const queryParams = Object.keys(parameters).reduce((acc: string[], key) => {
-      if (parameters[key] !== undefined) {
+      if (parameters[key]) {
         const e = `${key}=${parameters[key]}`
         acc.push(e)
       }

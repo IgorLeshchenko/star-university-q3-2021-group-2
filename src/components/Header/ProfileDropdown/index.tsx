@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import Cookies from 'js-cookie'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
@@ -26,6 +27,7 @@ export const ProfileDropdown: React.FC<{ name: string }> = React.memo(({ name })
     AuthService.logout()
       .then(() => dispatch(logout()))
       .then(() => history.push(ROUTES.POSTS))
+      .then(() => Cookies.remove('refreshToken'))
       .catch((error) => {
         toasterService.error({
           title: 'Error',
