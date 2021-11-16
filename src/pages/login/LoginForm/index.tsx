@@ -59,7 +59,7 @@ export const LoginForm: React.FC = () => {
   })
 
   return (
-    <div className={classes.loginForm} data-testid="login-page">
+    <div className={classes.loginForm}>
       <div className={classes.loginForm__content}>
         <Typography variant={TEXT_VARIANTS.H1} className={classes.loginForm__content__title}>
           Log in

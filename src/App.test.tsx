@@ -19,7 +19,7 @@ test('renders forum page', () => {
 
 test('Not Found page', () => {
   const history = createMemoryHistory()
-  const { getByTestId } = render(
+  render(
     <Provider store={store}>
       <Router history={history}>
         <AppRouting />
@@ -27,12 +27,13 @@ test('Not Found page', () => {
     </Provider>,
   )
   history.push('/some/bad/route')
-  expect(getByTestId('not-found-page')).toBeInTheDocument()
+  const element = screen.getByText(/404 page/i)
+  expect(element).toBeInTheDocument()
 })
 
 test('Sign-up page', () => {
   const history = createMemoryHistory()
-  const { getByTestId } = render(
+  render(
     <Provider store={store}>
       <Router history={history}>
         <AppRouting />
@@ -40,12 +41,15 @@ test('Sign-up page', () => {
     </Provider>,
   )
   history.push('/sign-up')
-  expect(getByTestId('sign-up-page')).toBeInTheDocument()
+  const elements = screen.getAllByText(/sign up/i)
+  elements.forEach((e) => {
+    expect(e).toBeInTheDocument()
+  })
 })
 
 test('Login page', () => {
   const history = createMemoryHistory()
-  const { getByTestId } = render(
+  render(
     <Provider store={store}>
       <Router history={history}>
         <AppRouting />
@@ -53,5 +57,8 @@ test('Login page', () => {
     </Provider>,
   )
   history.push('/login')
-  expect(getByTestId('login-page')).toBeInTheDocument()
+  const elements = screen.getAllByText(/log in/i)
+  elements.forEach((e) => {
+    expect(e).toBeInTheDocument()
+  })
 })

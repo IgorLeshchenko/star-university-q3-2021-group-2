@@ -12,7 +12,7 @@ export const NotFound: React.FC = () => {
   return (
     <React.Fragment>
       <Header />
-      <div className={styles.notFound} data-testid="not-found-page">
+      <div className={styles.notFound}>
         <div className={styles.notFound__container}>
           <Typography variant={TEXT_VARIANTS.H1}>404 page</Typography>
           <Typography variant={TEXT_VARIANTS.H2} className={styles.notFound__container__subtitle}>
