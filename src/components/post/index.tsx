@@ -19,7 +19,11 @@ import { Typography } from '../Typography'
 
 import styles from './Post.module.scss'
 
-export const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
+interface IPost extends ISinglePost {
+  isFullPost?: boolean
+}
+
+export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
   author,
   date,
   body,
@@ -28,6 +32,7 @@ export const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   countChildren,
   _id,
   __v,
+  isFullPost,
 }) => {
   const [isUpvoted, setUpvoted] = useState(false)
   const [isDownvoted, setDownvoted] = useState(false)
@@ -108,7 +113,7 @@ export const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
 
   return (
     <div className={styles.container}>
-      <article className={styles.post}>
+      <article className={isFullPost ? `${styles.post} ${styles.post__full}` : styles.post}>
         <div className={styles.post__flex}>
           <div className={styles['post__author-center']}>
             <div>
@@ -130,9 +135,11 @@ export const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
             </Link>
           </Typography>
           <p className={styles.post__text}>{body}</p>
-          <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles.post__seemore}>
-            see more
-          </Link>
+          {!isFullPost && (
+            <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles.post__seemore}>
+              see more
+            </Link>
+          )}
         </div>
         <div className={styles['post__bottom--flex']}>
           <div className={styles['post__bottom--center']}>
