@@ -35,6 +35,7 @@ export class UsersService {
         'Content-Type': CONTENT_TYPE.FORM_DATA,
         accesstoken: `${Cookies.get('accessToken')}`,
         refreshtoken: `${Cookies.get('refreshToken')}`,
+        username: `${Cookies.get('username')}`,
       },
     })
   }
