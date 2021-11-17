@@ -142,7 +142,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
                 className={cn(styles['vote-btn'], styles['upvote-btn'], { [styles['active-upvote']]: isUpvoted })}
               />
             </button>
-            <span className={styles['post__bottom-upvotes--padding']}>{upvotes - __v}</span>
+            <span className={styles['post__bottom-upvotes--padding']}>{upvotes}</span>
             <button className={styles.button__upvotes} onClick={handleDownvoteClick}>
               <Downvote
                 className={cn(styles['vote-btn'], styles['downvote-btn'], { [styles['active-downvote']]: isDownvoted })}

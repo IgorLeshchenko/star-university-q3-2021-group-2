@@ -7,6 +7,7 @@ import Post from '../../components/post'
 import { Spinner } from '../../components/Spinner'
 import { ISinglePostResult } from '../../models/SinglePostResult'
 
+import { CommentForm } from './CommentForm'
 import styles from './SinglePost.module.scss'
 
 interface IPostPage {
@@ -61,7 +62,7 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
                 _id={_id}
                 isFullPost={true}
               />
-              <div> Put Add Comment form here</div>
+              <CommentForm id={id} />
               <div> Put Comments list here </div>
               <div> Put See More button here </div>
             </div>
