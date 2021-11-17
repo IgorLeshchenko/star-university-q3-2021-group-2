@@ -19,19 +19,13 @@ import { Typography } from '../Typography'
 
 import styles from './Post.module.scss'
 
-interface IPost extends ISinglePost {
-  isFullPost?: boolean
-}
-
-export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
+const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   author,
   date,
   body,
   title,
   upvotes,
-  countChildren,
   _id,
-  __v,
   isFullPost,
 }) => {
   const [isUpvoted, setUpvoted] = useState(false)
@@ -148,7 +142,7 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
                 className={cn(styles['vote-btn'], styles['upvote-btn'], { [styles['active-upvote']]: isUpvoted })}
               />
             </button>
-            <span className={styles['post__bottom-upvotes--padding']}>{upvotes - __v}</span>
+            <span className={styles['post__bottom-upvotes--padding']}>{upvotes}</span>
             <button className={styles.button__upvotes} onClick={handleDownvoteClick}>
               <Downvote
                 className={cn(styles['vote-btn'], styles['downvote-btn'], { [styles['active-downvote']]: isDownvoted })}
@@ -157,7 +151,6 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
           </div>
           <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>
             <Comments />
-            <span className={styles['post__bottom-comments--padding']}>{countChildren}</span>
           </Link>
         </div>
       </article>
@@ -165,4 +158,4 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
   )
 }
 
-export default Post
+export default React.memo(Post)
