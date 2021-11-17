@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios'
-import Cookies from 'js-cookie'
 
 import { ICreateUserRequest } from '../models/CreateUserRequest'
 
@@ -15,11 +14,6 @@ export class AuthService {
   }
 
   static async logout(): Promise<AxiosResponse> {
-    return api.delete(`/logout`, {
-      headers: {
-        accesstoken: `${Cookies.get('accessToken')}`,
-        refreshtoken: `${Cookies.get('refreshToken')}`,
-      },
-    })
+    return api.delete(`/logout`)
   }
 }

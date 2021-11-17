@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios'
-import Cookies from 'js-cookie'
 
 import { ICreatePostRequest } from '../models/CreatePostRequest'
 import { IPostsParams, ISinglePostResult } from '../models/SinglePostResult'
@@ -10,12 +9,7 @@ const url = `/posts`
 
 export class PostsService {
   static async addPost(post: ICreatePostRequest): Promise<AxiosResponse<number>> {
-    return api.post(url, post, {
-      headers: {
-        accesstoken: `${Cookies.get('accessToken')}`,
-        refreshtoken: `${Cookies.get('refreshToken')}`,
-      },
-    })
+    return api.post(url, post)
   }
 
   static async getSinglePost(id: string): Promise<AxiosResponse<ISinglePostResult>> {
@@ -27,42 +21,15 @@ export class PostsService {
   }
 
   static async upvotePost(id: string): Promise<AxiosResponse<boolean>> {
-    return api.post(
-      `${url}/${id}/upvote`,
-      {},
-      {
-        headers: {
-          accesstoken: `${Cookies.get('accessToken')}`,
-          refreshtoken: `${Cookies.get('refreshToken')}`,
-        },
-      },
-    )
+    return api.post(`${url}/${id}/upvote`)
   }
 
   static async downvotePost(id: string): Promise<AxiosResponse<boolean>> {
-    return api.post(
-      `${url}/${id}/downvote`,
-      {},
-      {
-        headers: {
-          accesstoken: `${Cookies.get('accessToken')}`,
-          refreshtoken: `${Cookies.get('refreshToken')}`,
-        },
-      },
-    )
+    return api.post(`${url}/${id}/downvote`)
   }
 
   static async removeReaction(id: string): Promise<AxiosResponse> {
-    return api.post(
-      `${url}/${id}/remove-reactions`,
-      {},
-      {
-        headers: {
-          accesstoken: `${Cookies.get('accessToken')}`,
-          refreshtoken: `${Cookies.get('refreshToken')}`,
-        },
-      },
-    )
+    return api.post(`${url}/${id}/remove-reactions`)
   }
 
   static async getPosts(params: IPostsParams): Promise<AxiosResponse<ISinglePostResult[]>> {

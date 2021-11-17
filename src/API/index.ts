@@ -15,6 +15,18 @@ export const api = axios.create({
   },
 })
 
+api.interceptors.request.use((config) => {
+  if (config && config.headers) {
+    const user = getUserFromLocalStorage()
+    if (user.loggedIn) {
+      config.headers.accesstoken = Cookies.get('accessToken') ?? ''
+      config.headers.refreshtoken = Cookies.get('refreshToken') ?? ''
+      config.headers.username = Cookies.get('username') ?? ''
+    }
+  }
+  return config
+})
+
 api.interceptors.response.use(
   (config) => config,
   async (error) => {
@@ -25,12 +37,7 @@ api.interceptors.response.use(
     }
     if (error.response.status === 401 && !originalRequest._isRetry) {
       originalRequest._isRetry = true
-      const token = await api.get(`${API_URL}/token`, {
-        headers: {
-          accesstoken: `${Cookies.get('accessToken')}`,
-          refreshtoken: `${Cookies.get('refreshToken')}`,
-        },
-      })
+      const token = await api.get(`${API_URL}/token`)
       await Cookies.set('accessToken', token.headers['accesstoken'])
       return api.request(originalRequest)
     }
