@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 import { API_URL } from '../utils/constants'
 import { CONTENT_TYPE } from '../utils/enums'
@@ -24,7 +25,13 @@ api.interceptors.response.use(
     }
     if (error.response.status === 401 && !originalRequest._isRetry) {
       originalRequest._isRetry = true
-      await api.get(`${API_URL}/token`)
+      const token = await api.get(`${API_URL}/token`, {
+        headers: {
+          accesstoken: `${Cookies.get('accessToken')}`,
+          refreshtoken: `${Cookies.get('refreshToken')}`,
+        },
+      })
+      await Cookies.set('accessToken', token.headers['accesstoken'])
       return api.request(originalRequest)
     }
     return Promise.reject(error)

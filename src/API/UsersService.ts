@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios'
+import Cookies from 'js-cookie'
 
 import { IUser } from '../models/User'
 import { CONTENT_TYPE } from '../utils/enums'
@@ -32,6 +33,8 @@ export class UsersService {
     return api.post(`${url}/icon`, formData, {
       headers: {
         'Content-Type': CONTENT_TYPE.FORM_DATA,
+        accesstoken: `${Cookies.get('accessToken')}`,
+        refreshtoken: `${Cookies.get('refreshToken')}`,
       },
     })
   }
