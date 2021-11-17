@@ -36,7 +36,7 @@ export class PostsService {
     const parameters = JSON.parse(JSON.stringify(params))
     // checking for possible undefined values
     const queryParams = Object.keys(parameters).reduce((acc: string[], key) => {
-      if (parameters[key] !== undefined) {
+      if (parameters[key]) {
         const e = `${key}=${parameters[key]}`
         acc.push(e)
       }

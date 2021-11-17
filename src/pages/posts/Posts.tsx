@@ -14,6 +14,7 @@ import {
   selectIsLoading,
   selectPagesAmount,
   selectPosts,
+  selectSearchValue,
   selectSortType,
 } from '../../store/selectors/posts'
 import { POSTS_PER_PAGE } from '../../utils/constants'
@@ -31,10 +32,11 @@ export const Posts = () => {
   const sortType = useSelector(selectSortType)
   const currentPage = useSelector(selectCurrentPage)
   const isLoading = useSelector(selectIsLoading)
+  const searchValue = useSelector(selectSearchValue)
 
   useEffect(() => {
-    dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType }))
-  }, [currentPage, sortType])
+    dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType, search: searchValue }))
+  }, [currentPage, sortType, searchValue])
 
   useEffect(() => {
     dispatch(loadPagesNumber())
@@ -57,9 +59,14 @@ export const Posts = () => {
           <SearchBar />
         </div>
         <div className={classes.forum__posts}>
+          {!isLoading && searchValue && (
+            <Typography variant={TEXT_VARIANTS.H3} className={classes.forum__posts__searchingResultMessage}>
+              Searching result for: {searchValue}
+            </Typography>
+          )}
           {!postsList.length && !isLoading && (
             <Typography variant={TEXT_VARIANTS.H1} className={classes.forum__posts__noPostsMessage}>
-              No posts yet
+              {searchValue ? `Sorry, nothing was found for your request - ${searchValue}` : 'No posts yet'}
             </Typography>
           )}
           {postsList.map((post) => (
@@ -80,7 +87,7 @@ export const Posts = () => {
               <Spinner />
             </div>
           )}
-          {!isLoading && currentPage < pagesAmount && (
+          {!isLoading && currentPage < pagesAmount && !!postsList.length && (
             <div className={classes.forum__posts__seeMoreButton}>
               <Button primary onClick={handleLoadingPosts} className={classes.forum__loadingButton}>
                 See more
