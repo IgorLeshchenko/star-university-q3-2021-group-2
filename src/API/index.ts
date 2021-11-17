@@ -15,6 +15,18 @@ export const api = axios.create({
   },
 })
 
+api.interceptors.request.use((config) => {
+  if (config && config.headers) {
+    const user = getUserFromLocalStorage()
+    if (user.loggedIn) {
+      config.headers.accesstoken = Cookies.get('accessToken') ?? ''
+      config.headers.refreshtoken = Cookies.get('refreshToken') ?? ''
+      config.headers.username = Cookies.get('username') ?? ''
+    }
+  }
+  return config
+})
+
 api.interceptors.response.use(
   (config) => config,
   async (error) => {
