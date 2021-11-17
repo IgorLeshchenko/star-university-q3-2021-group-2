@@ -19,19 +19,13 @@ import { Typography } from '../Typography'
 
 import styles from './Post.module.scss'
 
-interface IPost extends ISinglePost {
-  isFullPost?: boolean
-}
-
-export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
+const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   author,
   date,
   body,
   title,
   upvotes,
-  countChildren,
   _id,
-  __v,
   isFullPost,
 }) => {
   const [isUpvoted, setUpvoted] = useState(false)
@@ -157,7 +151,6 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
           </div>
           <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>
             <Comments />
-            <span className={styles['post__bottom-comments--padding']}>{countChildren}</span>
           </Link>
         </div>
       </article>
@@ -165,4 +158,4 @@ export const Post: React.FC<React.PropsWithChildren<IPost>> = ({
   )
 }
 
-export default Post
+export default React.memo(Post)

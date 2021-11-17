@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { PostsService } from '../../API/PostsService'
 import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
-import { Post } from '../../components/post'
+import Post from '../../components/post'
 import { Spinner } from '../../components/Spinner'
 import { ISinglePostResult } from '../../models/SinglePostResult'
 
@@ -40,7 +40,7 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
     getSinglePost(id)
   }, [id])
 
-  const { title, body, date, author, upvotes, __v, _id } = post as ISinglePostResult
+  const { title, body, date, author, upvotes, _id } = post as ISinglePostResult
 
   return (
     <React.Fragment>
@@ -53,13 +53,11 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
           !isNotFound && (
             <div className={styles['post-page']}>
               <Post
-                countChildren={0}
                 title={title}
                 body={body}
                 date={date}
                 author={author}
                 upvotes={upvotes}
-                __v={__v}
                 _id={_id}
                 isFullPost={true}
               />

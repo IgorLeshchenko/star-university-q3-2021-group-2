@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
-import { Post } from '../../components/post'
+import Post from '../../components/post'
 import { PostCreationModal } from '../../components/PostCreation'
 import { ScrollToTop } from '../../components/ScrollToTop'
 import { Spinner } from '../../components/Spinner'
@@ -77,9 +77,7 @@ export const Posts = () => {
               body={post.body}
               date={post.date}
               upvotes={post.upvotes}
-              countChildren={post.children?.length || 0}
               _id={post._id}
-              __v={post.__v}
             />
           ))}
           {isLoading && (

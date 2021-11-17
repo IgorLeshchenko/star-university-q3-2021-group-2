@@ -1,5 +1,5 @@
 export interface ICreatePostRequest {
-  title: string
+  title?: string
   body: string
   date?: string
   parent?: string

@@ -7,14 +7,13 @@ export interface ISinglePostResult {
   date: string
   author: string
   upvotes: number
-  __v: number
   _id: string
   level?: number
   parent?: string
 }
 
 export interface ISinglePost extends ISinglePostResult {
-  countChildren: number
+  isFullPost?: boolean
 }
 
 export interface IPostsParams {
