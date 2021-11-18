@@ -41,7 +41,7 @@ export const CommentForm: React.FC<IProps> = ({ id }) => {
       })
       .catch((error) => {
         if (error.response.status >= 400) {
-          toasterService.success({
+          toasterService.error({
             title: 'Error',
             content: DEFAULT_ERROR_MESSAGE,
           })
