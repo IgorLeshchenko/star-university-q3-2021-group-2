@@ -14,6 +14,7 @@ export interface ISinglePostResult {
 
 export interface ISinglePost extends ISinglePostResult {
   isFullPost?: boolean
+  isComment?: boolean
 }
 
 export interface IPostsParams {

@@ -8,6 +8,7 @@ import { Spinner } from '../../components/Spinner'
 import { ISinglePostResult } from '../../models/SinglePostResult'
 
 import { CommentForm } from './CommentForm'
+import CommentsList from './CommentsList'
 import styles from './SinglePost.module.scss'
 
 interface IPostPage {
@@ -23,7 +24,7 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
   const [loading, setLoading] = useState(true)
   const [post, setPost] = useState<Partial<ISinglePostResult>>({})
   const [isNotFound, setNotFound] = useState(false)
-
+  const [togglePost, setTogglePost] = useState<boolean>(false)
   const getSinglePost = async (id: string): Promise<void> => {
     try {
       setLoading(true)
@@ -37,9 +38,13 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
     }
   }
 
+  const handleTogglePost = (e: boolean) => {
+    setTogglePost(e)
+  }
+
   useEffect(() => {
     getSinglePost(id)
-  }, [id])
+  }, [id, togglePost])
 
   const { title, body, date, author, upvotes, _id } = post as ISinglePostResult
 
@@ -62,9 +67,8 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
                 _id={_id}
                 isFullPost={true}
               />
-              <CommentForm id={id} />
-              <div> Put Comments list here </div>
-              <div> Put See More button here </div>
+              <CommentForm id={id} toggleComment={handleTogglePost} />
+              <CommentsList id={id} />
             </div>
           )
         )}

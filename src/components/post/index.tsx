@@ -27,6 +27,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   upvotes,
   _id,
   isFullPost,
+  isComment,
 }) => {
   const [isUpvoted, setUpvoted] = useState(false)
   const [isDownvoted, setDownvoted] = useState(false)
@@ -107,7 +108,15 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
 
   return (
     <div className={styles.container}>
-      <article className={isFullPost ? `${styles.post} ${styles.post__full}` : styles.post}>
+      <article
+        className={
+          isFullPost
+            ? `${styles.post} ${styles.post__full}`
+            : isComment
+            ? `${styles.post} ${styles.post__comment}`
+            : styles.post
+        }
+      >
         <div className={styles.post__flex}>
           <div className={styles['post__author-center']}>
             <div>
@@ -116,7 +125,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
               </Link>
             </div>
             <div className={styles['post__author-wrap-color']}>
-              <span>posted by </span>
+              {!isComment && <span>posted by </span>}
               <Link to={`${ROUTES.PROFILE}/${author}`}> {author}</Link>
             </div>
           </div>
@@ -129,7 +138,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
             </Link>
           </Typography>
           <p className={styles.post__text}>{body}</p>
-          {!isFullPost && (
+          {!isFullPost && !isComment && (
             <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles.post__seemore}>
               see more
             </Link>
@@ -149,9 +158,11 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
               />
             </button>
           </div>
-          <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>
-            <Comments />
-          </Link>
+          {!isComment && (
+            <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>
+              <Comments />
+            </Link>
+          )}
         </div>
       </article>
     </div>

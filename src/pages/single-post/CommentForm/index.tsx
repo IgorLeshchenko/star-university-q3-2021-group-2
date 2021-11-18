@@ -17,9 +17,10 @@ import { commentValidationSchema } from './schema'
 
 interface IProps {
   id: string
+  toggleComment: (e: boolean) => void
 }
 
-export const CommentForm: React.FC<IProps> = ({ id }) => {
+export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
   const { loggedIn } = useSelector(selectUser)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -38,6 +39,7 @@ export const CommentForm: React.FC<IProps> = ({ id }) => {
           title: 'Success',
           content: 'Comment was added',
         })
+        toggleComment(true)
       })
       .catch((error) => {
         if (error.response.status >= 400) {
