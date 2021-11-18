@@ -4,6 +4,7 @@ import { PostsService } from '../../API/PostsService'
 import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
 import Post from '../../components/post'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import { Spinner } from '../../components/Spinner'
 import { ISinglePostResult } from '../../models/SinglePostResult'
 
@@ -72,6 +73,7 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
             </div>
           )
         )}
+        <ScrollToTop />
       </Container>
     </React.Fragment>
   )
