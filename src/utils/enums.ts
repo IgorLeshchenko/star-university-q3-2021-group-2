@@ -1,5 +1,5 @@
 export enum TEXT_VARIANTS {
-  BODY = 'body',
+  BODY = 'div',
   H1 = 'h1',
   H2 = 'h2',
   H3 = 'h3',
