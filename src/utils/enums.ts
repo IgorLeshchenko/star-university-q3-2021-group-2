@@ -23,3 +23,9 @@ export enum CONTENT_TYPE {
   APPLICATION_JSON = 'application/json',
   FORM_DATA = 'multipart/form-data',
 }
+
+export enum REACTIONS {
+  UPVOTE = 'active-upvote',
+  DOWNVOTE = 'active-downvote',
+  UNSELECTED = '',
+}

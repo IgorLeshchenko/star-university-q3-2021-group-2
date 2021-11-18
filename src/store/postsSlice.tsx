@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { PostsService } from '../API/PostsService'
+import { toastError } from '../components/Toast/ErrorToast'
 import { toasterService } from '../components/Toast/ToastService'
 import { IPostsParams, ISinglePostResult, ISortParams } from '../models/SinglePostResult'
 import { DEFAULT_ERROR_MESSAGE, POSTS_PER_PAGE } from '../utils/constants'
@@ -80,3 +81,28 @@ export const loadPagesNumber = () => (dispatch: AppDispatch) => {
     dispatch(setPagesAmount(Math.ceil(res.data.result / POSTS_PER_PAGE))),
   )
 }
+
+export const getPostUpvotes = (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => () => {
+  return PostsService.getSinglePost(id).then((res) => setUpdatedVotes(res.data.upvotes))
+}
+
+export const removePostReactions =
+  (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => (dispatch: AppDispatch) => {
+    return PostsService.removeReaction(id)
+      .then(() => dispatch(getPostUpvotes(id, setUpdatedVotes)))
+      .catch((error) => toastError(error.status, error.response?.data))
+  }
+
+export const upvotePost =
+  (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => (dispatch: AppDispatch) => {
+    return PostsService.upvotePost(id)
+      .then(() => dispatch(getPostUpvotes(id, setUpdatedVotes)))
+      .catch((error) => toastError(error.status, error.response?.data))
+  }
+
+export const downvotePost =
+  (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => (dispatch: AppDispatch) => {
+    return PostsService.downvotePost(id)
+      .then(() => dispatch(getPostUpvotes(id, setUpdatedVotes)))
+      .catch((error) => toastError(error.status, error.response?.data))
+  }
