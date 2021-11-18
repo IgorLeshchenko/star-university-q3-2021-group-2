@@ -1,4 +1,5 @@
 import { useFormik } from 'formik'
+import Cookies from 'js-cookie'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -24,7 +25,7 @@ export const LoginForm: React.FC = () => {
 
   const handleSubmit = async (user: ICreateUserRequest) => {
     AuthService.login(user)
-      .then(() => {
+      .then((response) => {
         setUserToLocalStorage({
           username: user.username,
           loggedIn: true,
@@ -35,6 +36,9 @@ export const LoginForm: React.FC = () => {
             loggedIn: true,
           }),
         )
+        Cookies.set('accessToken', response.headers['accesstoken'])
+        Cookies.set('refreshToken', response.headers['refreshtoken'])
+        Cookies.set('username', response.headers['username'])
         history.push(ROUTES.POSTS)
       })
       .catch((error) => {
