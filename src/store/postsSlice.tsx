@@ -82,27 +82,14 @@ export const loadPagesNumber = () => (dispatch: AppDispatch) => {
   )
 }
 
-export const getPostUpvotes = (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => () => {
-  return PostsService.getSinglePost(id).then((res) => setUpdatedVotes(res.data.upvotes))
+export const removePostReactions = (id: string) => () => {
+  return PostsService.removeReaction(id).catch((error) => toastError(error.status, error.response?.data))
 }
 
-export const removePostReactions =
-  (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => (dispatch: AppDispatch) => {
-    return PostsService.removeReaction(id)
-      .then(() => dispatch(getPostUpvotes(id, setUpdatedVotes)))
-      .catch((error) => toastError(error.status, error.response?.data))
-  }
+export const upvotePost = (id: string) => () => {
+  return PostsService.upvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+}
 
-export const upvotePost =
-  (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => (dispatch: AppDispatch) => {
-    return PostsService.upvotePost(id)
-      .then(() => dispatch(getPostUpvotes(id, setUpdatedVotes)))
-      .catch((error) => toastError(error.status, error.response?.data))
-  }
-
-export const downvotePost =
-  (id: string, setUpdatedVotes: React.Dispatch<React.SetStateAction<number>>) => (dispatch: AppDispatch) => {
-    return PostsService.downvotePost(id)
-      .then(() => dispatch(getPostUpvotes(id, setUpdatedVotes)))
-      .catch((error) => toastError(error.status, error.response?.data))
-  }
+export const downvotePost = (id: string) => () => {
+  return PostsService.downvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+}

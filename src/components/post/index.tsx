@@ -38,22 +38,34 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   const handleUpvoteClick = () => {
     if (!loggedIn) return
     if (reactions === REACTIONS.UPVOTE) {
-      dispatch(removePostReactions(_id, setUpdatedUpvotes))
+      dispatch(removePostReactions(_id))
       setReactions(REACTIONS.UNSELECTED)
-    } else if (reactions === REACTIONS.DOWNVOTE || reactions === REACTIONS.UNSELECTED) {
-      dispatch(upvotePost(_id, setUpdatedUpvotes))
+      setUpdatedUpvotes((prevState) => prevState - 1)
+    } else if (reactions === REACTIONS.UNSELECTED) {
+      dispatch(upvotePost(_id))
       setReactions(REACTIONS.UPVOTE)
+      setUpdatedUpvotes((prevState) => prevState + 1)
+    } else if (reactions === REACTIONS.DOWNVOTE) {
+      dispatch(upvotePost(_id))
+      setReactions(REACTIONS.UPVOTE)
+      setUpdatedUpvotes((prevState) => prevState + 2)
     }
   }
 
   const handleDownVoteClick = () => {
     if (!loggedIn) return
     if (reactions === REACTIONS.DOWNVOTE) {
-      dispatch(removePostReactions(_id, setUpdatedUpvotes))
+      dispatch(removePostReactions(_id))
       setReactions(REACTIONS.UNSELECTED)
-    } else if (reactions === REACTIONS.UPVOTE || reactions === REACTIONS.UNSELECTED) {
-      dispatch(downvotePost(_id, setUpdatedUpvotes))
+      setUpdatedUpvotes((prevState) => prevState + 1)
+    } else if (reactions === REACTIONS.UNSELECTED) {
+      dispatch(downvotePost(_id))
       setReactions(REACTIONS.DOWNVOTE)
+      setUpdatedUpvotes((prevState) => prevState - 1)
+    } else if (reactions === REACTIONS.UPVOTE) {
+      dispatch(downvotePost(_id))
+      setReactions(REACTIONS.DOWNVOTE)
+      setUpdatedUpvotes((prevState) => prevState - 2)
     }
   }
 
