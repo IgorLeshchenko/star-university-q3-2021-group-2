@@ -129,7 +129,6 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
                 })}
               />
             </button>
-            {isOpen && <ErrorModal onCrossBtnHandler={handleModal} />}
             <span className={styles['post__bottom-upvotes--padding']}>{updatedUpvotes}</span>
             <button
               className={styles.button__upvotes}
