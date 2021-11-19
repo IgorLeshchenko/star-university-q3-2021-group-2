@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from '../../components/Button'
+import { ErrorModal } from '../../components/ErrorModal'
 import { Header } from '../../components/Header'
 import Post from '../../components/post'
 import { PostCreationModal } from '../../components/PostCreation'
@@ -102,7 +103,8 @@ export const Posts = () => {
             + Create post
           </Button>
         </div>
-        {isOpen && <PostCreationModal onCrossBtnHandler={modalHandler} />}
+        {isOpen && loggedIn && <PostCreationModal onCrossBtnHandler={modalHandler} />}
+        {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={modalHandler} />}
       </div>
       <ScrollToTop />
     </React.Fragment>
