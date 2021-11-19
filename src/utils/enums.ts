@@ -25,7 +25,7 @@ export enum CONTENT_TYPE {
 }
 
 export enum REACTIONS {
-  UPVOTE = 'active-upvote',
-  DOWNVOTE = 'active-downvote',
-  UNSELECTED = '',
+  UPVOTE = 1,
+  DOWNVOTE = -1,
+  UNSELECTED = 0,
 }

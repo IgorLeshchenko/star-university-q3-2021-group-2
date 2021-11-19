@@ -91,15 +91,23 @@
   }
 
   &__cross-btn {
+    display: flex;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    cursor: pointer;
+    @include medium {
+      display: none;
+    }
+  }
+
+  &__cross-btn-icon {
     display: block;
     width: 20px;
     height: 2px;
     background-color: $light-background;
     position: relative;
-    cursor: pointer;
-    @include medium {
-      display: none;
-    }
     &::before,
     &::after {
       content: '';

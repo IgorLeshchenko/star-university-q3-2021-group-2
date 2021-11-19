@@ -5,6 +5,7 @@ import { toastError } from '../components/Toast/ErrorToast'
 import { toasterService } from '../components/Toast/ToastService'
 import { IPostsParams, ISinglePostResult, ISortParams } from '../models/SinglePostResult'
 import { DEFAULT_ERROR_MESSAGE, POSTS_PER_PAGE } from '../utils/constants'
+import { REACTIONS } from '../utils/enums'
 
 import { AppDispatch } from './store'
 
@@ -82,14 +83,12 @@ export const loadPagesNumber = () => (dispatch: AppDispatch) => {
   )
 }
 
-export const removePostReactions = (id: string) => () => {
-  return PostsService.removeReaction(id).catch((error) => toastError(error.status, error.response?.data))
-}
-
-export const upvotePost = (id: string) => () => {
-  return PostsService.upvotePost(id).catch((error) => toastError(error.status, error.response?.data))
-}
-
-export const downvotePost = (id: string) => () => {
-  return PostsService.downvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+export const updatePostReaction = (id: string, reaction: REACTIONS) => () => {
+  if (reaction === REACTIONS.UPVOTE) {
+    PostsService.upvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+  } else if (reaction === REACTIONS.DOWNVOTE) {
+    PostsService.downvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+  } else if (reaction === REACTIONS.UNSELECTED) {
+    PostsService.removeReaction(id).catch((error) => toastError(error.status, error.response?.data))
+  }
 }

@@ -8,7 +8,7 @@ import { ReactComponent as Comments } from '../../assets/images/Comments.svg'
 import { ReactComponent as Downvote } from '../../assets/images/Downvote.svg'
 import { ReactComponent as Upvote } from '../../assets/images/Upvote.svg'
 import { ISinglePost } from '../../models/SinglePostResult'
-import { downvotePost, removePostReactions, upvotePost } from '../../store/postsSlice'
+import { updatePostReaction } from '../../store/postsSlice'
 import { selectUser, selectUserReactions } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { REACTIONS, TEXT_VARIANTS } from '../../utils/enums'
@@ -27,55 +27,50 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   isFullPost,
 }) => {
   const postDate = new Date(date).toLocaleDateString('en-US')
+  const dispatch = useDispatch()
 
   const { loggedIn } = useSelector(selectUser)
   const { downvotes, upvotes } = useSelector(selectUserReactions)
 
-  const [reactions, setReactions] = useState<REACTIONS>(REACTIONS.UNSELECTED)
+  const [isBtnClick, setBtnClick] = useState(false)
+  const [reaction, setReaction] = useState<REACTIONS>(REACTIONS.UNSELECTED)
   const [updatedUpvotes, setUpdatedUpvotes] = useState(postUpvotes)
-  const dispatch = useDispatch()
 
-  const handleUpvoteClick = () => {
+  const handleVoteBtnClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!loggedIn) return
-    if (reactions === REACTIONS.UPVOTE) {
-      dispatch(removePostReactions(_id))
-      setReactions(REACTIONS.UNSELECTED)
-      setUpdatedUpvotes((prevState) => prevState - 1)
-    } else if (reactions === REACTIONS.UNSELECTED) {
-      dispatch(upvotePost(_id))
-      setReactions(REACTIONS.UPVOTE)
-      setUpdatedUpvotes((prevState) => prevState + 1)
-    } else if (reactions === REACTIONS.DOWNVOTE) {
-      dispatch(upvotePost(_id))
-      setReactions(REACTIONS.UPVOTE)
-      setUpdatedUpvotes((prevState) => prevState + 2)
-    }
-  }
 
-  const handleDownVoteClick = () => {
-    if (!loggedIn) return
-    if (reactions === REACTIONS.DOWNVOTE) {
-      dispatch(removePostReactions(_id))
-      setReactions(REACTIONS.UNSELECTED)
-      setUpdatedUpvotes((prevState) => prevState + 1)
-    } else if (reactions === REACTIONS.UNSELECTED) {
-      dispatch(downvotePost(_id))
-      setReactions(REACTIONS.DOWNVOTE)
-      setUpdatedUpvotes((prevState) => prevState - 1)
-    } else if (reactions === REACTIONS.UPVOTE) {
-      dispatch(downvotePost(_id))
-      setReactions(REACTIONS.DOWNVOTE)
-      setUpdatedUpvotes((prevState) => prevState - 2)
+    const newReaction = e.currentTarget.id === 'upvote' ? REACTIONS.UPVOTE : REACTIONS.DOWNVOTE
+    setBtnClick(true)
+
+    //set reaction
+    if (reaction === REACTIONS.UNSELECTED) {
+      setReaction(newReaction)
+      setUpdatedUpvotes((prevState) => prevState + newReaction)
+    } else if (reaction === newReaction) {
+      //remove reaction
+      setReaction(REACTIONS.UNSELECTED)
+      setUpdatedUpvotes((prevState) => prevState - newReaction)
+    } else if (reaction !== newReaction) {
+      //change to opposite
+      setReaction(newReaction)
+      setUpdatedUpvotes((prevState) => prevState - reaction + newReaction)
     }
   }
 
   useEffect(() => {
-    if (upvotes && upvotes[_id]) setReactions(REACTIONS.UPVOTE)
-    if (downvotes && downvotes[_id]) setReactions(REACTIONS.DOWNVOTE)
+    isBtnClick && dispatch(updatePostReaction(_id, reaction))
+  }, [reaction])
+
+  useEffect(() => {
+    if (upvotes && upvotes[_id]) setReaction(REACTIONS.UPVOTE)
+    if (downvotes && downvotes[_id]) setReaction(REACTIONS.DOWNVOTE)
   }, [downvotes, upvotes])
 
   useEffect(() => {
-    if (!loggedIn) setReactions(REACTIONS.UNSELECTED)
+    if (!loggedIn) {
+      setReaction(REACTIONS.UNSELECTED)
+      setBtnClick(false)
+    }
   }, [loggedIn])
 
   return (
@@ -110,18 +105,18 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
         </div>
         <div className={styles['post__bottom--flex']}>
           <div className={styles['post__bottom--center']}>
-            <button className={styles.button__upvotes} onClick={handleUpvoteClick}>
+            <button className={styles.button__upvotes} onClick={handleVoteBtnClick} id="upvote">
               <Upvote
                 className={cn(styles['vote-btn'], styles['upvote-btn'], {
-                  [styles['active-upvote']]: reactions === REACTIONS.UPVOTE,
+                  [styles['active-upvote']]: reaction === REACTIONS.UPVOTE,
                 })}
               />
             </button>
             <span className={styles['post__bottom-upvotes--padding']}>{updatedUpvotes}</span>
-            <button className={styles.button__upvotes} onClick={handleDownVoteClick}>
+            <button className={styles.button__upvotes} onClick={handleVoteBtnClick} id="downvote">
               <Downvote
                 className={cn(styles['vote-btn'], styles['downvote-btn'], {
-                  [styles['active-downvote']]: reactions === REACTIONS.DOWNVOTE,
+                  [styles['active-downvote']]: reaction === REACTIONS.DOWNVOTE,
                 })}
               />
             </button>
