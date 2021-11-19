@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { PostsService } from '../API/PostsService'
+import { toastError } from '../components/Toast/ErrorToast'
 import { toasterService } from '../components/Toast/ToastService'
 import { IPostsParams, ISinglePostResult, ISortParams } from '../models/SinglePostResult'
 import { DEFAULT_ERROR_MESSAGE, POSTS_PER_PAGE } from '../utils/constants'
+import { REACTIONS } from '../utils/enums'
 
 import { AppDispatch } from './store'
 
@@ -79,4 +81,14 @@ export const loadPagesNumber = () => (dispatch: AppDispatch) => {
   return PostsService.getPostsNumber().then((res) =>
     dispatch(setPagesAmount(Math.ceil(res.data.result / POSTS_PER_PAGE))),
   )
+}
+
+export const updatePostReaction = (id: string, reaction: REACTIONS) => () => {
+  if (reaction === REACTIONS.UPVOTE) {
+    PostsService.upvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+  } else if (reaction === REACTIONS.DOWNVOTE) {
+    PostsService.downvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+  } else if (reaction === REACTIONS.UNSELECTED) {
+    PostsService.removeReaction(id).catch((error) => toastError(error.status, error.response?.data))
+  }
 }

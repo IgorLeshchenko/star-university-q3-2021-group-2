@@ -21,8 +21,9 @@
   }
 
   &__field {
-    height: 46px;
+    min-height: 46px;
     width: 100%;
+    max-width: 100%;
     border: 1px solid $secondary;
     outline: 1.5px solid transparent;
     border-radius: 10px;
@@ -37,7 +38,7 @@
       line-height: 1.5;
     }
     @include medium {
-      height: 69px;
+      min-height: 69px;
       padding: 20px 24px;
     }
   }

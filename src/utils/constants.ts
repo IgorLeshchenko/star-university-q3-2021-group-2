@@ -10,6 +10,7 @@ export const ROUTES = {
   PROFILE: '/profile',
 }
 
+export const DEFAULT_ERROR_TITLE = 'Error'
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong.'
 
 export const POSTS_PER_PAGE = 10
