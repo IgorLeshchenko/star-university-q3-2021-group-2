@@ -3,6 +3,12 @@ import React from 'react'
 
 import { PostsService } from '../../API/PostsService'
 import { ICreatePostRequest } from '../../models/CreatePostRequest'
+import {
+  DEFAULT_ERROR_MESSAGE,
+  DEFAULT_ERROR_TITLE,
+  DEFAULT_SUCCESS_TITLE,
+  SUCCESS_POST_CREATION_MESSAGE,
+} from '../../utils/constants'
 import { BUTTON_TYPE, INPUT_TYPE } from '../../utils/enums'
 import { Button } from '../Button'
 import { Modal } from '../Modal'
@@ -20,8 +26,8 @@ export const PostCreationModal: React.FC<Props> = ({ onCrossBtnHandler, isPostAd
     PostsService.addPost(post)
       .then(() => {
         toasterService.success({
-          title: 'Success',
-          content: 'Post uploaded:)',
+          title: DEFAULT_SUCCESS_TITLE,
+          content: SUCCESS_POST_CREATION_MESSAGE,
         })
         isPostAdded(true)
       })
@@ -30,8 +36,8 @@ export const PostCreationModal: React.FC<Props> = ({ onCrossBtnHandler, isPostAd
         if (error.response.status >= 400) {
           formik.setStatus(
             toasterService.error({
-              title: 'Error',
-              content: 'Something went wrong:(',
+              title: DEFAULT_ERROR_TITLE,
+              content: DEFAULT_ERROR_MESSAGE,
             }),
           )
         }
