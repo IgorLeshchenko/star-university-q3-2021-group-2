@@ -17,6 +17,8 @@ import {
   selectSearchValue,
   selectSortType,
 } from '../../store/selectors/posts'
+import { selectUser } from '../../store/selectors/users'
+import { getUserReactions } from '../../store/userSlice'
 import { POSTS_PER_PAGE } from '../../utils/constants'
 import { TEXT_VARIANTS } from '../../utils/enums'
 
@@ -33,9 +35,11 @@ export const Posts = () => {
   const currentPage = useSelector(selectCurrentPage)
   const isLoading = useSelector(selectIsLoading)
   const searchValue = useSelector(selectSearchValue)
+  const { username, loggedIn } = useSelector(selectUser)
 
   useEffect(() => {
     dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType, search: searchValue }))
+    if (loggedIn) dispatch(getUserReactions(username))
   }, [currentPage, sortType, searchValue])
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { PostsService } from '../../../API/PostsService'
 import { Button } from '../../../components/Button'
@@ -9,6 +9,7 @@ import { Spinner } from '../../../components/Spinner'
 import { toasterService } from '../../../components/Toast/ToastService'
 import { ICreatePostRequest } from '../../../models/CreatePostRequest'
 import { selectUser } from '../../../store/selectors/users'
+import { getUserReactions } from '../../../store/userSlice'
 import { DEFAULT_ERROR_MESSAGE } from '../../../utils/constants'
 import { BUTTON_TYPE } from '../../../utils/enums'
 
@@ -21,8 +22,13 @@ interface IProps {
 }
 
 export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
-  const { loggedIn } = useSelector(selectUser)
+  const { loggedIn, username } = useSelector(selectUser)
   const [isLoading, setIsLoading] = useState(false)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (loggedIn) dispatch(getUserReactions(username))
+  }, [])
 
   const handleSubmit = async (post: ICreatePostRequest) => {
     //change with modal error
@@ -43,7 +49,7 @@ export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
       })
       .catch((error) => {
         if (error.response.status >= 400) {
-          toasterService.success({
+          toasterService.error({
             title: 'Error',
             content: DEFAULT_ERROR_MESSAGE,
           })

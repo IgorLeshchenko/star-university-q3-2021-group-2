@@ -1,20 +1,18 @@
 import cn from 'classnames'
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { resolveProfileImagePath } from '../../API/helpers'
-import { PostsService } from '../../API/PostsService'
 import { ReactComponent as Comments } from '../../assets/images/Comments.svg'
 import { ReactComponent as Downvote } from '../../assets/images/Downvote.svg'
 import { ReactComponent as Upvote } from '../../assets/images/Upvote.svg'
 import { ISinglePost } from '../../models/SinglePostResult'
-import { selectUser } from '../../store/selectors/users'
-import { ROUTES, DEFAULT_ERROR_MESSAGE } from '../../utils/constants'
-import { TEXT_VARIANTS } from '../../utils/enums'
-import { handleError } from '../../utils/helpers'
+import { updatePostReaction } from '../../store/postsSlice'
+import { selectUser, selectUserReactions } from '../../store/selectors/users'
+import { ROUTES } from '../../utils/constants'
+import { REACTIONS, TEXT_VARIANTS } from '../../utils/enums'
 import { Avatar } from '../Avatar'
-import { toasterService } from '../Toast/ToastService'
 import { Typography } from '../Typography'
 
 import styles from './Post.module.scss'
@@ -24,87 +22,57 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   date,
   body,
   title,
-  upvotes,
+  upvotes: postUpvotes,
   _id,
   isFullPost,
   isComment,
 }) => {
-  const [isUpvoted, setUpvoted] = useState(false)
-  const [isDownvoted, setDownvoted] = useState(false)
-  const [removeReaction, setRemoveReaction] = useState(false)
+  const postDate = new Date(date).toLocaleDateString('en-US')
+  const dispatch = useDispatch()
 
   const { loggedIn } = useSelector(selectUser)
-  const postDate = new Date(date).toLocaleDateString('en-US')
+  const { downvotes, upvotes } = useSelector(selectUserReactions)
 
-  const changeReactionToOpposite = () => {
-    setDownvoted((prevState) => !prevState)
-    setUpvoted((prevState) => !prevState)
-    setRemoveReaction(true)
-  }
+  const [isBtnClick, setBtnClick] = useState(false)
+  const [reaction, setReaction] = useState<REACTIONS>(REACTIONS.UNSELECTED)
+  const [updatedUpvotes, setUpdatedUpvotes] = useState(postUpvotes)
 
-  const handleUpvoteClick = () => {
-    // should be change after common modal error for forum page
-    if (!loggedIn) {
-      toasterService.info({
-        title: 'In progress',
-        content: 'There should be modal with login/signup',
-      })
-      return
-    }
+  const handleVoteBtnClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!loggedIn) return
 
-    // change reaction to opposite
-    if (isDownvoted && !isUpvoted) changeReactionToOpposite()
+    const newReaction = e.currentTarget.id === 'upvote' ? REACTIONS.UPVOTE : REACTIONS.DOWNVOTE
+    setBtnClick(true)
 
-    if (isUpvoted) {
-      // remove upvote
-      setUpvoted((prevState) => !prevState)
-      setRemoveReaction(true)
-    } else {
-      // set upvote
-      setUpvoted(true)
-    }
-  }
-
-  const handleDownvoteClick = () => {
-    // should be change after common modal error for forum page
-    if (!loggedIn) {
-      toasterService.info({
-        title: 'In progress',
-        content: 'There should be modal with login/signup',
-      })
-      return
-    }
-
-    // change reaction to opposite
-    if (isUpvoted && !isDownvoted) changeReactionToOpposite()
-
-    if (isDownvoted) {
-      // remove downvote
-      setDownvoted((prevState) => !prevState)
-      setRemoveReaction(true)
-    } else {
-      // set downvote
-      setDownvoted(true)
+    //set reaction
+    if (reaction === REACTIONS.UNSELECTED) {
+      setReaction(newReaction)
+      setUpdatedUpvotes((prevState) => prevState + newReaction)
+    } else if (reaction === newReaction) {
+      //remove reaction
+      setReaction(REACTIONS.UNSELECTED)
+      setUpdatedUpvotes((prevState) => prevState - newReaction)
+    } else if (reaction !== newReaction) {
+      //change to opposite
+      setReaction(newReaction)
+      setUpdatedUpvotes((prevState) => prevState - reaction + newReaction)
     }
   }
 
   useEffect(() => {
-    if (removeReaction) {
-      PostsService.removeReaction(_id)
-        .then(() => setRemoveReaction(false))
-        .catch((error) => {
-          handleError(error.response.status, error.response?.data || DEFAULT_ERROR_MESSAGE)
-        })
-    } else if (isUpvoted) {
-      PostsService.upvotePost(_id).catch((error) =>
-        handleError(error.response.status, error.response?.data || DEFAULT_ERROR_MESSAGE),
-      )
-    } else if (isDownvoted) {
-      PostsService.downvotePost(_id).catch((error) =>
-        handleError(error.response.status, error.response?.data || DEFAULT_ERROR_MESSAGE),
-      )
+    isBtnClick && dispatch(updatePostReaction(_id, reaction))
+  }, [reaction])
+
+  useEffect(() => {
+    if (upvotes && upvotes[_id]) setReaction(REACTIONS.UPVOTE)
+    if (downvotes && downvotes[_id]) setReaction(REACTIONS.DOWNVOTE)
+  }, [downvotes, upvotes])
+
+  useEffect(() => {
+    if (!loggedIn) {
+      setReaction(REACTIONS.UNSELECTED)
+      setBtnClick(false)
     }
-  }, [isDownvoted, isUpvoted, removeReaction])
+  }, [loggedIn])
 
   return (
     <div className={styles.container}>
@@ -146,15 +114,19 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
         </div>
         <div className={styles['post__bottom--flex']}>
           <div className={styles['post__bottom--center']}>
-            <button className={styles.button__upvotes} onClick={handleUpvoteClick}>
+            <button className={styles.button__upvotes} onClick={handleVoteBtnClick} id="upvote">
               <Upvote
-                className={cn(styles['vote-btn'], styles['upvote-btn'], { [styles['active-upvote']]: isUpvoted })}
+                className={cn(styles['vote-btn'], styles['upvote-btn'], {
+                  [styles['active-upvote']]: reaction === REACTIONS.UPVOTE,
+                })}
               />
             </button>
-            <span className={styles['post__bottom-upvotes--padding']}>{upvotes}</span>
-            <button className={styles.button__upvotes} onClick={handleDownvoteClick}>
+            <span className={styles['post__bottom-upvotes--padding']}>{updatedUpvotes}</span>
+            <button className={styles.button__upvotes} onClick={handleVoteBtnClick} id="downvote">
               <Downvote
-                className={cn(styles['vote-btn'], styles['downvote-btn'], { [styles['active-downvote']]: isDownvoted })}
+                className={cn(styles['vote-btn'], styles['downvote-btn'], {
+                  [styles['active-downvote']]: reaction === REACTIONS.DOWNVOTE,
+                })}
               />
             </button>
           </div>
