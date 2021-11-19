@@ -11,7 +11,8 @@ import signOut from '../../../assets/images/sign-out.svg'
 import { logout } from '../../../store/userSlice'
 import {
   DEFAULT_ERROR_MESSAGE,
-  DEFAULT_SUCCESS_LOGOUT_MESSAGE,
+  DEFAULT_ERROR_TITLE,
+  SUCCESS_LOGOUT_MESSAGE,
   DEFAULT_SUCCESS_TITLE,
   ROUTES,
 } from '../../../utils/constants'
@@ -34,14 +35,14 @@ export const ProfileDropdown: React.FC<{ name: string }> = React.memo(({ name })
       .then(() => {
         toasterService.success({
           title: DEFAULT_SUCCESS_TITLE,
-          content: DEFAULT_SUCCESS_LOGOUT_MESSAGE,
+          content: SUCCESS_LOGOUT_MESSAGE,
         })
       })
       .then(() => history.push(ROUTES.POSTS))
       .then(() => Cookies.remove('refreshToken'))
       .catch((error) => {
         toasterService.error({
-          title: 'Error',
+          title: DEFAULT_ERROR_TITLE,
           content: error?.response?.data || DEFAULT_ERROR_MESSAGE,
         })
       })

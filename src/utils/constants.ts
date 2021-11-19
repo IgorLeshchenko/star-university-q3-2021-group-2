@@ -10,8 +10,16 @@ export const ROUTES = {
   PROFILE: '/profile',
 }
 
+//toast messages
 export const DEFAULT_ERROR_TITLE = 'Error'
-export const DEFAULT_ERROR_MESSAGE = 'Something went wrong.'
+export const DEFAULT_ERROR_MESSAGE = 'Something went wrong'
+export const DEFAULT_SUCCESS_TITLE = 'Success'
+export const SUCCESS_LOGOUT_MESSAGE = 'You are logged out'
+export const UPLOAD_AVATAR_TITLE = 'Change photo'
+export const SUCCESS_UPLOAD_AVATAR_MESSAGE = 'Photo uploaded successfully'
+export const ERROR_UPLOAD_AVATAR_MESSAGE = 'Failed to upload photo'
+export const SUCCESS_POST_CREATION_MESSAGE = 'Post uploaded:)'
+export const SUCCESS_COMMENT_CREATION_MESSAGE = 'Comment was added'
 
 export const POSTS_PER_PAGE = 10
 

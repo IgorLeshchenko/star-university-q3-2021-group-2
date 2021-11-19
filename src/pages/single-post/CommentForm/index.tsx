@@ -6,11 +6,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { PostsService } from '../../../API/PostsService'
 import { Button } from '../../../components/Button'
 import { Spinner } from '../../../components/Spinner'
+import { toastError } from '../../../components/Toast/ErrorToast'
 import { toasterService } from '../../../components/Toast/ToastService'
 import { ICreatePostRequest } from '../../../models/CreatePostRequest'
 import { selectUser } from '../../../store/selectors/users'
 import { getUserReactions } from '../../../store/userSlice'
-import { DEFAULT_ERROR_MESSAGE } from '../../../utils/constants'
+import {
+  DEFAULT_ERROR_MESSAGE,
+  DEFAULT_SUCCESS_TITLE,
+  SUCCESS_COMMENT_CREATION_MESSAGE,
+} from '../../../utils/constants'
 import { BUTTON_TYPE } from '../../../utils/enums'
 
 import styles from './CommentForm.module.scss'
@@ -42,19 +47,12 @@ export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
       .then(() => {
         formik.resetForm()
         toasterService.success({
-          title: 'Success',
-          content: 'Comment was added',
+          title: DEFAULT_SUCCESS_TITLE,
+          content: SUCCESS_COMMENT_CREATION_MESSAGE,
         })
         toggleComment(true)
       })
-      .catch((error) => {
-        if (error.response.status >= 400) {
-          toasterService.error({
-            title: 'Error',
-            content: DEFAULT_ERROR_MESSAGE,
-          })
-        }
-      })
+      .catch((error) => toastError(error.status, error.response?.data || DEFAULT_ERROR_MESSAGE))
       .finally(() => setIsLoading(false))
   }
 
