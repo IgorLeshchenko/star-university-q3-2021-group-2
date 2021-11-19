@@ -14,12 +14,12 @@ import { postCreationValidationSchema } from './shema'
 export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHandler }> = ({ onCrossBtnHandler }) => {
   const handleSubmit = async (post: ICreatePostRequest) => {
     PostsService.addPost(post)
-      .then(() =>
+      .then(() => {
         toasterService.success({
           title: 'Success',
           content: 'Post uploaded:)',
-        }),
-      )
+        })
+      })
 
       .catch((error) => {
         if (error.response.status >= 400) {
