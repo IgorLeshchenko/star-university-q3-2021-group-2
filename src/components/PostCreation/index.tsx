@@ -11,15 +11,20 @@ import { toasterService } from '../Toast/ToastService'
 import styles from './PostCreation.module.scss'
 import { postCreationValidationSchema } from './shema'
 
-export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHandler }> = ({ onCrossBtnHandler }) => {
+interface Props {
+  onCrossBtnHandler: React.MouseEventHandler
+  isPostAdded: (e: boolean) => void
+}
+export const PostCreationModal: React.FC<Props> = ({ onCrossBtnHandler, isPostAdded }) => {
   const handleSubmit = async (post: ICreatePostRequest) => {
     PostsService.addPost(post)
-      .then(() =>
+      .then(() => {
         toasterService.success({
           title: 'Success',
           content: 'Post uploaded:)',
-        }),
-      )
+        })
+        isPostAdded(true)
+      })
 
       .catch((error) => {
         if (error.response.status >= 400) {
