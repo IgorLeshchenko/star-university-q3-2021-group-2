@@ -30,10 +30,10 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     expect(screen.getByRole('button', { name: /Log in/i })).toBeDisabled()
@@ -46,10 +46,10 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const passwordField = screen.queryByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Username')
 
     await act(async () => {
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'username' } })
     })
 
     expect(screen.getByRole('button', { name: /Log in/i })).toBeDisabled()
@@ -62,12 +62,12 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     expect(screen.getByRole('button', { name: /Log in/i })).not.toBeDisabled()
@@ -80,18 +80,18 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'use' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'use' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     fireEvent.click(screen.getByRole('button', { name: /Log in/i }))
 
     await waitFor(() => {
-      expect(screen.queryByText('Username should be 4 chars min!')).not.toBeNull()
+      expect(screen.getByText('Username should be 4 chars min!')).toBeInTheDocument()
     })
   })
 
@@ -102,18 +102,18 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'pass' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'pass' } })
     })
 
     fireEvent.click(screen.getByRole('button', { name: /Log in/i }))
 
     await waitFor(() => {
-      expect(screen.queryByText('Password should be 8 chars min!')).not.toBeNull()
+      expect(screen.getByText('Password should be 8 chars min!')).toBeInTheDocument()
     })
   })
 
@@ -139,13 +139,13 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
     const btnSubmit = screen.getByRole('button', { name: /Log in/i })
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     fireEvent.click(btnSubmit)
@@ -175,19 +175,19 @@ describe('given LoginForm component', () => {
       </Provider>,
     )
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
     const btnSubmit = screen.getByRole('button', { name: /Log in/i })
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     fireEvent.click(btnSubmit)
 
     await waitFor(() => {
-      expect(screen.getByText('Check your name/password')).not.toBeNull()
+      expect(screen.getByText('Check your name/password')).toBeInTheDocument()
     })
   })
 })

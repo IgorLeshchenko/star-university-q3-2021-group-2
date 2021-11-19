@@ -20,10 +20,10 @@ describe('given SignUpForm component', () => {
   it('should render button with disabled state if username is not filled ', async () => {
     render(<SignUpForm />)
 
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     expect(screen.getByRole('button', { name: /Sign Up/i })).toBeDisabled()
@@ -32,10 +32,10 @@ describe('given SignUpForm component', () => {
   it('should render button with disabled state if password is not filled ', async () => {
     render(<SignUpForm />)
 
-    const passwordField = screen.queryByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Username')
 
     await act(async () => {
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'username' } })
     })
 
     expect(screen.getByRole('button', { name: /Sign Up/i })).toBeDisabled()
@@ -44,12 +44,12 @@ describe('given SignUpForm component', () => {
   it('should render button with active state if both username and password are filled', async () => {
     render(<SignUpForm />)
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     expect(screen.getByRole('button', { name: /Sign Up/i })).not.toBeDisabled()
@@ -58,36 +58,36 @@ describe('given SignUpForm component', () => {
   it('should render error message if username less than 4 chars', async () => {
     render(<SignUpForm />)
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'use' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'use' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }))
 
     await waitFor(() => {
-      expect(screen.queryByText('Username should be 4 chars min!')).not.toBeNull()
+      expect(screen.getByText('Username should be 4 chars min!')).toBeInTheDocument()
     })
   })
 
   it('should render error message if password less than 8 chars', async () => {
     render(<SignUpForm />)
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'pass' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'pass' } })
     })
 
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }))
 
     await waitFor(() => {
-      expect(screen.queryByText('Password should be 8 chars min!')).not.toBeNull()
+      expect(screen.getByText('Password should be 8 chars min!')).toBeInTheDocument()
     })
   })
 
@@ -102,13 +102,13 @@ describe('given SignUpForm component', () => {
       </Router>,
     )
 
-    const usernameField = screen.queryByPlaceholderText('Username')
-    const passwordField = screen.queryByPlaceholderText('Password')
+    const usernameField = screen.getByPlaceholderText('Username')
+    const passwordField = screen.getByPlaceholderText('Password')
     const btnSubmit = screen.getByRole('button', { name: /Sign Up/i })
 
     await act(async () => {
-      fireEvent.change(usernameField as HTMLElement, { target: { value: 'username' } })
-      fireEvent.change(passwordField as HTMLElement, { target: { value: 'password' } })
+      fireEvent.change(usernameField, { target: { value: 'username' } })
+      fireEvent.change(passwordField, { target: { value: 'password' } })
     })
 
     fireEvent.click(btnSubmit)
