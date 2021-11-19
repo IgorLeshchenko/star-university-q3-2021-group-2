@@ -74,17 +74,15 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
     }
   }, [loggedIn])
 
+  const postStyle = isFullPost
+    ? `${styles.post} ${styles.post__full}`
+    : isComment
+    ? `${styles.post} ${styles.post__comment}`
+    : styles.post
+
   return (
     <div className={styles.container}>
-      <article
-        className={
-          isFullPost
-            ? `${styles.post} ${styles.post__full}`
-            : isComment
-            ? `${styles.post} ${styles.post__comment}`
-            : styles.post
-        }
-      >
+      <article className={postStyle}>
         <div className={styles.post__flex}>
           <div className={styles['post__author-center']}>
             <div>
