@@ -17,15 +17,20 @@ import { toasterService } from '../Toast/ToastService'
 import styles from './PostCreation.module.scss'
 import { postCreationValidationSchema } from './shema'
 
-export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHandler }> = ({ onCrossBtnHandler }) => {
+interface Props {
+  onCrossBtnHandler: React.MouseEventHandler
+  isPostAdded: (e: boolean) => void
+}
+export const PostCreationModal: React.FC<Props> = ({ onCrossBtnHandler, isPostAdded }) => {
   const handleSubmit = async (post: ICreatePostRequest) => {
     PostsService.addPost(post)
-      .then(() =>
+      .then(() => {
         toasterService.success({
           title: DEFAULT_SUCCESS_TITLE,
           content: SUCCESS_POST_CREATION_MESSAGE,
-        }),
-      )
+        })
+        isPostAdded(true)
+      })
 
       .catch((error) => {
         if (error.response.status >= 400) {
@@ -68,7 +73,9 @@ export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHa
             onBlur={formik.handleBlur}
           />
           <div className={styles['postModal__require--padding']}>
-            {formik.touched.title && formik.errors.title && <span>{formik.errors.title}</span>}
+            {formik.touched.title && formik.errors.title && (
+              <div className={styles['postModal__error-message']}>{formik.errors.title}</div>
+            )}
           </div>
           <textarea
             className={styles['postModal__textField-body']}
@@ -79,7 +86,9 @@ export const PostCreationModal: React.FC<{ onCrossBtnHandler: React.MouseEventHa
             onBlur={formik.handleBlur}
           />
           <div className={styles['postModal__require--padding']}>
-            {formik.touched.body && formik.errors.body && <span>{formik.errors.body}</span>}
+            {formik.touched.body && formik.errors.body && (
+              <div className={styles['postModal__error-message']}>{formik.errors.body}</div>
+            )}
           </div>
           <div className={styles['postModal__button--justify']}>
             <Button

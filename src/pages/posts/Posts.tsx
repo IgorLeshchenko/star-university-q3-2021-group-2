@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from '../../components/Button'
+import { ErrorModal } from '../../components/ErrorModal'
 import { Header } from '../../components/Header'
 import Post from '../../components/post'
 import { PostCreationModal } from '../../components/PostCreation'
@@ -36,23 +37,28 @@ export const Posts = () => {
   const isLoading = useSelector(selectIsLoading)
   const searchValue = useSelector(selectSearchValue)
   const { username, loggedIn } = useSelector(selectUser)
+  const [isPostAdded, setIsPostAdded] = useState<boolean>(false)
 
   useEffect(() => {
     dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType, search: searchValue }))
     if (loggedIn) dispatch(getUserReactions(username))
-  }, [currentPage, sortType, searchValue])
+  }, [currentPage, sortType, searchValue, isPostAdded])
 
   useEffect(() => {
     dispatch(loadPagesNumber())
     return () => {
       dispatch(clearPostsData())
     }
-  }, [])
+  }, [isPostAdded])
 
   const modalHandler = () => {
     setIsOpen(!isOpen)
   }
 
+  const handlePostAdding = (e: boolean) => {
+    setIsPostAdded(e)
+    setIsOpen(false)
+  }
   const handleLoadingPosts = () => dispatch(setCurrentPage(currentPage + 1))
 
   return (
@@ -102,7 +108,8 @@ export const Posts = () => {
             + Create post
           </Button>
         </div>
-        {isOpen && <PostCreationModal onCrossBtnHandler={modalHandler} />}
+        {isOpen && loggedIn && <PostCreationModal onCrossBtnHandler={modalHandler} isPostAdded={handlePostAdding} />}
+        {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={modalHandler} />}
       </div>
       <ScrollToTop />
     </React.Fragment>

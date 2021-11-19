@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { PostsService } from '../../../API/PostsService'
 import { Button } from '../../../components/Button'
+import { ErrorModal } from '../../../components/ErrorModal'
 import { Spinner } from '../../../components/Spinner'
 import { toastError } from '../../../components/Toast/ErrorToast'
 import { toasterService } from '../../../components/Toast/ToastService'
@@ -29,15 +30,20 @@ interface IProps {
 export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
   const { loggedIn, username } = useSelector(selectUser)
   const [isLoading, setIsLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (loggedIn) dispatch(getUserReactions(username))
   }, [])
 
+  const modalHandler = () => {
+    setIsOpen((prevState) => !prevState)
+  }
   const handleSubmit = async (post: ICreatePostRequest) => {
     //change with modal error
     if (!loggedIn) {
+      modalHandler()
       return
     }
 
@@ -96,6 +102,7 @@ export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
       >
         {isLoading ? <Spinner className={styles['comment-form__spinner']} /> : 'Comment'}
       </Button>
+      {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={modalHandler} />}
     </form>
   )
 }

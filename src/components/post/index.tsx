@@ -13,6 +13,7 @@ import { selectUser, selectUserReactions } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { REACTIONS, TEXT_VARIANTS } from '../../utils/enums'
 import { Avatar } from '../Avatar'
+import { ErrorModal } from '../ErrorModal'
 import { Typography } from '../Typography'
 
 import styles from './Post.module.scss'
@@ -34,8 +35,13 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   const { downvotes, upvotes } = useSelector(selectUserReactions)
 
   const [isBtnClick, setBtnClick] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [reaction, setReaction] = useState<REACTIONS>(REACTIONS.UNSELECTED)
   const [updatedUpvotes, setUpdatedUpvotes] = useState(postUpvotes)
+
+  const handleModal = () => {
+    setIsOpen(!isOpen)
+  }
 
   const handleVoteBtnClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!loggedIn) return
@@ -112,7 +118,11 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
         </div>
         <div className={styles['post__bottom--flex']}>
           <div className={styles['post__bottom--center']}>
-            <button className={styles.button__upvotes} onClick={handleVoteBtnClick} id="upvote">
+            <button
+              className={styles.button__upvotes}
+              onClick={!loggedIn ? handleModal : handleVoteBtnClick}
+              id="upvote"
+            >
               <Upvote
                 className={cn(styles['vote-btn'], styles['upvote-btn'], {
                   [styles['active-upvote']]: reaction === REACTIONS.UPVOTE,
@@ -120,13 +130,18 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
               />
             </button>
             <span className={styles['post__bottom-upvotes--padding']}>{updatedUpvotes}</span>
-            <button className={styles.button__upvotes} onClick={handleVoteBtnClick} id="downvote">
+            <button
+              className={styles.button__upvotes}
+              onClick={!loggedIn ? handleModal : handleVoteBtnClick}
+              id="downvote"
+            >
               <Downvote
                 className={cn(styles['vote-btn'], styles['downvote-btn'], {
                   [styles['active-downvote']]: reaction === REACTIONS.DOWNVOTE,
                 })}
               />
             </button>
+            {isOpen && <ErrorModal onCrossBtnHandler={handleModal} />}
           </div>
           {!isComment && (
             <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>

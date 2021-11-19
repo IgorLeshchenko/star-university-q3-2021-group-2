@@ -29,7 +29,6 @@ input[type='text'] {
       font-weight: 500;
       font-size: 40px;
     }
-
   }
 
   &__textField-title {
@@ -42,7 +41,7 @@ input[type='text'] {
     outline: none;
 
     &:focus {
-      border: 2px solid $secondary;
+      background-color: #f8f8f8;
     }
   }
 
@@ -55,10 +54,15 @@ input[type='text'] {
     border-radius: 10px;
     color: $dark-text;
     outline: none;
+    resize: none;
 
     &:focus {
-      border: 2px solid $secondary;
+      background-color: #f8f8f8;
     }
+  }
+
+  &__error-message {
+    position: absolute;
   }
 
   &__require--padding {
@@ -74,7 +78,6 @@ input[type='text'] {
     @include medium {
       justify-content: start;
     }
-
   }
 
   &__button {
@@ -82,4 +85,3 @@ input[type='text'] {
     padding: 10px 35px;
   }
 }
-
