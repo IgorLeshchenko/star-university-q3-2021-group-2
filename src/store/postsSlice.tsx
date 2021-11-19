@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { PostsService } from '../API/PostsService'
+import { toastError } from '../components/Toast/ErrorToast'
 import { toasterService } from '../components/Toast/ToastService'
 import { IPostsParams, ISinglePostResult, ISortParams } from '../models/SinglePostResult'
 import { DEFAULT_ERROR_MESSAGE, POSTS_PER_PAGE } from '../utils/constants'
+import { REACTIONS } from '../utils/enums'
 
 import { AppDispatch } from './store'
 
@@ -13,6 +15,7 @@ interface IPostsState {
   sort: ISortParams
   currentPage: number
   isLoading: boolean
+  search: string
 }
 
 const initialState = {
@@ -21,6 +24,7 @@ const initialState = {
   sort: 'recent',
   currentPage: 1,
   isLoading: false,
+  search: '',
 } as IPostsState
 
 export const postsSlice = createSlice({
@@ -44,11 +48,16 @@ export const postsSlice = createSlice({
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload
     },
+    setSearchValue: (state, action: PayloadAction<string>) => {
+      state.data = []
+      state.currentPage = 1
+      state.search = action.payload
+    },
     clearPostsData: () => initialState,
   },
 })
 
-export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading, clearPostsData } =
+export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading, clearPostsData, setSearchValue } =
   postsSlice.actions
 
 export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) => {
@@ -72,4 +81,14 @@ export const loadPagesNumber = () => (dispatch: AppDispatch) => {
   return PostsService.getPostsNumber().then((res) =>
     dispatch(setPagesAmount(Math.ceil(res.data.result / POSTS_PER_PAGE))),
   )
+}
+
+export const updatePostReaction = (id: string, reaction: REACTIONS) => () => {
+  if (reaction === REACTIONS.UPVOTE) {
+    PostsService.upvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+  } else if (reaction === REACTIONS.DOWNVOTE) {
+    PostsService.downvotePost(id).catch((error) => toastError(error.status, error.response?.data))
+  } else if (reaction === REACTIONS.UNSELECTED) {
+    PostsService.removeReaction(id).catch((error) => toastError(error.status, error.response?.data))
+  }
 }

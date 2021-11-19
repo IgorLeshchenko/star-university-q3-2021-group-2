@@ -17,17 +17,48 @@ test('renders forum page', () => {
   expect(linkElement).toBeInTheDocument()
 })
 
-describe('given Routing', () => {
-  it('should render Not Found component for invalid URL', () => {
-    const history = createMemoryHistory()
-    history.push('/some/bad/route')
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <Router history={history}>
-          <AppRouting />
-        </Router>
-      </Provider>,
-    )
-    expect(getByTestId('not-found-page')).toBeInTheDocument()
+test('Not Found page', () => {
+  const history = createMemoryHistory()
+  render(
+    <Provider store={store}>
+      <Router history={history}>
+        <AppRouting />
+      </Router>
+    </Provider>,
+  )
+  history.push('/some/bad/route')
+  const element = screen.getByText(/404 page/i)
+  expect(element).toBeInTheDocument()
+})
+
+test('Sign-up page', () => {
+  const history = createMemoryHistory()
+  render(
+    <Provider store={store}>
+      <Router history={history}>
+        <AppRouting />
+      </Router>
+    </Provider>,
+  )
+  history.push('/sign-up')
+  const elements = screen.getAllByText(/sign up/i)
+  elements.forEach((e) => {
+    expect(e).toBeInTheDocument()
+  })
+})
+
+test('Login page', () => {
+  const history = createMemoryHistory()
+  render(
+    <Provider store={store}>
+      <Router history={history}>
+        <AppRouting />
+      </Router>
+    </Provider>,
+  )
+  history.push('/login')
+  const elements = screen.getAllByText(/log in/i)
+  elements.forEach((e) => {
+    expect(e).toBeInTheDocument()
   })
 })

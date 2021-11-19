@@ -1,12 +1,15 @@
 import classNames from 'classnames'
-import React from 'react'
+import debounce from 'lodash.debounce'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import SearchIcon from '../../../assets/images/search.svg'
 import { ISortParams } from '../../../models/SinglePostResult'
-import { setSortType } from '../../../store/postsSlice'
-import { selectSortType } from '../../../store/selectors/posts'
+import { setSearchValue, setSortType } from '../../../store/postsSlice'
+import { selectSearchValue, selectSortType } from '../../../store/selectors/posts'
+import { BUTTON_TYPE, INPUT_TYPE } from '../../../utils/enums'
 
-import classes from './SearchBar.module.scss'
+import classes from './SearchFilterParams.module.scss'
 
 const SORT_TYPES = [
   {
@@ -29,10 +32,49 @@ export const SearchBar: React.FC = () => {
     dispatch(setSortType(event.target.value as ISortParams))
   }
 
+  const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchValue(event.target.value))
+  }
+
+  const handleSearchValueChangeWithDebounce = debounce(handleSearchValueChange, 300)
+
+  useEffect(() => {
+    return () => {
+      handleSearchValueChangeWithDebounce.cancel()
+    }
+  })
+
   const selectedSortType = useSelector(selectSortType)
+  const selectedSearchValue = useSelector(selectSearchValue)
 
   return (
     <div className={classes.searchAndSortBar}>
+      <form className={classes.searchAndSortBar__searchBar}>
+        <div className={classes.searchAndSortBar__searchBar__input}>
+          <div className={classes.searchAndSortBar__searchBar__input__icon}>
+            <img
+              src={SearchIcon}
+              alt="searchIcon"
+              className={classes.searchAndSortBar__searchBar__input__icon__image}
+            />
+          </div>
+          <input
+            type={INPUT_TYPE.TEXT}
+            onChange={handleSearchValueChangeWithDebounce}
+            className={classes.searchAndSortBar__searchBar__input__field}
+            placeholder="Some text"
+          />
+        </div>
+        <button
+          type={BUTTON_TYPE.RESET}
+          className={classNames(classes.searchAndSortBar__searchBar__clearTextButton, {
+            [classes.searchAndSortBar__searchBar__clearTextButton__active]: selectedSearchValue !== '',
+          })}
+          onClick={() => dispatch(setSearchValue(''))}
+        >
+          Clear text
+        </button>
+      </form>
       <div className={classes.searchAndSortBar__sortTypes}>
         {SORT_TYPES.map((sortType) => (
           <label

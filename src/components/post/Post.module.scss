@@ -4,15 +4,15 @@
 .container {
   width: 100%;
   margin-bottom: 20px;
-  box-shadow: 0px 8px 16px 0px rgba(34, 60, 80, 0.2);
-  border-radius: 10px;
-  border: 1px solid $secondary;
 
   @include medium {
     min-width: 150px;
 
     .post {
       padding: 25px;
+    }
+    .post__full {
+      padding: 0;
     }
 
     .post__flex {
@@ -70,6 +70,14 @@
   justify-content: center;
   flex-direction: column;
   padding: 15px;
+  box-shadow: 0px 8px 16px 0px rgba(34, 60, 80, 0.2);
+  border-radius: 10px;
+  border: 1px solid $secondary;
+
+  &__comment {
+    border: 1px solid $blue-background;
+    background-color: $blue-background;
+  }
 
   &__flex {
     display: flex;
@@ -154,6 +162,37 @@
     color: $secondary;
     &--padding {
       padding-left: 10px;
+    }
+  }
+
+  &__full {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+
+    .post__info {
+      padding-top: 9px;
+      @include medium {
+        padding-top: 25px;
+        padding-bottom: 40px;
+      }
+    }
+
+    .post__title {
+      font-size: 18px;
+      @include medium {
+        font-size: 24px;
+      }
+    }
+
+    .post__text {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 0;
+      @include medium {
+        font-size: 16px;
+        margin-top: 24px;
+      }
     }
   }
 }

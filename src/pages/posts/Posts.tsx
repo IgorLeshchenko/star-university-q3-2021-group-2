@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from '../../components/Button'
+import { ErrorModal } from '../../components/ErrorModal'
 import { Header } from '../../components/Header'
-import { Post } from '../../components/post'
+import Post from '../../components/post'
 import { PostCreationModal } from '../../components/PostCreation'
 import { ScrollToTop } from '../../components/ScrollToTop'
 import { Spinner } from '../../components/Spinner'
@@ -14,8 +15,11 @@ import {
   selectIsLoading,
   selectPagesAmount,
   selectPosts,
+  selectSearchValue,
   selectSortType,
 } from '../../store/selectors/posts'
+import { selectUser } from '../../store/selectors/users'
+import { getUserReactions } from '../../store/userSlice'
 import { POSTS_PER_PAGE } from '../../utils/constants'
 import { TEXT_VARIANTS } from '../../utils/enums'
 
@@ -31,22 +35,30 @@ export const Posts = () => {
   const sortType = useSelector(selectSortType)
   const currentPage = useSelector(selectCurrentPage)
   const isLoading = useSelector(selectIsLoading)
+  const searchValue = useSelector(selectSearchValue)
+  const { username, loggedIn } = useSelector(selectUser)
+  const [isPostAdded, setIsPostAdded] = useState<boolean>(false)
 
   useEffect(() => {
-    dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType }))
-  }, [currentPage, sortType])
+    dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType, search: searchValue }))
+    if (loggedIn) dispatch(getUserReactions(username))
+  }, [currentPage, sortType, searchValue, isPostAdded])
 
   useEffect(() => {
     dispatch(loadPagesNumber())
     return () => {
       dispatch(clearPostsData())
     }
-  }, [])
+  }, [isPostAdded])
 
   const modalHandler = () => {
     setIsOpen(!isOpen)
   }
 
+  const handlePostAdding = (e: boolean) => {
+    setIsPostAdded(e)
+    setIsOpen(false)
+  }
   const handleLoadingPosts = () => dispatch(setCurrentPage(currentPage + 1))
 
   return (
@@ -57,9 +69,14 @@ export const Posts = () => {
           <SearchBar />
         </div>
         <div className={classes.forum__posts}>
+          {!isLoading && searchValue && (
+            <Typography variant={TEXT_VARIANTS.H3} className={classes.forum__posts__searchingResultMessage}>
+              Searching result for: {searchValue}
+            </Typography>
+          )}
           {!postsList.length && !isLoading && (
             <Typography variant={TEXT_VARIANTS.H1} className={classes.forum__posts__noPostsMessage}>
-              No posts yet
+              {searchValue ? `Sorry, nothing was found for your request - ${searchValue}` : 'No posts yet'}
             </Typography>
           )}
           {postsList.map((post) => (
@@ -70,9 +87,7 @@ export const Posts = () => {
               body={post.body}
               date={post.date}
               upvotes={post.upvotes}
-              countChildren={post.children?.length || 0}
               _id={post._id}
-              __v={post.__v}
             />
           ))}
           {isLoading && (
@@ -80,7 +95,7 @@ export const Posts = () => {
               <Spinner />
             </div>
           )}
-          {!isLoading && currentPage < pagesAmount && (
+          {!isLoading && currentPage < pagesAmount && !!postsList.length && (
             <div className={classes.forum__posts__seeMoreButton}>
               <Button primary onClick={handleLoadingPosts} className={classes.forum__loadingButton}>
                 See more
@@ -93,7 +108,8 @@ export const Posts = () => {
             + Create post
           </Button>
         </div>
-        {isOpen && <PostCreationModal onCrossBtnHandler={modalHandler} />}
+        {isOpen && loggedIn && <PostCreationModal onCrossBtnHandler={modalHandler} isPostAdded={handlePostAdding} />}
+        {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={modalHandler} />}
       </div>
       <ScrollToTop />
     </React.Fragment>

@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
-
-import spinner from '../../assets/images/spinner.gif'
+import cn from 'classnames'
+import React from 'react'
 
 import styles from './Spinner.module.scss'
 
-export const Spinner = () => (
-  <Fragment>
-    <img src={spinner} alt="Loading..." className={styles.spinner} />
-  </Fragment>
-)
+interface Props {
+  className?: string
+}
+
+export const Spinner: React.FC<Props> = ({ className }) => <div className={cn(styles.loader, className)}></div>

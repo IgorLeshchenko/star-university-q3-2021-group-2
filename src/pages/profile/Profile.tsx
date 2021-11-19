@@ -10,6 +10,7 @@ import { Spinner } from '../../components/Spinner'
 import { toasterService } from '../../components/Toast/ToastService'
 import { IUser } from '../../models/User'
 import { selectUser } from '../../store/selectors/users'
+import { UPLOAD_AVATAR_TITLE, SUCCESS_UPLOAD_AVATAR_MESSAGE, ERROR_UPLOAD_AVATAR_MESSAGE } from '../../utils/constants'
 
 import styles from './Profile.module.scss'
 import { Upload } from './Upload'
@@ -48,9 +49,9 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
     try {
       await UsersService.setUserIcon(username, avatar)
       setAvatarToggle(!avatarToggle)
-      toasterService.success({ title: 'Change photo', content: 'Photo uploaded successfully' })
+      toasterService.success({ title: UPLOAD_AVATAR_TITLE, content: SUCCESS_UPLOAD_AVATAR_MESSAGE })
     } catch (error) {
-      toasterService.error({ title: 'Change Photo', content: 'Failed to upload photo' })
+      toasterService.error({ title: UPLOAD_AVATAR_TITLE, content: ERROR_UPLOAD_AVATAR_MESSAGE })
     }
   }
 
@@ -67,7 +68,7 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
   return (
     <React.Fragment>
       <Header />
-      <Container>
+      <Container data-testid="profile-page">
         {loading ? (
           <Spinner />
         ) : (

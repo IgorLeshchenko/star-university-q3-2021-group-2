@@ -1,0 +1,84 @@
+@import '../../../assets/styles/variables.scss';
+@import '../../../assets/styles/mixins/breakpoints';
+
+.comment-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  @include medium {
+    margin-top: 48px;
+  }
+
+  &__field-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+    @include medium {
+      margin-bottom: 32px;
+    }
+  }
+
+  &__field {
+    min-height: 46px;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid $secondary;
+    outline: 1.5px solid transparent;
+    border-radius: 10px;
+    padding: 10px 16px;
+    &:focus,
+    &:hover {
+      outline: 1.5px solid $secondary;
+    }
+    &::placeholder {
+      color: $secondary;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    @include medium {
+      min-height: 69px;
+      padding: 20px 24px;
+    }
+  }
+
+  &__btn {
+    min-width: 215px;
+    @include medium {
+      align-self: flex-end;
+    }
+  }
+
+  &__status,
+  &__field-status {
+    position: absolute;
+    font-size: 12px;
+    bottom: 58px;
+    @include medium {
+      right: 0;
+      bottom: 65px;
+    }
+    &--error {
+      color: red;
+    }
+    &--success {
+      color: green;
+    }
+  }
+
+  &__field-status {
+    bottom: 0;
+    transform: translateY(100%);
+    right: unset;
+    left: 0;
+  }
+
+  &__spinner {
+    height: 5px;
+    width: 5px;
+    color: white;
+    margin: 8.5px auto;
+    font-size: 5px;
+  }
+}

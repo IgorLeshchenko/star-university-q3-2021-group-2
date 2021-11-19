@@ -1,5 +1,5 @@
 export enum TEXT_VARIANTS {
-  BODY = 'body',
+  BODY = 'div',
   H1 = 'h1',
   H2 = 'h2',
   H3 = 'h3',
@@ -22,4 +22,10 @@ export enum BUTTON_TYPE {
 export enum CONTENT_TYPE {
   APPLICATION_JSON = 'application/json',
   FORM_DATA = 'multipart/form-data',
+}
+
+export enum REACTIONS {
+  UPVOTE = 1,
+  DOWNVOTE = -1,
+  UNSELECTED = 0,
 }
