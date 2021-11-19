@@ -39,13 +39,11 @@ export const Posts = () => {
 
   useEffect(() => {
     dispatch(loadPostsList({ page: currentPage, number: POSTS_PER_PAGE, sort: sortType, search: searchValue }))
+    if (loggedIn) dispatch(getUserReactions(username))
   }, [currentPage, sortType, searchValue])
 
   useEffect(() => {
     dispatch(loadPagesNumber())
-    if (loggedIn) {
-      dispatch(getUserReactions(username))
-    }
     return () => {
       dispatch(clearPostsData())
     }
