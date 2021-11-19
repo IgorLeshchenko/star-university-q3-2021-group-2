@@ -1,0 +1,19 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins/breakpoints';
+.divider {
+  width: 100%;
+  border: 1px solid $light-grey;
+  margin: 24px 0 24px 0;
+  @include small {
+    margin: 48px 0 48px 0;
+  }
+}
+
+.seeMoreButton {
+  display: flex;
+  justify-content: center;
+
+  & > button:hover {
+    color: $light-text;
+  }
+}
