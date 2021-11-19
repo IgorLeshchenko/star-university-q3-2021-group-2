@@ -46,10 +46,9 @@ export const Header: React.FC<Props> = React.memo(({ isLoginPage = false, isSign
             </nav>
             {loggedIn && <ProfileDropdown name={username} />}
           </div>
-          <div
-            className={cn(styles['header__cross-btn'], { [styles.active]: isOpen })}
-            onClick={mobileMenuHandler}
-          ></div>
+          <div onClick={mobileMenuHandler} className={styles['header__cross-btn']}>
+            <span className={cn(styles['header__cross-btn-icon'], { [styles.active]: isOpen })}></span>
+          </div>
         </React.Fragment>
       </Container>
     </header>
