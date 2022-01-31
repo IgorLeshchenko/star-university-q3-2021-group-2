@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import debounce from 'lodash.debounce'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import SearchIcon from '../../../assets/images/search.svg'
@@ -28,6 +28,7 @@ const SORT_TYPES = [
 
 export const SearchBar: React.FC = () => {
   const dispatch = useDispatch()
+  const [isActive, setIsActive] = useState(false)
   const handleSortTypeClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSortType(event.target.value as ISortParams))
   }
@@ -75,25 +76,35 @@ export const SearchBar: React.FC = () => {
           Clear text
         </button>
       </form>
-      <div className={classes.searchAndSortBar__sortTypes}>
-        {SORT_TYPES.map((sortType) => (
-          <label
-            key={sortType.value}
-            className={classNames(classes.searchAndSortBar__sortTypes__label, {
-              [classes.searchAndSortBar__sortTypes__active]: sortType.value === selectedSortType,
-            })}
-          >
-            <input
-              type="radio"
-              name="filterPosts"
-              value={sortType.value}
-              onChange={handleSortTypeClick}
-              className={classes.radioInput}
-              checked={sortType.value === selectedSortType}
-            />
-            <span className={classes.searchAndSortBar__sortTypes__title}>{sortType.label}</span>
-          </label>
-        ))}
+      {isActive && (
+        <div className={classes.searchAndSortBar__sortTypes}>
+          {SORT_TYPES.map((sortType) => (
+            <label
+              key={sortType.value}
+              className={classNames(classes.searchAndSortBar__sortTypes__label, {
+                [classes.searchAndSortBar__sortTypes__active]: sortType.value === selectedSortType,
+              })}
+            >
+              <input
+                type="radio"
+                name="filterPosts"
+                value={sortType.value}
+                onChange={handleSortTypeClick}
+                className={classes.radioInput}
+                checked={sortType.value === selectedSortType}
+              />
+              <span className={classes.searchAndSortBar__sortTypes__title}>{sortType.label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+      <div className={classes.searchAndSortBar__dropDown} onClick={() => setIsActive(!isActive)}>
+        Filter Posts
+        <div
+          className={`${
+            isActive ? classes.searchAndSortBar__dropDown__arrowUp : classes.searchAndSortBar__dropDown__arrowDown
+          }`}
+        ></div>
       </div>
     </div>
   )
