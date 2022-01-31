@@ -99,7 +99,7 @@ export const SearchBar: React.FC = () => {
         </div>
       )}
       <div className={classes.searchAndSortBar__dropDown} onClick={() => setIsActive(!isActive)}>
-        Filter Posts
+        Filters
         <div
           className={`${
             isActive ? classes.searchAndSortBar__dropDown__arrowUp : classes.searchAndSortBar__dropDown__arrowDown
