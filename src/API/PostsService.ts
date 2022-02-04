@@ -12,6 +12,14 @@ export class PostsService {
     return api.post(url, post)
   }
 
+  static async editPost(id: string, body: string): Promise<AxiosResponse<boolean>> {
+    return api.patch(`${url}/${id}`, { body })
+  }
+
+  static async deletePost(id: string): Promise<AxiosResponse<boolean>> {
+    return api.delete(`${url}/${id}`)
+  }
+
   static async getSinglePost(id: string): Promise<AxiosResponse<ISinglePostResult>> {
     return api.get<ISinglePostResult>(`${url}/${id}`)
   }
