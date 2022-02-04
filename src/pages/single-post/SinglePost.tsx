@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import { PostsService } from '../../API/PostsService'
 import { Container } from '../../components/Container'
@@ -7,6 +8,7 @@ import Post from '../../components/post'
 import { ScrollToTop } from '../../components/ScrollToTop'
 import { Spinner } from '../../components/Spinner'
 import { ISinglePostResult } from '../../models/SinglePostResult'
+import { selectIsPostEdited } from '../../store/selectors/posts'
 
 import { CommentForm } from './CommentForm'
 import CommentsList from './CommentsList'
@@ -26,6 +28,7 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
   const [post, setPost] = useState<Partial<ISinglePostResult>>({})
   const [isNotFound, setNotFound] = useState(false)
   const [togglePost, setTogglePost] = useState<boolean>(false)
+  const isEdited = useSelector(selectIsPostEdited)
   const getSinglePost = async (id: string): Promise<void> => {
     try {
       setLoading(true)
@@ -45,7 +48,7 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
 
   useEffect(() => {
     getSinglePost(id)
-  }, [id, togglePost])
+  }, [id, togglePost, isEdited])
 
   const { title, body, date, author, upvotes, _id } = post as ISinglePostResult
 

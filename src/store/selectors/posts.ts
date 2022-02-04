@@ -12,3 +12,5 @@ export const selectCurrentPage = ({ posts }: RootState): number => posts.current
 export const selectIsLoading = ({ posts }: RootState): boolean => posts.isLoading
 
 export const selectSearchValue = ({ posts }: RootState): string => posts.search
+
+export const selectIsPostEdited = ({ posts }: RootState): boolean => posts.isEdited

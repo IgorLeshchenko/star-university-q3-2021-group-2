@@ -16,6 +16,7 @@ interface IPostsState {
   currentPage: number
   isLoading: boolean
   search: string
+  isEdited: boolean
 }
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   currentPage: 1,
   isLoading: false,
   search: '',
+  isEdited: false,
 } as IPostsState
 
 export const postsSlice = createSlice({
@@ -54,11 +56,22 @@ export const postsSlice = createSlice({
       state.search = action.payload
     },
     clearPostsData: () => initialState,
+    setIsEdited: (state, action: PayloadAction<boolean>) => {
+      state.isEdited = action.payload
+    },
   },
 })
 
-export const { addPosts, setPagesAmount, setSortType, setCurrentPage, setIsLoading, clearPostsData, setSearchValue } =
-  postsSlice.actions
+export const {
+  addPosts,
+  setPagesAmount,
+  setSortType,
+  setCurrentPage,
+  setIsLoading,
+  clearPostsData,
+  setSearchValue,
+  setIsEdited,
+} = postsSlice.actions
 
 export const loadPostsList = (params: IPostsParams) => (dispatch: AppDispatch) => {
   dispatch(setIsLoading(true))
