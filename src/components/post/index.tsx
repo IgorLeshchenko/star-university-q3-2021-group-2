@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 
 import { resolveProfileImagePath } from '../../API/helpers'
 import { ReactComponent as Comments } from '../../assets/images/Comments.svg'
+import { ReactComponent as DeletePost } from '../../assets/images/DeletePost.svg'
 import { ReactComponent as Downvote } from '../../assets/images/Downvote.svg'
+import { ReactComponent as EditPost } from '../../assets/images/EditPost.svg'
 import { ReactComponent as Upvote } from '../../assets/images/Upvote.svg'
 import { ISinglePost } from '../../models/SinglePostResult'
 import { updatePostReaction } from '../../store/postsSlice'
@@ -13,6 +15,7 @@ import { selectUser, selectUserReactions } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { REACTIONS, TEXT_VARIANTS } from '../../utils/enums'
 import { Avatar } from '../Avatar'
+import { EditPostModal } from '../EditPost'
 import { ErrorModal } from '../ErrorModal'
 import { Typography } from '../Typography'
 
@@ -31,7 +34,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   const postDate = new Date(date).toLocaleDateString('en-US')
   const dispatch = useDispatch()
 
-  const { loggedIn } = useSelector(selectUser)
+  const { loggedIn, username: authorizedLogin } = useSelector(selectUser)
   const { downvotes, upvotes } = useSelector(selectUserReactions)
 
   const [isBtnClick, setBtnClick] = useState(false)
@@ -80,6 +83,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
     }
   }, [loggedIn])
 
+  const isPostOwner = authorizedLogin === author
   const postStyle = isFullPost
     ? `${styles.post} ${styles.post__full}`
     : isComment
@@ -141,15 +145,26 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
                 })}
               />
             </button>
-            {isOpen && <ErrorModal onCrossBtnHandler={handleModal} />}
           </div>
           {!isComment && (
             <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>
               <Comments />
             </Link>
           )}
+          {isPostOwner && (
+            <div className="post__bottom-admin">
+              <button onClick={handleModal}>
+                <EditPost />
+              </button>
+              <button>
+                <DeletePost className="delete-btn" />
+              </button>
+            </div>
+          )}
         </div>
       </article>
+      {isOpen && loggedIn && <EditPostModal onCrossBtnHandler={handleModal} body={body} id={_id} />}
+      {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={handleModal} />}
     </div>
   )
 }

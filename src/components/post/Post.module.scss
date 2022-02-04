@@ -28,9 +28,9 @@
       font-size: 18px;
     }
 
-    .post__bottom-comments {
-      margin-left: 40px;
-    }
+    // .post__bottom-comments {
+    //   margin-left: 40px;
+    // }
   }
 }
 
@@ -143,6 +143,11 @@
 
   &__bottom--flex {
     display: flex;
+    align-items: center;
+    gap: 15px;
+    @include medium {
+      gap: 40px;
+    }
   }
 
   &__bottom--center {
@@ -158,10 +163,19 @@
   &__bottom-comments {
     display: flex;
     align-items: center;
-    margin-left: 25px;
+    gap: 30px;
     color: $secondary;
     &--padding {
       padding-left: 10px;
+    }
+  }
+
+  &__bottom--flex div:last-child {
+    margin-left: auto;
+    display: flex;
+    gap: 15px;
+    @include medium {
+      gap: 40px;
     }
   }
 
