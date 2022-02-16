@@ -7,6 +7,7 @@ import { Avatar } from '../../components/Avatar'
 import { Container } from '../../components/Container'
 import { Header } from '../../components/Header'
 import { Spinner } from '../../components/Spinner'
+import { Table } from '../../components/Table'
 import { toasterService } from '../../components/Toast/ToastService'
 import { IUser } from '../../models/User'
 import { selectUser } from '../../store/selectors/users'
@@ -29,9 +30,9 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
   const [avatarToggle, setAvatarToggle] = useState(true)
   const [isNotFound, setNotFound] = useState(false)
   const { username } = match.params
+  const colNames = ['post', 'upvotes', 'date']
 
   const authorizedUser = useSelector(selectUser)
-
   const getUser = async (username: string) => {
     try {
       setNotFound(false)
@@ -44,7 +45,6 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
       setLoading(false)
     }
   }
-
   const uploadUserAvatar = async (avatar: File): Promise<void> => {
     try {
       await UsersService.setUserIcon(username, avatar)
@@ -58,7 +58,6 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
   useEffect(() => {
     getUser(username)
   }, [username, avatarToggle])
-
   const { loggedIn, username: authorizedLogin } = authorizedUser
 
   const isPageOwner = username === authorizedLogin
@@ -77,16 +76,19 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
             {isNotFound ? (
               <div>Not Found user with username: {username}</div>
             ) : (
-              <div className={styles.profile_content}>
-                <div className={styles.profile_media}>
-                  <Avatar imageUrl={resolveProfileImagePath(username)} customClass={styles.profile_avatar} />
-                  {loggedIn && isPageOwner && <Upload value="Change photo" handleUpload={uploadUserAvatar} />}
+              <div>
+                <div className={styles.profile_content}>
+                  <div className={styles.profile_media}>
+                    <Avatar imageUrl={resolveProfileImagePath(username)} customClass={styles.profile_avatar} />
+                    {loggedIn && isPageOwner && <Upload value="Change photo" handleUpload={uploadUserAvatar} />}
+                  </div>
+                  <div className={styles.profile_info}>
+                    <p className={styles.username}>{username}</p>
+                    <p className={styles.post_count}>Posts: {numberOfPosts}</p>
+                    <p className={styles.reputation}>Reputation: {reputation}</p>
+                  </div>
                 </div>
-                <div className={styles.profile_info}>
-                  <p className={styles.username}>{username}</p>
-                  <p className={styles.post_count}>Posts: {numberOfPosts}</p>
-                  <p className={styles.reputation}>Reputation: {reputation}</p>
-                </div>
+                <Table colNames={colNames} user={username} pageSize={5} />
               </div>
             )}
           </div>
