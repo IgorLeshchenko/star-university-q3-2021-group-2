@@ -15,6 +15,7 @@ import { selectUser, selectUserReactions } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { REACTIONS, TEXT_VARIANTS } from '../../utils/enums'
 import { Avatar } from '../Avatar'
+import { DeletePostModal } from '../DeletePost'
 import { EditPostModal } from '../EditPost'
 import { ErrorModal } from '../ErrorModal'
 import { Typography } from '../Typography'
@@ -39,11 +40,23 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
 
   const [isBtnClick, setBtnClick] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
   const [reaction, setReaction] = useState<REACTIONS>(REACTIONS.UNSELECTED)
   const [updatedUpvotes, setUpdatedUpvotes] = useState(postUpvotes)
 
   const handleModal = () => {
     setIsOpen(!isOpen)
+  }
+
+  const handleEditModal = () => {
+    handleModal()
+    setIsEdit(!isEdit)
+  }
+
+  const handleDeleteModal = () => {
+    handleModal()
+    setIsDelete(!isDelete)
   }
 
   const handleVoteBtnClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -151,19 +164,20 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
               <Comments />
             </Link>
           )}
-          {isPostOwner && (
+          {isPostOwner && (isFullPost || isComment) && (
             <div className="post__bottom-admin">
-              <button onClick={handleModal}>
-                <EditPost />
+              <button onClick={handleEditModal}>
+                <EditPost className={styles['admin-btn']} />
               </button>
               <button>
-                <DeletePost className="delete-btn" />
+                <DeletePost onClick={handleDeleteModal} className="delete-btn" />
               </button>
             </div>
           )}
         </div>
       </article>
-      {isOpen && loggedIn && <EditPostModal onCrossBtnHandler={handleModal} body={body} id={_id} />}
+      {isOpen && isEdit && loggedIn && <EditPostModal onCrossBtnHandler={handleEditModal} body={body} id={_id} />}
+      {isOpen && isDelete && loggedIn && <DeletePostModal onCrossBtnHandler={handleDeleteModal} id={_id} />}
       {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={handleModal} />}
     </div>
   )

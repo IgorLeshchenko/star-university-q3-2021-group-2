@@ -27,25 +27,20 @@ interface Props {
 export const EditPostModal: React.FC<Props> = ({ onCrossBtnHandler, body, id }) => {
   const dispatch = useDispatch()
   const handleSubmit = async (post: ICreatePostRequest) => {
-    PostsService.editPost(id, post.body)
-      .then(() => {
-        toasterService.success({
-          title: DEFAULT_SUCCESS_TITLE,
-          content: SUCCESS_POST_UPDATE_MESSAGE,
-        })
-        dispatch(setIsEdited(true))
-      })
+    try {
+      await PostsService.editPost(id, post.body)
 
-      .catch((error) => {
-        if (error.response.status >= 400) {
-          formik.setStatus(
-            toasterService.error({
-              title: DEFAULT_ERROR_TITLE,
-              content: DEFAULT_ERROR_MESSAGE,
-            }),
-          )
-        }
+      toasterService.success({
+        title: DEFAULT_SUCCESS_TITLE,
+        content: SUCCESS_POST_UPDATE_MESSAGE,
       })
+      dispatch(setIsEdited(true))
+    } catch (error) {
+      toasterService.error({
+        title: DEFAULT_ERROR_TITLE,
+        content: DEFAULT_ERROR_MESSAGE,
+      })
+    }
   }
 
   const handleFieldChange = (event: React.ChangeEvent<HTMLElement>) => {
