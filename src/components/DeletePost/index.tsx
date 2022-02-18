@@ -44,7 +44,7 @@ export const DeletePostModal: React.FC<{ onCrossBtnHandler: React.MouseEventHand
 
   return (
     <Modal showBackdrop={true} contentWidth={645} onCrossBtnClick={onCrossBtnHandler} className={styles.errorModal}>
-      <div className={styles.deleteModal__}>Do you want to delete content?</div>
+      <div className={styles.deleteModal__title}>Do you want to delete content?</div>
       <div className={styles.deleteModal__content}>
         {canDelete ? (
           <Button
