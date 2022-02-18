@@ -34,6 +34,9 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
       setLoading(true)
       setNotFound(false)
       const response = await PostsService.getSinglePost(id)
+      if (!response.data) {
+        throw new Error()
+      }
       setPost(response.data)
     } catch (err) {
       setNotFound(true)
@@ -42,8 +45,8 @@ export const SinglePost: React.FC<React.PropsWithChildren<IPostPage>> = ({ match
     }
   }
 
-  const handleTogglePost = (e: boolean) => {
-    setTogglePost(e)
+  const handleTogglePost = () => {
+    setTogglePost(!togglePost)
   }
 
   useEffect(() => {
