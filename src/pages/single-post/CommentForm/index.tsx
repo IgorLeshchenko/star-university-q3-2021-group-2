@@ -24,7 +24,7 @@ import { commentValidationSchema } from './schema'
 
 interface IProps {
   id: string
-  toggleComment: (e: boolean) => void
+  toggleComment: () => void
 }
 
 export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
@@ -56,7 +56,7 @@ export const CommentForm: React.FC<IProps> = ({ id, toggleComment }) => {
           title: DEFAULT_SUCCESS_TITLE,
           content: SUCCESS_COMMENT_CREATION_MESSAGE,
         })
-        toggleComment(true)
+        toggleComment()
       })
       .catch((error) => toastError(error.status, error.response?.data || DEFAULT_ERROR_MESSAGE))
       .finally(() => setIsLoading(false))

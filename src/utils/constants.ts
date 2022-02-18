@@ -19,6 +19,8 @@ export const UPLOAD_AVATAR_TITLE = 'Change photo'
 export const SUCCESS_UPLOAD_AVATAR_MESSAGE = 'Photo uploaded successfully'
 export const ERROR_UPLOAD_AVATAR_MESSAGE = 'Failed to upload photo'
 export const SUCCESS_POST_CREATION_MESSAGE = 'Post uploaded:)'
+export const SUCCESS_POST_UPDATE_MESSAGE = 'Succesfully updated'
+export const SUCCESS_POST_DELETE_MESSAGE = 'Succesfully deleted'
 export const SUCCESS_COMMENT_CREATION_MESSAGE = 'Comment was added'
 
 export const POSTS_PER_PAGE = 10

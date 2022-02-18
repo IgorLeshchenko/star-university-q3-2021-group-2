@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 
 import { resolveProfileImagePath } from '../../API/helpers'
 import { ReactComponent as Comments } from '../../assets/images/Comments.svg'
+import { ReactComponent as DeletePost } from '../../assets/images/DeletePost.svg'
 import { ReactComponent as Downvote } from '../../assets/images/Downvote.svg'
+import { ReactComponent as EditPost } from '../../assets/images/EditPost.svg'
 import { ReactComponent as Upvote } from '../../assets/images/Upvote.svg'
 import { ISinglePost } from '../../models/SinglePostResult'
 import { updatePostReaction } from '../../store/postsSlice'
@@ -13,6 +15,8 @@ import { selectUser, selectUserReactions } from '../../store/selectors/users'
 import { ROUTES } from '../../utils/constants'
 import { REACTIONS, TEXT_VARIANTS } from '../../utils/enums'
 import { Avatar } from '../Avatar'
+import { DeletePostModal } from '../DeletePost'
+import { EditPostModal } from '../EditPost'
 import { ErrorModal } from '../ErrorModal'
 import { Typography } from '../Typography'
 
@@ -31,16 +35,28 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
   const postDate = new Date(date).toLocaleDateString('en-US')
   const dispatch = useDispatch()
 
-  const { loggedIn } = useSelector(selectUser)
+  const { loggedIn, username: authorizedLogin } = useSelector(selectUser)
   const { downvotes, upvotes } = useSelector(selectUserReactions)
 
   const [isBtnClick, setBtnClick] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
   const [reaction, setReaction] = useState<REACTIONS>(REACTIONS.UNSELECTED)
   const [updatedUpvotes, setUpdatedUpvotes] = useState(postUpvotes)
 
   const handleModal = () => {
     setIsOpen(!isOpen)
+  }
+
+  const handleEditModal = () => {
+    handleModal()
+    setIsEdit(!isEdit)
+  }
+
+  const handleDeleteModal = () => {
+    handleModal()
+    setIsDelete(!isDelete)
   }
 
   const handleVoteBtnClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -80,6 +96,7 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
     }
   }, [loggedIn])
 
+  const isPostOwner = authorizedLogin === author
   const postStyle = isFullPost
     ? `${styles.post} ${styles.post__full}`
     : isComment
@@ -141,15 +158,27 @@ const Post: React.FC<React.PropsWithChildren<ISinglePost>> = ({
                 })}
               />
             </button>
-            {isOpen && <ErrorModal onCrossBtnHandler={handleModal} />}
           </div>
           {!isComment && (
             <Link to={`${ROUTES.ALL_POST}/${_id}`} className={styles['post__bottom-comments']}>
               <Comments />
             </Link>
           )}
+          {isPostOwner && (isFullPost || isComment) && (
+            <div className="post__bottom-admin">
+              <button onClick={handleEditModal}>
+                <EditPost className={styles['admin-btn']} />
+              </button>
+              <button>
+                <DeletePost onClick={handleDeleteModal} className="delete-btn" />
+              </button>
+            </div>
+          )}
         </div>
       </article>
+      {isOpen && isEdit && loggedIn && <EditPostModal onCrossBtnHandler={handleEditModal} body={body} id={_id} />}
+      {isOpen && isDelete && loggedIn && <DeletePostModal onCrossBtnHandler={handleDeleteModal} id={_id} />}
+      {isOpen && !loggedIn && <ErrorModal onCrossBtnHandler={handleModal} />}
     </div>
   )
 }

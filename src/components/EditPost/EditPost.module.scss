@@ -1,0 +1,73 @@
+@import '../../assets/styles/variables.scss';
+@import '../../assets/styles/mixins/breakpoints.scss';
+
+textarea,
+input[type='text'] {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.postModal {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &__titlePost--margin {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 101%;
+    letter-spacing: 0.01em;
+    text-transform: capitalize;
+
+    color: #2a336e;
+
+    @include medium {
+      font-weight: 500;
+      font-size: 40px;
+    }
+  }
+
+  &__textField-body {
+    width: 100%;
+    margin-top: 25px;
+    padding: 10px 15px;
+    height: 200px;
+    border: 1px solid #2a336e;
+    border-radius: 10px;
+    color: $dark-text;
+    outline: none;
+    resize: none;
+
+    &:focus {
+      background-color: #f8f8f8;
+    }
+  }
+
+  &__error-message {
+    position: absolute;
+  }
+
+  &__require--padding {
+    padding-top: 5px;
+    font-size: $error-font-size;
+    color: $error;
+  }
+
+  &__button--justify {
+    display: flex;
+    justify-content: center;
+
+    @include medium {
+      justify-content: start;
+    }
+  }
+
+  &__button {
+    margin-top: 30px;
+    padding: 10px 35px;
+  }
+}
