@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import cn from 'classnames'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import { loadPostsList } from '../../store/postsSlice'
+import { clearPostsData, loadPostsList } from '../../store/postsSlice'
 import { selectPosts, selectSortType } from '../../store/selectors/posts'
+import { ROUTES } from '../../utils/constants'
+import { Modal } from '../Modal'
 
 import classes from './Table.module.scss'
 
@@ -11,64 +15,73 @@ interface ITable {
   user: string
   pageNum?: number
   pageSize: number
+  onCrossBtnHandler: React.MouseEventHandler
 }
 
-export const Table: React.FC<ITable> = ({ colNames, pageNum = 0, user, pageSize = 5 }) => {
+export const Table: React.FC<ITable> = ({ colNames, onCrossBtnHandler, user }) => {
   const dispatch = useDispatch()
-  const [page, setPage] = useState(pageNum)
   const postsList = useSelector(selectPosts)
   const sortType = useSelector(selectSortType)
+  const list = postsList.filter((obj) => obj.author === user)
 
   useEffect(() => {
     dispatch(loadPostsList({ sort: sortType }))
+    return () => {
+      dispatch(clearPostsData())
+    }
   }, [sortType])
-  const list = postsList.filter((obj) => obj.author === user)
-  console.log(list)
-
-  const onBack = () => {
-    setPage(page - 1 > -1 ? page - 1 : page)
-  }
-
-  const onNext = () => {
-    setPage(page + 1 < list.length / pageSize ? page + 1 : page)
-  }
 
   const tableHeader = () => {
     return colNames.map((data, idx) => {
-      return <td key={idx}>{data.toUpperCase()}</td>
+      return (
+        <td className={classes.table__headerCell} key={idx}>
+          {data.toUpperCase()}
+        </td>
+      )
     })
   }
 
+  const isNotFound = () => {
+    return (
+      <tr>
+        <td></td>
+        <td className={classes['table__notFoundMessage']}>There is no posts yet.</td>
+        <td></td>
+      </tr>
+    )
+  }
+  const returnValidList = () => {
+    if (list.length == 0) {
+      return isNotFound()
+    } else {
+      return returnTableData()
+    }
+  }
+
   const returnTableData = () => {
-    return Object.values(list.slice(pageSize * page, pageSize * page + pageSize)).map((todos) => {
-      const { date, title, upvotes, _id } = todos
+    return Object.values(list).map((listKey) => {
+      const { date, title, upvotes, _id } = listKey
       const postDate = new Date(date).toLocaleDateString('en-US')
       return (
-        <tr className={classes.tableRowItems} key={_id}>
-          <td className={classes.tableCell}>{title}</td>
-          <td className={classes.tableCell}>{upvotes}</td>
-          <td className={classes.tableCell}>{postDate}</td>
+        <tr className={classes.table__rowItems} key={_id}>
+          <td className={classes.table__cell}>
+            <Link to={`${ROUTES.ALL_POST}/${_id}`}>{title}</Link>
+          </td>
+          <td className={cn(classes['table__cell'], classes['table__cell-upvotes'])}>{upvotes}</td>
+          <td className={classes.table__cell}>{postDate}</td>
         </tr>
       )
     })
   }
 
   return (
-    <table className={classes.table}>
-      <thead className={classes.tableRowHeader}>
-        <tr className={classes.tableHeader}>{tableHeader()}</tr>
-      </thead>
-      {/*<tbody>{isNotFound ? <tr>Not Found user with username</tr> : returnTableData()}</tbody>*/}
-      <tbody>{returnTableData()}</tbody>
-      <tfoot>
-        <tr>
-          <td>
-            <button onClick={onBack}>Back</button>
-            <label>{page + 1}</label>
-            <button onClick={onNext}>Next</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <Modal showBackdrop={true} onCrossBtnClick={onCrossBtnHandler} className={classes.postModal}>
+      <table className={classes.table}>
+        <thead className={classes.table__header}>
+          <tr className={classes.table__rowHeader}>{tableHeader()}</tr>
+        </thead>
+        <tbody>{returnValidList()}</tbody>
+      </table>
+    </Modal>
   )
 }

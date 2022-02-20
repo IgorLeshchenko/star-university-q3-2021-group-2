@@ -25,6 +25,7 @@ interface IProfile {
 }
 
 export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) => {
+  const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState<IUser>({})
   const [loading, setLoading] = useState(true)
   const [avatarToggle, setAvatarToggle] = useState(true)
@@ -53,6 +54,10 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
     } catch (error) {
       toasterService.error({ title: UPLOAD_AVATAR_TITLE, content: ERROR_UPLOAD_AVATAR_MESSAGE })
     }
+  }
+
+  const modalHandler = () => {
+    setIsOpen(!isOpen)
   }
 
   useEffect(() => {
@@ -84,11 +89,13 @@ export const Profile: React.FC<React.PropsWithChildren<IProfile>> = ({ match }) 
                   </div>
                   <div className={styles.profile_info}>
                     <p className={styles.username}>{username}</p>
-                    <p className={styles.post_count}>Posts: {numberOfPosts}</p>
+                    <p className={styles.post_count} onClick={modalHandler}>
+                      Posts list: {numberOfPosts}
+                    </p>
                     <p className={styles.reputation}>Reputation: {reputation}</p>
                   </div>
                 </div>
-                <Table colNames={colNames} user={username} pageSize={5} />
+                {isOpen && <Table onCrossBtnHandler={modalHandler} colNames={colNames} user={username} pageSize={5} />}
               </div>
             )}
           </div>
