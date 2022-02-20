@@ -67,8 +67,12 @@
 
     .post_count {
       margin-bottom: 16px;
+      font-weight: bold;
       @include medium {
         margin-bottom: 24px;
+      }
+      &:hover {
+        cursor: pointer;
       }
     }
   }

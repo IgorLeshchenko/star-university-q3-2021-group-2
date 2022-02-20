@@ -46,7 +46,7 @@ describe('Profile Page', () => {
       render(<Profile match={{ params: { username: TEST_USER_NAME } }} />)
     })
 
-    const outputElementPosts = screen.queryByText(`Posts: ${TEST_USER_INFO.numberOfPosts}`)
+    const outputElementPosts = screen.queryByText(`Posts list: ${TEST_USER_INFO.numberOfPosts}`)
     const outputElementRep = screen.queryByText(`Reputation: ${TEST_USER_INFO.reputation}`)
     const notFound = screen.queryByText(`${NOT_FOUND} ${TEST_USER_NAME}`)
     expect(outputElementPosts).toBeInTheDocument()
