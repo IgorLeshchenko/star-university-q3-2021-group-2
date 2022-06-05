@@ -4,9 +4,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import SearchIcon from '../../../assets/images/search.svg'
+import { Dropdown } from '../../../components/Dropdown'
 import { ISortParams } from '../../../models/SinglePostResult'
 import { setSearchValue, setSortType } from '../../../store/postsSlice'
-import { selectSearchValue, selectSortType } from '../../../store/selectors/posts'
+import { selectSearchValue } from '../../../store/selectors/posts'
 import { BUTTON_TYPE, INPUT_TYPE } from '../../../utils/enums'
 
 import classes from './SearchFilterParams.module.scss'
@@ -44,7 +45,6 @@ export const SearchBar: React.FC = () => {
     }
   })
 
-  const selectedSortType = useSelector(selectSortType)
   const selectedSearchValue = useSelector(selectSearchValue)
 
   return (
@@ -76,24 +76,7 @@ export const SearchBar: React.FC = () => {
         </button>
       </form>
       <div className={classes.searchAndSortBar__sortTypes}>
-        {SORT_TYPES.map((sortType) => (
-          <label
-            key={sortType.value}
-            className={classNames(classes.searchAndSortBar__sortTypes__label, {
-              [classes.searchAndSortBar__sortTypes__active]: sortType.value === selectedSortType,
-            })}
-          >
-            <input
-              type="radio"
-              name="filterPosts"
-              value={sortType.value}
-              onChange={handleSortTypeClick}
-              className={classes.radioInput}
-              checked={sortType.value === selectedSortType}
-            />
-            <span className={classes.searchAndSortBar__sortTypes__title}>{sortType.label}</span>
-          </label>
-        ))}
+        <Dropdown onChange={handleSortTypeClick} options={SORT_TYPES} />
       </div>
     </div>
   )
